@@ -25,7 +25,7 @@ export async function loadPattern(): Promise<SecretDefinition[]> {
     const secretsYmlPath = path.join(__dirname, "..", "secrets.yaml");
     const yamlString = fs.readFile(secretsYmlPath);
     try {
-        const native = await yaml.parse(yamlString);
+        const native = await yaml.safeLoad(yamlString);
 
         const secretDefinitions: SecretDefinition[] = native.secrets
             .map((s: any) => s.secret)

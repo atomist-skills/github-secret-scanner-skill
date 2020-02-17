@@ -13,7 +13,7 @@ import { ScanOnPushSubscription } from "./types";
 export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = async ctx => {
     const push = ctx.data.Push[0];
     const repo = push.repo;
-    const configurations = ctx.configurations;
+    const configurations = ctx.configurations || [];
     const start = new Date().toISOString();
 
     const credential = await ctx.credential.resolve(gitHubAppToken({

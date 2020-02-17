@@ -23,19 +23,15 @@ export interface SecretDefinition {
  */
 export async function loadPattern(): Promise<SecretDefinition[]> {
     const secretsYmlPath = path.join(__dirname, "..", "secrets.yaml");
-    const yamlString = fs.readFile(secretsYmlPath);
-    try {
-        const native = await yaml.safeLoad(yamlString);
+    const yamlString = await fs.readFile(secretsYmlPath);
+    const native = await yaml.safeLoad(yamlString.toString());
 
-        const secretDefinitions: SecretDefinition[] = native.secrets
-            .map((s: any) => s.secret)
-            .map((s: any) => ({
-                pattern: s.pattern,
-                description: s.description,
-            }));
+    const secretDefinitions: SecretDefinition[] = native.secrets
+        .map((s: any) => s.secret)
+        .map((s: any) => ({
+            pattern: s.pattern,
+            description: s.description,
+        }));
 
-        return secretDefinitions;
-    } catch (err) {
-        throw new Error(`Unable to parse secrets.yml: ${err.message}`);
-    }
+    return secretDefinitions;
 }

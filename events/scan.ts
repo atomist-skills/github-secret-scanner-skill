@@ -54,7 +54,7 @@ export function extractSourceLocation(match: string, index: number, content: str
     endLine: number;
     endOffset: number;
 } {
-    const startLine = (content.slice(0, index).match(/\n/gm) || []).length;
+    const startLine = (content.slice(0, index).match(/\n/gm) || []).length + 1;
     const endLine = startLine + (content.slice(index, index + match.length).match(/\n/gm) || []).length;
 
     let startOffset;

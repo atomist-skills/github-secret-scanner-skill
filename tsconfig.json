@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "newLine": "LF",
+    "target": "ES2017",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "jsx": "React",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "lib": [
+      "DOM"
+    ],
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": [
+    "index.ts",
+    "config.ts",
+    "bin/*.ts",
+    "lib/**/*.ts",
+    "test/**/*.ts",
+    "goals/*.ts",
+    "commands/*.ts",
+    "events/*.ts",
+    "tests/*.ts"
+  ],
+  "exclude": [
+    ".#*"
+  ],
+  "compileOnSave": true,
+  "buildOnSave": false,
+  "atom": {
+    "rewriteTsconfig": false
+  }
+}

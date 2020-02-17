@@ -1,0 +1,17 @@
+subscription ScanOnPush {
+    Push {
+        after {
+            sha
+        }
+        branch
+        repo {
+            owner
+            name
+            org {
+                provider {
+                    apiUrl
+                }
+            }
+        }
+    }
+}

@@ -29,7 +29,7 @@ skill:
   homepage: https://github.com/atomist-skills/github-secret-sniffer-skill
   repository: https://github.com/atomist-skills/github-secret-sniffer-skill.git
   icon: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTYwIiB2aWV3Qm94PSIwIDAgMTQgMTYiPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTcgMEwwIDJ2Ni4wMkMwIDEyLjY5IDUuMzEgMTYgNyAxNmMxLjY5IDAgNy0zLjMxIDctNy45OFYyTDcgMHpNNSAxMWwxLjE0LTIuOGEuNTY4LjU2OCAwIDAgMC0uMjUtLjU5QzUuMzMgNy4yNSA1IDYuNjYgNSA2YzAtMS4wOS44OS0yIDEuOTgtMkM4LjA2IDQgOSA0LjkxIDkgNmMwIC42Ni0uMzMgMS4yNS0uODkgMS42MS0uMTkuMTMtLjMuMzYtLjI1LjU5TDkgMTFINXoiLz48L3N2Zz4=
-  dispatch: multiple
+  dispatch: single
 
   package:
     - use: atomist/package-sdm-skill/package

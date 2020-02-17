@@ -15,8 +15,8 @@
 #
 
 skill:
-  name: atomist/github-secret-sniffer-skill
-  title: GitHub Secret Sniffer
+  name: atomist/github-secret-scanner-skill
+  title: GitHub Secret Scanner
   version: 0.1.0
   author: Atomist
   description: |-

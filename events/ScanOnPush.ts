@@ -78,7 +78,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             completed_at: new Date().toISOString(),
             output: {
                 title: "Secrets",
-                summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "files" : "file"}.
+                summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 

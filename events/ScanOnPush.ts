@@ -71,7 +71,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             head_sha: push.after.sha,
             conclusion: "action_required",
             status: "completed",
-            name: "atomist/github-secret-scanner-skill",
+            name: "github-secret-scanner-skill",
             external_id: ctx.correlationId,
             body: `${result.length} secret ${result.length === 1 ? "value was" : "values were"} detected.
 
@@ -101,7 +101,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             head_sha: push.after.sha,
             conclusion: "success",
             status: "completed",
-            name: "atomist/github-secret-scanner-skill",
+            name: "github-secret-scanner-skill",
             external_id: ctx.correlationId,
             body: "No secret values detected",
             started_at: start,

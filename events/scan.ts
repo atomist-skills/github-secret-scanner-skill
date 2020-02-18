@@ -59,7 +59,7 @@ export async function scanFileContent(path: string, content: string, cfg: ScanCo
                 exposedSecrets.push({
                     path,
                     value: match[0],
-                    description: `${match[0]} appears to be ${sd.description || "secret"}`,
+                    description: `${match[0]} detected as ${sd.description || "secret"}`,
                     ...extractSourceLocation(match[0], match.index, content),
                 });
             }

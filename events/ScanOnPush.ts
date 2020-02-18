@@ -77,7 +77,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             started_at: start,
             completed_at: new Date().toISOString(),
             output: {
-                title: "Secrets",
+                title: "Detected Secrets",
                 summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
@@ -103,9 +103,16 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             status: "completed",
             name: "github-secret-scanner-skill",
             external_id: ctx.correlationId,
-            body: "No secret values detected",
             started_at: start,
             completed_at: new Date().toISOString(),
+            output: {
+                title: "Detected Secrets",
+                summary: `No secrets detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+
+Scanned all files that matched the following pattern:
+
+${globs.map(g => ` * \`${g}\``).join("\n")}`,
+            },
         });
     }
 

@@ -74,16 +74,15 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             status: "completed",
             name: "github-secret-scanner-skill",
             external_id: ctx.correlationId,
-            body: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "files" : "file"}.
-
-Scanned all files that matched the following pattern:
-
-${globs.map(g => ` * \`${g}\``).join("\n")}`,
             started_at: start,
             completed_at: new Date().toISOString(),
             output: {
                 title: "Secrets",
-                summary: "Please review the following secrets that were found in this repository",
+                summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "files" : "file"}.
+
+Scanned all files that matched the following pattern:
+
+${globs.map(g => ` * \`${g}\``).join("\n")}`,
                 annotations: result.secrets.map(r => ({
                     annotation_level: "failure",
                     path: r.path,

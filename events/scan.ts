@@ -1,9 +1,27 @@
+/*
+ * Copyright © 2020 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { Project } from "@atomist/skill/lib/project";
+import { SecretDefinition } from "./load";
 
 export interface ScanConfiguration {
     globs: string[];
-    pattern: string[];
+    secretDefinitions: SecretDefinition[];
     whitelist: string[];
+    pattern?: string[];
 }
 
 export interface Secret {
@@ -13,6 +31,7 @@ export interface Secret {
     startOffset: number;
     endLine: number;
     endOffset: number;
+    description: string;
 }
 
 export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<Secret[]> {
@@ -30,8 +49,8 @@ export async function scanProject(project: Project, cfg: ScanConfiguration): Pro
 
 export async function scanFileContent(path: string, content: string, cfg: ScanConfiguration): Promise<Secret[]> {
     const exposedSecrets: Secret[] = [];
-    for (const sd of cfg.pattern) {
-        const regexp = new RegExp(sd, "g");
+    for (const sd of cfg.secretDefinitions) {
+        const regexp = new RegExp(sd.pattern, "g");
 
         let match;
         do {
@@ -40,6 +59,7 @@ export async function scanFileContent(path: string, content: string, cfg: ScanCo
                 exposedSecrets.push({
                     path,
                     value: match[0],
+                    description: `${match[0]} appears to be ${sd.description || "secret"}`,
                     ...extractSourceLocation(match[0], match.index, content),
                 });
             }

@@ -1,12 +1,28 @@
+/*
+ * Copyright © 2020 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { EventHandler } from "@atomist/skill/lib/handler";
 import { gitHubComRepository } from "@atomist/skill/lib/project";
 import { gitHubAppToken } from "@atomist/skill/lib/secrets";
+import * as _ from "lodash";
 import { gitHub } from "./github";
 import { loadPattern } from "./load";
 import {
     ScanConfiguration,
     scanProject,
-    Secret,
 } from "./scan";
 import { ScanOnPushSubscription } from "./types";
 
@@ -31,15 +47,21 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     const patterns = await loadPattern();
 
-    const result: Secret[] = [];
-    for (const configuration of configurations) {
-        result.push(...await scanProject(project,
-            {
-                pattern: [...patterns.map(p => p.pattern), ...(configuration.parameters?.pattern || [])],
-                globs: configuration.parameters?.globs || ["**/*"],
-                whitelist: configuration.parameters?.whitelist || [],
-            }));
+    const secretDefinitions = [...patterns];
+    const globs = [];
+    const whitelist = [];
+
+    configurations.forEach(c => {
+        secretDefinitions.push(...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined })) || []));
+        globs.push(...(c.parameters?.globs || []));
+        whitelist.push(...(c.parameters?.whitelist || []));
+    });
+
+    if (globs.length === 0) {
+        globs.push("**/*");
     }
+
+    const result = await scanProject(project, { secretDefinitions, whitelist: _.uniq(whitelist), globs: _.uniq(globs) });
 
     const api = gitHub(credential.token, repo.org.provider.apiUrl);
     if (result.length > 0) {
@@ -49,14 +71,18 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             head_sha: push.after.sha,
             conclusion: "action_required",
             status: "completed",
-            name: "Secret Scanner",
+            name: "atomist/github-secret-scanner-skill",
             external_id: ctx.correlationId,
-            body: "Secret values were detected",
+            body: `${result.length} secret ${result.length === 1 ? "value was" : "values were"} detected.
+
+Scanned all files that matched the following pattern:
+
+${globs.map(g => ` * \`${g}\``).join("\n")}`,
             started_at: start,
             completed_at: new Date().toISOString(),
             output: {
                 title: "Secrets",
-                summary: "Please review the following secrets in the repository files",
+                summary: "Please review the following secrets that were found in this repository",
                 annotations: result.map(r => ({
                     annotation_level: "failure",
                     path: r.path,
@@ -64,7 +90,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
                     end_line: r.endLine,
                     start_offset: r.startOffset,
                     end_offset: r.endOffset,
-                    message: `${r.value} appears to be a secret`,
+                    message: r.description,
                 })),
             },
         });
@@ -75,7 +101,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             head_sha: push.after.sha,
             conclusion: "success",
             status: "completed",
-            name: "Secret Scanner",
+            name: "atomist/github-secret-scanner-skill",
             external_id: ctx.correlationId,
             body: "No secret values detected",
             started_at: start,
@@ -85,6 +111,6 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     return {
         code: 0,
-        reason: `Found ${result.length} in ${repo.owner}/${repo.name}`,
+        reason: `Found ${result.length} ${result.length === 1 ? "secret" : "secrets"} in ${repo.owner}/${repo.name}`,
     };
 };

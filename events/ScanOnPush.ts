@@ -61,10 +61,11 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         globs.push("**/*");
     }
 
-    const result = await scanProject(project, { secretDefinitions, whitelist: _.uniq(whitelist), globs: _.uniq(globs) });
+    const result = await scanProject(project,
+        { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), whitelist: _.uniq(whitelist), globs: _.uniq(globs) });
 
     const api = gitHub(credential.token, repo.org.provider.apiUrl);
-    if (result.length > 0) {
+    if (result.secrets.length > 0) {
         await api.checks.create({
             owner: repo.owner,
             repo: repo.name,
@@ -73,7 +74,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
             status: "completed",
             name: "github-secret-scanner-skill",
             external_id: ctx.correlationId,
-            body: `${result.length} secret ${result.length === 1 ? "value was" : "values were"} detected.
+            body: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "files" : "file"}.
 
 Scanned all files that matched the following pattern:
 
@@ -83,7 +84,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             output: {
                 title: "Secrets",
                 summary: "Please review the following secrets that were found in this repository",
-                annotations: result.map(r => ({
+                annotations: result.secrets.map(r => ({
                     annotation_level: "failure",
                     path: r.path,
                     start_line: r.startLine,
@@ -111,6 +112,6 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 
     return {
         code: 0,
-        reason: `Found ${result.length} ${result.length === 1 ? "secret" : "secrets"} in ${repo.owner}/${repo.name}`,
+        reason: `Found ${result.secrets.length} ${result.secrets.length === 1 ? "secret" : "secrets"} in ${repo.owner}/${repo.name} on commit ${push.after.sha}`,
     };
 };

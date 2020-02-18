@@ -34,7 +34,7 @@ export interface Secret {
     description: string;
 }
 
-export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<Secret[]> {
+export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number, secrets: Secret[]}> {
     const secrets = [];
     const files = await project.getFiles(cfg?.globs || "**");
     for (const file of files) {
@@ -44,7 +44,10 @@ export async function scanProject(project: Project, cfg: ScanConfiguration): Pro
             secrets.push(...exposedSecrets);
         }
     }
-    return secrets;
+    return {
+        fileCount: files.length,
+        secrets,
+    };
 }
 
 export async function scanFileContent(path: string, content: string, cfg: ScanConfiguration): Promise<Secret[]> {

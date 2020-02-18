@@ -118,6 +118,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 
     return {
         code: 0,
-        reason: `Found ${result.secrets.length} ${result.secrets.length === 1 ? "secret" : "secrets"} in ${repo.owner}/${repo.name} on commit ${push.after.sha}`,
+        reason: `Found ${result.secrets.length} ${result.secrets.length === 1 ? "secret" : "secrets"} in`
+            + `[${repo.owner}/${repo.name}](https://github.com/${repo.owner}/${repo.name}) on commit ${push.after.sha}`,
     };
 };

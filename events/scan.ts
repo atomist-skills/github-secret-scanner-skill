@@ -55,11 +55,11 @@ export async function scanFileContent(path: string, content: string, cfg: ScanCo
         let match;
         do {
             match = regexp.exec(content);
-            if (!!match) {
+            if (!!match && !(cfg.whitelist || []).includes(match[0])) {
                 exposedSecrets.push({
                     path,
                     value: match[0],
-                    description: `${match[0]} detected as ${sd.description || "secret"}`,
+                    description: `${match[0]} detected as _${sd.description || "secret"}_`,
                     ...extractSourceLocation(match[0], match.index, content),
                 });
             }

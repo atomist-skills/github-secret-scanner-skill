@@ -24,7 +24,8 @@ skill:
   documentation: |-
     Automatically scan committed code for well-known credentials and secrets.
   category:
-    - productivity
+    - SECURITY
+    - DEV_EX
   license: Apache-2.0
   homepage: https://github.com/atomist-skills/github-secret-sniffer-skill
   repository: https://github.com/atomist-skills/github-secret-sniffer-skill.git

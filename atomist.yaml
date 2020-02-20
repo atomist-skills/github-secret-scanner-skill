@@ -24,8 +24,8 @@ skill:
   documentation: |-
     Automatically scan committed code for well-known credentials and secrets.
   category:
-    - SECURITY
-    - DEV_EX
+    - security
+    - dev_ex
   license: Apache-2.0
   homepage: https://github.com/atomist-skills/github-secret-sniffer-skill
   repository: https://github.com/atomist-skills/github-secret-sniffer-skill.git
@@ -44,11 +44,6 @@ skill:
     entry_point: entryPoint
 
 parameters:
-  - repo_filter:
-      name: repos
-      display_name: Repositories
-      description: Select for which repositories pull request auto-merging should be available
-      required: false
   - string_array:
       name: pattern
       display_name: Regular Expressions
@@ -63,4 +58,9 @@ parameters:
       name: glob
       display_name: File Glob Patterns
       description: Glob Patterns of files to scan (defaults to **/*)
+      required: false
+  - repo_filter:
+      name: repos
+      display_name: Repositories
+      description: ''
       required: false

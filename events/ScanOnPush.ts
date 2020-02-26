@@ -32,6 +32,8 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     const configurations = ctx.configurations || [];
     const start = new Date().toISOString();
 
+    await ctx.audit.log(`Starting secret scanning on ${repo.owner}/${repo.name}`);
+
     const credential = await ctx.credential.resolve(gitHubAppToken({
         owner: repo.owner,
         repo: repo.name,
@@ -44,6 +46,8 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         branch: push.branch,
         sha: push.after.sha,
     }), { alwaysDeep: false, detachHead: true });
+
+    await ctx.audit.log(`Cloned repository ${repo.owner}/${repo.name} at sha ${push.after.sha}`);
 
     const patterns = await loadPattern();
 
@@ -66,6 +70,8 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     const api = gitHub(credential.token, repo.org.provider.apiUrl);
     if (result.secrets.length > 0) {
+        await ctx.audit.log(`Scanning repository returned the following secrets in ${result.fileCount} ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
         await api.checks.create({
             owner: repo.owner,
             repo: repo.name,
@@ -95,6 +101,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             },
         });
     } else {
+        await ctx.audit.log(`Scanning repository returned no secrets`);
         await api.checks.create({
             owner: repo.owner,
             repo: repo.name,
@@ -117,8 +124,8 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
     }
 
     return {
-        code: 0,
+        code: result.secrets.length === 0 ? 0 : 1,
         reason: `Found ${result.secrets.length} ${result.secrets.length === 1 ? "secret" : "secrets"} in`
-            + `[${repo.owner}/${repo.name}](https://github.com/${repo.owner}/${repo.name}) on commit ${push.after.sha}`,
+            + ` [${repo.owner}/${repo.name}](${repo.url}) on commit ${push.after.sha}`,
     };
 };

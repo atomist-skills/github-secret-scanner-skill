@@ -5,6 +5,7 @@ subscription ScanOnPush {
         }
         branch
         repo {
+            url
             owner
             name
             org {

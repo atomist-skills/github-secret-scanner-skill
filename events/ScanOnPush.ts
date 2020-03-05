@@ -29,7 +29,7 @@ import { ScanOnPushSubscription } from "./types";
 export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = async ctx => {
     const push = ctx.data.Push[0];
     const repo = push.repo;
-    const configurations = ctx.configurations || [];
+    const configurations = ctx.configuration || [];
     const start = new Date().toISOString();
 
     await ctx.audit.log(`Starting secret scanning on ${repo.owner}/${repo.name}`);
@@ -47,7 +47,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         sha: push.after.sha,
     }), { alwaysDeep: false, detachHead: true });
 
-    await ctx.audit.log(`Cloned repository ${repo.owner}/${repo.name} at sha ${push.after.sha}`);
+    await ctx.audit.log(`Cloned repository ${repo.owner}/${repo.name} at sha ${push.after.sha.slice(0, 7)}`);
 
     const patterns = await loadPattern();
 
@@ -72,7 +72,10 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     if (result.secrets.length > 0) {
         await ctx.audit.log(`Scanning repository returned the following secrets in ${result.fileCount} ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
-        await api.checks.create({
+
+        const chunks = _.chunk(result.secrets, 50);
+
+        const data: any = {
             owner: repo.owner,
             repo: repo.name,
             head_sha: push.after.sha,
@@ -82,6 +85,10 @@ ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}
             external_id: ctx.correlationId,
             started_at: start,
             completed_at: new Date().toISOString(),
+        };
+
+        const check = (await api.checks.create({
+            ...data,
             output: {
                 title: "Detected Secrets",
                 summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
@@ -89,7 +96,7 @@ ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}
 Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
-                annotations: result.secrets.map(r => ({
+                annotations: chunks[0].map(r => ({
                     annotation_level: "failure",
                     path: r.path,
                     start_line: r.startLine,
@@ -99,7 +106,34 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                     message: r.description,
                 })),
             },
-        });
+        })).data;
+
+        if (chunks.length > 1) {
+            for (const chunk of chunks.slice(1)) {
+                await api.checks.update({
+                    ...data,
+                    check_run_id: check.id,
+                    output: {
+                        title: "Detected Secrets",
+                        summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+
+Scanned all files that matched the following pattern:
+
+${globs.map(g => ` * \`${g}\``).join("\n")}`,
+                        annotations: chunk.map(r => ({
+                            annotation_level: "failure",
+                            path: r.path,
+                            start_line: r.startLine,
+                            end_line: r.endLine,
+                            start_offset: r.startOffset,
+                            end_offset: r.endOffset,
+                            message: r.description,
+                        })),
+                    },
+                });
+            }
+        }
+
     } else {
         await ctx.audit.log(`Scanning repository returned no secrets`);
         await api.checks.create({

@@ -22,13 +22,15 @@ skill:
   description: |-
     Automatically scan committed code for well-known credentials and secrets
   documentation: |-
-    Automatically scan committed code for well-known credentials and secrets.
+    Don't risk letting sensitive secrets and credential sit in your code base for the taking. 
+    Automatically scan committed code for well-known credentials and secrets. Scan for 
+    your own custom secrets too. A pull request is created removing any matching secrets found.
   category:
     - security
     - dev_ex
   license: Apache-2.0
-  homepage: https://github.com/atomist-skills/github-secret-sniffer-skill
-  repository: https://github.com/atomist-skills/github-secret-sniffer-skill.git
+  homepage: https://github.com/atomist-skills/github-secret-scanner-skill
+  repository: https://github.com/atomist-skills/github-secret-scanner-skill.git
   icon: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTYwIiB2aWV3Qm94PSIwIDAgMTQgMTYiPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTcgMEwwIDJ2Ni4wMkMwIDEyLjY5IDUuMzEgMTYgNyAxNmMxLjY5IDAgNy0zLjMxIDctNy45OFYyTDcgMHpNNSAxMWwxLjE0LTIuOGEuNTY4LjU2OCAwIDAgMC0uMjUtLjU5QzUuMzMgNy4yNSA1IDYuNjYgNSA2YzAtMS4wOS44OS0yIDEuOTgtMkM4LjA2IDQgOSA0LjkxIDkgNmMwIC42Ni0uMzMgMS4yNS0uODkgMS42MS0uMTkuMTMtLjMuMzYtLjI1LjU5TDkgMTFINXoiLz48L3N2Zz4=
   dispatch: single
 
@@ -44,23 +46,25 @@ skill:
     entry_point: entryPoint
 
 parameters:
+  - string:
+      name: glob
+      display_name: Which files to scan
+      description: Enter comma-separated glob patterns. If no glob pattern is entered, the skill will run on all the files in the selected repositories.
+      place_holder: "e.g. config.yaml,**/*.json"
+      required: false
   - string_array:
       name: pattern
-      display_name: Regular Expressions
-      description: Regular expression pattern to match in the repository source files
+      display_name: Secret patterns
+      description: Enter additional secret patterns to scan for as regular expressions.
+      place_holder: "e.g. /KEY-[A-Za-z0-9]{20}/"
       required: false
-  - string_array:
-      name: whitelist
-      display_name: Whitelist
-      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
-      required: false
-  - string_array:
-      name: glob
-      display_name: File Glob Patterns
-      description: Glob Patterns of files to scan (defaults to **/*)
-      required: false
+#  - string_array:
+#      name: whitelist
+#      display_name: Whitelist
+#      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
+#      required: false
   - repo_filter:
       name: repos
-      display_name: Repositories
+      display_name: Which repositories
       description: ''
       required: false

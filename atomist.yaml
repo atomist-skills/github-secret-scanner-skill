@@ -22,7 +22,9 @@ skill:
   description: |-
     Automatically scan committed code for well-known credentials and secrets
   documentation: |-
-    Automatically scan committed code for well-known credentials and secrets.
+    Don't risk letting sensitive secrets and credential sit in your code base for the taking. 
+    Automatically scan committed code for well-known credentials and secrets. Scan for 
+    your own custom secrets too. A pull request is created removing any matching secrets found.
   category:
     - security
     - dev_ex
@@ -45,22 +47,24 @@ skill:
 
 parameters:
   - string_array:
-      name: pattern
-      display_name: Regular Expressions
-      description: Regular expression pattern to match in the repository source files
-      required: false
-  - string_array:
-      name: whitelist
-      display_name: Whitelist
-      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
-      required: false
-  - string_array:
       name: glob
-      display_name: File Glob Patterns
-      description: Glob Patterns of files to scan (defaults to **/*)
+      display_name: Which files to scan
+      description: Add one or more glob patterns. If no glob pattern is entered, the skill will run on all the files in the selected repositories.
+      place_holder: "e.g. **/*.yaml"
       required: false
+  - string_array:
+      name: pattern
+      display_name: Secret patterns
+      description: Enter additional secret patterns to scan for as regular expressions.
+      place_holder: "e.g. /KEY-[A-Za-z0-9]{20}/"
+      required: false
+#  - string_array:
+#      name: whitelist
+#      display_name: Whitelist
+#      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
+#      required: false
   - repo_filter:
       name: repos
-      display_name: Repositories
+      display_name: Which repositories
       description: ''
       required: false

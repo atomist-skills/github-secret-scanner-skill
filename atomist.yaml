@@ -17,7 +17,7 @@
 skill:
   name: atomist/github-secret-scanner-skill
   title: Secret Scanner
-  version: 1.0.3
+  version: 1.0.4
   author: Atomist
   description: |-
     Automatically scan committed code for well-known credentials and secrets
@@ -58,11 +58,11 @@ parameters:
       description: Enter additional secret patterns to scan for as regular expressions.
       place_holder: "e.g. /KEY-[A-Za-z0-9]{20}/"
       required: false
-#  - string_array:
-#      name: whitelist
-#      display_name: Whitelist
-#      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
-#      required: false
+  - string_array:
+      name: whitelist
+      display_name: Whitelist
+      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
+      required: false
   - repo_filter:
       name: repos
       display_name: Which repositories

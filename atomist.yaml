@@ -17,7 +17,7 @@
 skill:
   name: atomist/github-secret-scanner-skill
   title: Secret Scanner
-  version: 1.0.4
+  version: 1.0.5
   author: Atomist
   description: |-
     Automatically scan committed code for well-known credentials and secrets

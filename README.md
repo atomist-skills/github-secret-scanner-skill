@@ -18,9 +18,21 @@ For more information on glob patterns, see [the wikipedia page](https://en.wikip
 
 This skill automatically scans for these secrets:
 
-- Lorem
-- Ipsum
-- Dolor
+- Twitter access token
+- Facebook access token
+- Google API key
+- Google Oauth ID
+- Picatic API Key
+- Stripe regular API key
+- Stripe restricted API key
+- Square access token
+- Square Oauth Secret
+- PayPal Braintree access token
+- Amazon MWS auth token
+- Twilio API key
+- MailGun API key
+- MailChimp API key
+- AWS access key ID
 
 To scan for other secrets, add regular expressions that match your secret format. For example, to match a secret format like `KEY-x8w876yu5w2k9f4h3x6a` , which is the string `KEY-` followed by exactly twenty alphanumeric characters, this regular expression will do the job:
 

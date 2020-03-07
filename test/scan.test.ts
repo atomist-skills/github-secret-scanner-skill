@@ -17,8 +17,8 @@ over the lake`;
                 text,
                 {globs: undefined,
                     secretDefinitions: [
-                            {pattern: "over", description: "over"},
-                            {pattern: "green", description: "green"},
+                            {pattern: "over", description: "over", ignore: []},
+                            {pattern: "green", description: "green", ignore: []},
                     ],
                     whitelist: []});
             assert.strictEqual(result.length, 3);

@@ -61,7 +61,7 @@ parameters:
   - string_array:
       name: whitelist
       display_name: Whitelist
-      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files
+      description: Allow certain matches to be excluded from reporting, e.g. fake secrets in test files.
       required: false
   - repo_filter:
       name: repos

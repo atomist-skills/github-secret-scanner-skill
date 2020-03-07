@@ -21,6 +21,7 @@ import * as _ from "lodash";
 import { gitHub } from "./github";
 import { loadPattern } from "./load";
 import {
+    DefaultGlobPatterns,
     ScanConfiguration,
     scanProject,
 } from "./scan";
@@ -56,13 +57,13 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     const whitelist = [];
 
     configurations.forEach(c => {
-        secretDefinitions.push(...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined })) || []));
+        secretDefinitions.push(...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined, ignore: [] })) || []));
         globs.push(...(c.parameters?.globs || []));
         whitelist.push(...(c.parameters?.whitelist || []));
     });
 
     if (globs.length === 0) {
-        globs.push("**/*");
+        globs.push(...DefaultGlobPatterns);
     }
 
     const result = await scanProject(project,

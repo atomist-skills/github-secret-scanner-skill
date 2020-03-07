@@ -15,7 +15,12 @@
  */
 
 import { Project } from "@atomist/skill/lib/project";
+import * as path from "path";
 import { SecretDefinition } from "./load";
+
+export const DefaultGlobPatterns = [
+    "**/*",
+];
 
 export interface ScanConfiguration {
     globs: string[];
@@ -34,7 +39,7 @@ export interface Secret {
     description: string;
 }
 
-export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number, secrets: Secret[]}> {
+export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number, secrets: Secret[] }> {
     const secrets = [];
     const files = await project.getFiles(cfg?.globs || "**");
     for (const file of files) {
@@ -50,9 +55,13 @@ export async function scanProject(project: Project, cfg: ScanConfiguration): Pro
     };
 }
 
-export async function scanFileContent(path: string, content: string, cfg: ScanConfiguration): Promise<Secret[]> {
+export async function scanFileContent(filePath: string, content: string, cfg: ScanConfiguration): Promise<Secret[]> {
     const exposedSecrets: Secret[] = [];
     for (const sd of cfg.secretDefinitions) {
+        const fileName = path.basename(filePath);
+        if ((sd.ignore || []).includes(fileName)) {
+            continue;
+        }
         const regexp = new RegExp(sd.pattern, "g");
 
         let match;
@@ -60,7 +69,7 @@ export async function scanFileContent(path: string, content: string, cfg: ScanCo
             match = regexp.exec(content);
             if (!!match && !(cfg.whitelist || []).includes(match[0])) {
                 exposedSecrets.push({
-                    path,
+                    path: filePath,
                     value: match[0],
                     description: `${match[0]} detected as ${sd.description || "secret"}`,
                     ...extractSourceLocation(match[0], match.index, content),

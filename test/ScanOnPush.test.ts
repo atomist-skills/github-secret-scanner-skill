@@ -49,7 +49,7 @@ describe("ScanOnPush", () => {
                         name: "default",
                         parameters: [{
                             name: "globs",
-                            value: ["**/*", "!package-lock.json"],
+                            value: ["**/*"],
                         }],
                     }],
                 },

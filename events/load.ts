@@ -32,6 +32,11 @@ export interface SecretDefinition {
      * Description of the problem. For example, what kind of secret this is.
      */
     description: string;
+
+    /**
+     * File names to ignore when scanning
+     */
+    ignore: string[];
 }
 
 /**
@@ -47,6 +52,7 @@ export async function loadPattern(): Promise<SecretDefinition[]> {
         .map((s: any) => ({
             pattern: s.pattern,
             description: s.description,
+            ignore: s.ignore,
         }));
 
     return secretDefinitions;

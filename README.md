@@ -11,7 +11,7 @@ This skill detects common secrets and creates GitHub checks to indicating whethe
 To restrict the files that this skill will run on, provide one or more glob patterns. For example, to only run on YAML files with `.yaml` or `.yml` extensions at any depth in the repository, you could provide this glob pattern:
 
 `*.yaml,*.yml`
-
+ 
 For more information on glob patterns, see [the wikipedia page](https://en.wikipedia.org/wiki/Glob_(programming)).
 
 ### Secret patterns

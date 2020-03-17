@@ -20,7 +20,7 @@ This skill automatically scans for these secrets:
 
 - Twitter access token
 - Facebook access token
-- Google API key
+- Google API key 
 - Google Oauth ID 
 - Picatic API Key
 - Stripe regular API key

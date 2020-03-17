@@ -1,9 +1,9 @@
 # `atomist/github-secret-scanner-skill`
 
-<!---atomist-skill-readme:start--->
+<!---atomist-skill-readme:start---> 
 
 This skill detects common secrets and creates GitHub checks to indicating whether a push contained undesired secrets. It also supports adding patterns to detect other secrets not detected by default by this skill.
- 
+  
 ## Configuration
 
 ### Which files to scan
@@ -21,7 +21,7 @@ This skill automatically scans for these secrets:
 - Twitter access token
 - Facebook access token
 - Google API key
-- Google Oauth ID
+- Google Oauth ID 
 - Picatic API Key
 - Stripe regular API key
 - Stripe restricted API key

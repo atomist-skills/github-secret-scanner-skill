@@ -1,6 +1,7 @@
 subscription ScanOnPush {
     Push {
         after {
+            url
             sha
         }
         branch

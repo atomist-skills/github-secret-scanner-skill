@@ -71,7 +71,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     const api = gitHub(credential.token, repo.org.provider.apiUrl);
     if (result.secrets.length > 0) {
-        await ctx.audit.log(`Scanning repository returned the following secrets in ${result.fileCount} ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+        await ctx.audit.log(`Scanning repository returned the following ${result.secrets.length !== 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
 
         const chunks = _.chunk(result.secrets, 50);
@@ -159,8 +159,8 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
     }
 
     return {
-        code: result.secrets.length === 0 ? 0 : 1,
+        code: 0,
         reason: `Found ${result.secrets.length} ${result.secrets.length === 1 ? "secret" : "secrets"} in`
-            + ` [${repo.owner}/${repo.name}](${repo.url}) on commit ${push.after.sha}`,
+            + ` [${repo.owner}/${repo.name}](${repo.url}) on commit [${push.after.sha.slice(0, 7)}](${push.after.url})`,
     };
 };

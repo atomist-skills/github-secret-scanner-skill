@@ -1,7 +1,7 @@
 {
   "main": "node_modules/@atomist/skill/lib/function.js",
   "dependencies": {
-    "@atomist/skill": "0.1.0-master.20200313115737",
+    "@atomist/skill": "0.1.0-master.20200320104827",
     "@octokit/rest": "^16.37.0",
     "@types/fs-extra": "^8.0.1",
     "@types/promise-retry": "^1.1.3",
@@ -10,22 +10,22 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@google-cloud/functions-framework": "^1.4.0",
+    "@google-cloud/functions-framework": "^1.5.0",
     "@graphql-codegen/cli": "1.11.2",
     "@graphql-codegen/typescript": "1.11.2",
     "@types/lodash": "^4.14.149",
-    "@types/mocha": "^7.0.1",
+    "@types/mocha": "^7.0.2",
     "@types/power-assert": "^1.5.3",
     "espower-typescript": "^9.0.2",
-    "mocha": "^7.0.1",
+    "mocha": "^7.1.1",
     "npm-run-all": "^4.1.5",
     "power-assert": "^1.6.1",
     "rimraf": "^3.0.2",
     "supervisor": "^0.12.0",
-    "ts-node": "^8.6.2",
-    "tslint": "^6.0.0",
-    "typedoc": "^0.16.9",
-    "typescript": "^3.7.5"
+    "ts-node": "^8.8.1",
+    "tslint": "^6.1.0",
+    "typedoc": "^0.17.3",
+    "typescript": "^3.8.3"
   },
   "directories": {
     "test": "test"

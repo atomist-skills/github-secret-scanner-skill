@@ -1,7 +1,7 @@
 {
   "main": "node_modules/@atomist/skill/lib/function.js",
   "dependencies": {
-    "@atomist/skill": "0.1.0-master.20200320104827",
+    "@atomist/skill": "0.1.0-master.20200325205350",
     "@octokit/rest": "16.37.0",
     "@types/fs-extra": "^8.0.1",
     "@types/promise-retry": "^1.1.3",
@@ -47,7 +47,7 @@
     "gql:gen": "graphql-codegen",
     "lint": "tslint --config tslint.json --format verbose --project .",
     "lint:fix": "npm run lint -- --fix",
-    "start": "functions-framework --target=sdm --signature-type=event",
+    "start": "functions-framework --target=entryPoint --signature-type=event",
     "test": "echo no tests",
     "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\"",
     "typedoc": "npm run doc"

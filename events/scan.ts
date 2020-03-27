@@ -20,7 +20,7 @@ import { SecretDefinition } from "./load";
 
 export const DefaultGlobPatterns = [
     "**/*",
-];
+];                   
 
 export interface ScanConfiguration {
     globs: string[];

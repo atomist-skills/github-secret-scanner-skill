@@ -1,6 +1,6 @@
 # `atomist/github-secret-scanner-skill`
        
-<!---atomist-skill-readme:start--->  
+<!---atomist-skill-readme:start--->   
 
 This skill detects common secrets and creates GitHub checks to indicating whether a push contained undesired secrets. It also supports adding patterns to detect other secrets not detected by default by this skill.
    

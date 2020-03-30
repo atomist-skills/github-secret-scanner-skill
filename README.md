@@ -5,7 +5,7 @@
 This skill detects common secrets and creates GitHub checks to indicating whether a push contained undesired secrets. It also supports adding patterns to detect other secrets not detected by default by this skill.
    
 ## Configuration 
- 
+  
 ### Which files to scan
 
 To restrict the files that this skill will run on, provide one or more glob patterns. For example, to only run on YAML files with `.yaml` or `.yml` extensions at any depth in the repository, you could provide this glob pattern:

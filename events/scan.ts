@@ -39,7 +39,7 @@ export interface Secret {
     description: string;
 }
 
-export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number, secrets: Secret[] }> {
+export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; secrets: Secret[] }> {
     const secrets = [];
     const files = await project.getFiles(cfg?.globs || "**");
     for (const file of files) {
@@ -75,7 +75,7 @@ export async function scanFileContent(filePath: string, content: string, cfg: Sc
                     ...extractSourceLocation(match[0], match.index, content),
                 });
             }
-        } while (!!match);
+        } while (match);
     }
     return exposedSecrets;
 }

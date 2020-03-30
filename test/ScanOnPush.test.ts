@@ -10,7 +10,7 @@ describe("ScanOnPush", () => {
             // tslint:disable-next-line:no-invalid-this
             this.skip();
         }
-    })
+    });
 
     it("should scan with configuration", async () => {
 

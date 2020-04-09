@@ -86,6 +86,7 @@ ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}
             external_id: ctx.correlationId,
             started_at: start,
             completed_at: new Date().toISOString(),
+            details_url: `https://preview.atomist.${process.env.ATOMIST_GRAPHQL_ENDPOINT.includes("staging") ? "services" : "com"}/log/${ctx.workspaceId}/${ctx.correlationId}`,
         };
 
         const check = (await api.checks.create({

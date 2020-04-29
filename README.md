@@ -93,7 +93,7 @@ The **GitHub** integration must be configured in order to use this skill. At lea
 
 2. **Every time you push to a repository, Secret Scanner will scan and report detected secrets in a GitHub Check**
 
-    ![]()
+    ![GitHub Check](docs/images/github-check.png)
 
 3. **Don't risk letting sensitive secrets and credential sit in your code base for the taking!**
 

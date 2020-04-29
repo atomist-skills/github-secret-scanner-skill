@@ -1,5 +1,5 @@
 schema: graphql/schema.json
-documents: graphql/subscription/*.graphql
+documents: graphql/**/*.graphql
 generates:
   ./events/types.ts:
     plugins:

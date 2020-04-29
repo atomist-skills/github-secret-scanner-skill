@@ -55,6 +55,40 @@ parameters:
       description: Enter additional secret patterns to scan for as regular expressions.
       place_holder: "e.g. /KEY-[A-Za-z0-9]{20}/"
       required: false
+  - multi_choice:
+      name: disabled
+      display_name: Disable built-in secret patterns
+      description: Select built-in patterns that you want to disable for your repositories
+      required: false
+      options:
+        - text: Twitter access token
+          value: Twitter access token
+        - text: Facebook access token
+          value: Facebook access token
+        - text: Google API key
+          value: Google API key
+        - text: Google Oauth ID
+          value: Google Oauth ID
+        - text: Picatic API Key
+          value: Picatic API Key
+        - text: Stripe regular API key
+          value: Stripe regular API key
+        - text: Stripe restricted API key
+          value: Stripe restricted API key
+        - text: Square access token
+          value: Square access token
+        - text: PayPal Braintree access token
+          value: PayPal Braintree access token
+        - text: Amazon MWS auth token
+          value: Amazon MWS auth token
+        - text: Twilio API key
+          value: Twilio API key
+        - text: MailGun API key
+          value: MailGun API key
+        - text: MailChimp API key
+          value: MailChimp API key
+        - text: AWS access key ID
+          value: AWS access key ID
   - string_array:
       name: whitelist
       display_name: Whitelist

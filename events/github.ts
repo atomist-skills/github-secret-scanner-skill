@@ -35,7 +35,7 @@ export function gitHub(token: string, url: string = DefaultGitHubApiUrl): github
         auth: `token ${token}`,
         baseUrl: url.endsWith("/") ? url.slice(0, -1) : url,
         throttle: {
-            onRateLimit: (retryAfter: any, options: any) => {
+            onRateLimit: (retryAfter: any, options: any): boolean => {
                 console.warn(`Request quota exhausted for request '${options.method} ${options.url}'`);
 
                 if (options.request.retryCount === 0) { // only retries once
@@ -44,7 +44,7 @@ export function gitHub(token: string, url: string = DefaultGitHubApiUrl): github
                 }
                 return false;
             },
-            onAbuseLimit: (retryAfter: any, options: any) => {
+            onAbuseLimit: (retryAfter: any, options: any): void => {
                 console.warn(`Abuse detected for request '${options.method} ${options.url}'`);
             },
         },

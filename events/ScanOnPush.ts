@@ -79,14 +79,14 @@ ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}
         const data: any = {
             owner: repo.owner,
             repo: repo.name,
-            head_sha: push.after.sha,
+            head_sha: push.after.sha, // eslint-disable-line @typescript-eslint/camelcase
             conclusion: "action_required",
             status: "completed",
             name: "github-secret-scanner-skill",
-            external_id: ctx.correlationId,
-            started_at: start,
-            completed_at: new Date().toISOString(),
-            details_url: `https://preview.atomist.${process.env.ATOMIST_GRAPHQL_ENDPOINT.includes("staging") ? "services" : "com"}/log/${ctx.workspaceId}/${ctx.correlationId}`,
+            external_id: ctx.correlationId, // eslint-disable-line @typescript-eslint/camelcase
+            started_at: start, // eslint-disable-line @typescript-eslint/camelcase
+            completed_at: new Date().toISOString(), // eslint-disable-line @typescript-eslint/camelcase
+            details_url: `https://preview.atomist.${process.env.ATOMIST_GRAPHQL_ENDPOINT.includes("staging") ? "services" : "com"}/log/${ctx.workspaceId}/${ctx.correlationId}`, // eslint-disable-line @typescript-eslint/camelcase
         };
 
         const check = (await api.checks.create({
@@ -99,12 +99,12 @@ Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                 annotations: chunks[0].map(r => ({
-                    annotation_level: "failure",
+                    annotation_level: "failure", // eslint-disable-line @typescript-eslint/camelcase
                     path: r.path,
-                    start_line: r.startLine,
-                    end_line: r.endLine,
-                    start_offset: r.startOffset,
-                    end_offset: r.endOffset,
+                    start_line: r.startLine, // eslint-disable-line @typescript-eslint/camelcase
+                    end_line: r.endLine, // eslint-disable-line @typescript-eslint/camelcase
+                    start_offset: r.startOffset, // eslint-disable-line @typescript-eslint/camelcase
+                    end_offset: r.endOffset, // eslint-disable-line @typescript-eslint/camelcase
                     message: r.description,
                 })),
             },
@@ -114,7 +114,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             for (const chunk of chunks.slice(1)) {
                 await api.checks.update({
                     ...data,
-                    check_run_id: check.id,
+                    check_run_id: check.id, // eslint-disable-line @typescript-eslint/camelcase
                     output: {
                         title: "Detected Secrets",
                         summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
@@ -123,12 +123,12 @@ Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                         annotations: chunk.map(r => ({
-                            annotation_level: "failure",
+                            annotation_level: "failure", // eslint-disable-line @typescript-eslint/camelcase
                             path: r.path,
-                            start_line: r.startLine,
-                            end_line: r.endLine,
-                            start_offset: r.startOffset,
-                            end_offset: r.endOffset,
+                            start_line: r.startLine, // eslint-disable-line @typescript-eslint/camelcase
+                            end_line: r.endLine, // eslint-disable-line @typescript-eslint/camelcase
+                            start_offset: r.startOffset, // eslint-disable-line @typescript-eslint/camelcase
+                            end_offset: r.endOffset, // eslint-disable-line @typescript-eslint/camelcase
                             message: r.description,
                         })),
                     },
@@ -141,13 +141,13 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         await api.checks.create({
             owner: repo.owner,
             repo: repo.name,
-            head_sha: push.after.sha,
+            head_sha: push.after.sha, // eslint-disable-line @typescript-eslint/camelcase
             conclusion: "success",
             status: "completed",
             name: "github-secret-scanner-skill",
-            external_id: ctx.correlationId,
-            started_at: start,
-            completed_at: new Date().toISOString(),
+            external_id: ctx.correlationId, // eslint-disable-line @typescript-eslint/camelcase
+            started_at: start, // eslint-disable-line @typescript-eslint/camelcase
+            completed_at: new Date().toISOString(), // eslint-disable-line @typescript-eslint/camelcase
             output: {
                 title: "Detected Secrets",
                 summary: `No secrets detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.

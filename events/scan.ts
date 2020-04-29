@@ -20,13 +20,14 @@ import { SecretDefinition } from "./load";
 
 export const DefaultGlobPatterns = [
     "**/*",
-];                   
+];
 
 export interface ScanConfiguration {
     globs: string[];
     secretDefinitions: SecretDefinition[];
     whitelist: string[];
     pattern?: string[];
+    disabled?: string[];
 }
 
 export interface Secret {
@@ -58,6 +59,9 @@ export async function scanProject(project: Project, cfg: ScanConfiguration): Pro
 export async function scanFileContent(filePath: string, content: string, cfg: ScanConfiguration): Promise<Secret[]> {
     const exposedSecrets: Secret[] = [];
     for (const sd of cfg.secretDefinitions) {
+        if ((cfg.disabled || []).includes(sd.description)) {
+            continue;
+        }
         const fileName = path.basename(filePath);
         if ((sd.ignore || []).includes(fileName)) {
             continue;

@@ -7,7 +7,6 @@ describe("ScanOnPush", () => {
 
     before(() => {
         if (!process.env.API_KEY) {
-            // tslint:disable-next-line:no-invalid-this
             this.skip();
         }
     });
@@ -39,9 +38,9 @@ describe("ScanOnPush", () => {
             }],
             extensions: {
                 operationName: "ScanOnPush",
-                team_name: "atomist-community",
-                team_id: "T29E48P34",
-                correlation_id: Date.now().toString(),
+                team_name: "atomist-community", // eslint-disable-line @typescript-eslint/camelcase
+                team_id: "T29E48P34", // eslint-disable-line @typescript-eslint/camelcase
+                correlation_id: Date.now().toString(), // eslint-disable-line @typescript-eslint/camelcase
             },
             skill: {
                 configuration: {
@@ -57,8 +56,9 @@ describe("ScanOnPush", () => {
         } as any;
 
         const context = createContext(event, {} as any) as any;
-        (context as any).audit = {
-            log: async () => {
+        (context).audit = {
+            log: async (): Promise<void> => {
+                // Intentionally left empty
             },
         };
         await handler(context);

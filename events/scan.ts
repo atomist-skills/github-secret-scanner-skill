@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { Project } from "@atomist/skill/lib/project";
+import { Project } from "@atomist/skill/lib/project/project";
+import { globFiles } from "@atomist/skill/lib/project/util";
+import * as fs from "fs-extra";
 import * as path from "path";
 import { SecretDefinition } from "./load";
 
@@ -42,10 +44,10 @@ export interface Secret {
 
 export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; secrets: Secret[] }> {
     const secrets = [];
-    const files = await project.getFiles(cfg?.globs || "**");
+    const files = await globFiles(project, cfg?.globs || ["**"]);
     for (const file of files) {
-        const content = await file.getContent();
-        const exposedSecrets = await scanFileContent(file.path, content, cfg);
+        const content = (await fs.readFile(project.path(file))).toString();
+        const exposedSecrets = await scanFileContent(file, content, cfg);
         if (exposedSecrets?.length > 0) {
             secrets.push(...exposedSecrets);
         }

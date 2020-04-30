@@ -15,12 +15,14 @@ over the lake`;
             const result = await scanFileContent(
                 "test.md",
                 text,
-                {globs: undefined,
+                {
+                    globs: undefined,
                     secretDefinitions: [
-                            {pattern: "over", description: "over", ignore: []},
-                            {pattern: "green", description: "green", ignore: []},
+                        { pattern: "over", description: "over", ignore: [] },
+                        { pattern: "green", description: "green", ignore: [] },
                     ],
-                    whitelist: []});
+                    whitelist: [],
+                });
             assert.strictEqual(result.length, 3);
         });
     });

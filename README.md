@@ -20,7 +20,7 @@ The **GitHub** integration must be configured in order to use this skill. At lea
 
 1. **Select the files to scan**
     
-    To restrict the files that this skill will run on, provide one or more [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming). 
+    To restrict the files that this skill will run on, provide one or more [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)). 
     For example, to only run on YAML files with `.yaml` or `.yml` extensions at any depth in the repository, 
     you would provide this glob pattern:
     

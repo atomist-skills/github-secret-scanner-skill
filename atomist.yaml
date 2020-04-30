@@ -57,8 +57,8 @@ parameters:
       required: false
   - multi_choice:
       name: disabled
-      display_name: Disable default secret patterns
-      description: Select default patterns that you want to disable for your repositories
+      display_name: Disable secret patterns
+      description: Select patterns that you want to disable for your repositories
       required: false
       options:
         - text: Twitter access token

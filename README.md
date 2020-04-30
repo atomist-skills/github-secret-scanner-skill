@@ -24,7 +24,7 @@ The **GitHub** integration must be configured in order to use this skill. At lea
     For example, to only run on YAML files with `.yaml` or `.yml` extensions at any depth in the repository, 
     you would provide this glob pattern:
     
-    `*.yaml,*.yml`
+    `*.{yaml,yml}`
     
     ![File glob](docs/images/file-pattern.png)
     

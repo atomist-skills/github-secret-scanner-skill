@@ -25,7 +25,7 @@ export const DefaultGlobPatterns = [
 ];
 
 export interface ScanConfiguration {
-    globs: string[];
+    glob: string[];
     secretDefinitions: SecretDefinition[];
     whitelist: string[];
     pattern?: string[];
@@ -44,7 +44,7 @@ export interface Secret {
 
 export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; secrets: Secret[] }> {
     const secrets = [];
-    const files = await globFiles(project, cfg?.globs || ["**"]);
+    const files = await globFiles(project, cfg?.glob || "**", { braceExpansion: true });
     for (const file of files) {
         const content = (await fs.readFile(project.path(file))).toString();
         const exposedSecrets = await scanFileContent(file, content, cfg);

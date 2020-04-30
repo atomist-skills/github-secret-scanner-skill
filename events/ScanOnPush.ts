@@ -58,7 +58,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     configurations.forEach(c => {
         secretDefinitions.push(...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined, ignore: [] })) || []));
-        globs.push(...(c.parameters?.globs || []));
+        globs.push(...(c.parameters?.glob || []));
         whitelist.push(...(c.parameters?.whitelist || []));
     });
 
@@ -67,7 +67,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     }
 
     const result = await scanProject(project,
-        { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), whitelist: _.uniq(whitelist), globs: _.uniq(globs) });
+        { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), whitelist: _.uniq(whitelist), glob: _.uniq(globs) });
 
     const api = gitHub(credential.token, repo.org.provider.apiUrl);
     if (result.secrets.length > 0) {

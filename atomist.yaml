@@ -42,6 +42,13 @@ skill:
     name: nodejs10
     entry_point: entryPoint
 
+resource_providers:
+  - name: github
+    description: GitHub
+    type_name: GitHubAppResourceProvider
+    min_required: 1
+    max_allowed: 1
+
 parameters:
   - string_array:
       name: glob

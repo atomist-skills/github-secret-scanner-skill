@@ -16,7 +16,7 @@ over the lake`;
                 "test.md",
                 text,
                 {
-                    globs: undefined,
+                    glob: undefined,
                     secretDefinitions: [
                         { pattern: "over", description: "over", ignore: [] },
                         { pattern: "green", description: "green", ignore: [] },

@@ -84,8 +84,6 @@ The **GitHub** integration must be configured in order to use this skill. At lea
 
 1. **Configure the skill, set file glob patterns, additional regular expressions and whitelist values** 
 
-    ![Configuration](docs/images/configuration.png)
-
 2. **Every time you push to a repository, Secret Scanner will scan and report detected secrets in a GitHub Check**
 
     ![GitHub Check](docs/images/github-check.png)

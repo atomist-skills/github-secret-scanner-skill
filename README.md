@@ -10,9 +10,9 @@ It also supports adding patterns to detect other secrets not detected by default
 
 # Before you get started
 
-Connect and configure these integration:
+Connect and configure this integration:
 
-1. **GitHub**
+* **GitHub**
 
 The **GitHub** integration must be configured in order to use this skill. At least one repository must be selected. 
 
@@ -20,17 +20,15 @@ The **GitHub** integration must be configured in order to use this skill. At lea
 
 1. **Select the files to scan**
     
-    To restrict the files that this skill will run on, provide one or more glob patterns. 
+    To restrict the files that this skill will run on, provide one or more [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming). 
     For example, to only run on YAML files with `.yaml` or `.yml` extensions at any depth in the repository, 
-    you could provide this glob pattern:
+    you would provide this glob pattern:
     
     `*.yaml,*.yml`
     
     ![File glob](docs/images/file-pattern.png)
     
-    For more information on glob patterns, see [the wikipedia page](https://en.wikipedia.org/wiki/Glob_(programming)).
-
-2. **Add additional secret pattern to scan for**
+2. **Add additional secret patterns**
 
     To scan for other secrets, add regular expressions that match your secret format. For example, to match a secret 
     format like `KEY-x8w876yu5w2k9f4h3x6a`, which is the string `KEY-` followed by exactly twenty alphanumeric 
@@ -43,10 +41,9 @@ The **GitHub** integration must be configured in order to use this skill. At lea
     For help crafting and testing your regular expressions, try [this online tool](https://regex101.com/) and see 
     [this guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet).
 
-3. **Disable any default patterns** 
+3. **Disable secret patterns** 
 
-    Some times scanning via regular expression can yield false positives. Therefore, it can make sense to disable
-    any number of default patterns that are built into this skill.
+    You can disable specific secret patterns. We recommend scanning for as many known secrets as possible. Scanning via regular expression can sometimes yield false positives, however. Disable a secret pattern to avoid false positives for secret types not present in your code base.
     
     This skill automatically scans for these secrets:
      
@@ -66,13 +63,11 @@ The **GitHub** integration must be configured in order to use this skill. At lea
      - MailChimp API key
      - AWS access key ID
      
-    Selecting any number of secrets here, will disable scanning for these. 
+    Selecting any number of secrets will disable scanning for those secrets. 
 
 4. **Add secret values to whitelist**
 
-    Frequently secret values are used in test resources and don't represent leaked credentials. 
-    
-    Use the whitelist to enter such secret values to ignore those during reporting.
+    Frequently secret values are used in testing and don't represent leaked credentials. Use the whitelist to enter secret values to ignore during reporting. You may also use the whitelist to identify false positives to ignore.
     
     ![Whitelist](docs/images/whitelist.png) 
 

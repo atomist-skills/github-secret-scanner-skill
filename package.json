@@ -1,7 +1,7 @@
 {
   "main": "node_modules/@atomist/skill/lib/function.js",
   "dependencies": {
-    "@atomist/skill": "0.1.0-master.20200430152328",
+    "@atomist/skill": "0.1.0-master.20200501091905",
     "@octokit/rest": "16.37.0",
     "@types/fs-extra": "^8.0.1",
     "fs-extra": "^8.1.0",

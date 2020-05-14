@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.0.1...HEAD)
 
+### Added
+
+-   Add chat message to inform about leaked secrets. [945a33b](https://github.com/atomist-skills/github-secret-scanner-skill/commit/945a33bb23dde7f1ee056e60fafefeb5d99b5bbb)
+
 ## [2.0.1](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.0.0...2.0.1) - 2020-05-01
 
 ## [2.0.0](https://github.com/atomist-skills/github-secret-scanner-skill/compare/1.1.2...2.0.0) - 2020-05-01

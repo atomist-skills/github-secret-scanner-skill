@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-import {
-    buttonForCommand,
-    menuForCommand,
-} from "@atomist/skill/lib/button";
+import { menuForCommand } from "@atomist/skill/lib/button";
 import { EventHandler } from "@atomist/skill/lib/handler";
 import {
     slackFooter,
@@ -180,24 +177,6 @@ ${groupByFile.join("\n")}`,
                         "addIgnore",
                         "value",
                         { config: ctx.configuration[0].name }),
-                    buttonForCommand({
-                            text: "Revert",
-                            confirm: {
-                                title: "Revert commit",
-                                text: `Do really want to revert to commit ${push.before.sha.slice(0, 7)} and force push?`,
-                                ok_text: "Yes",
-                                dismiss_text: "No",
-                            },
-                        },
-                        "revert",
-                        {
-                            owner: repo.owner,
-                            repo: repo.name,
-                            apiUrl: repo.org.provider.apiUrl,
-                            branch: push.branch,
-                            sha: push.before.sha,
-                            msgId,
-                        }),
                 ],
             });
         msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(ctx.configuration[0].url, ctx.configuration[0].name)}`;

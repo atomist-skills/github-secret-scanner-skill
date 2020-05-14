@@ -149,10 +149,10 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         }
         const groupByType = _.map(_.groupBy(result.secrets, "name"), (v, k) => ({
             text: k,
-            options: v.map(s => ({ text: s.value, value: s.value })),
+            options: _.uniqBy(v, "value").map(s => ({ text: s.value, value: s.value })),
         }));
         const maxLine = _.maxBy(result.secrets, "startLine").startLine;
-        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`*${url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k)}*:
+        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
 \`\`\`
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
 \`\`\``));

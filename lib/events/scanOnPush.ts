@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import { menuForCommand } from "@atomist/skill/lib/button";
+import {
+    buttonForCommand,
+    menuForCommand,
+} from "@atomist/skill/lib/button";
 import { EventHandler } from "@atomist/skill/lib/handler";
 import {
     slackFooter,
@@ -157,7 +160,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
 \`\`\``));
         const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: r }));
-
+        const msgId = `${ctx.skill.namespace}/${ctx.skill.name}/${repo.owner}/${repo.name}/${push.after.sha}`;
         const msg = slackWarningMessage(
             "Secret Scanner",
             `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
@@ -177,15 +180,34 @@ ${groupByFile.join("\n")}`,
                         "addIgnore",
                         "value",
                         { config: ctx.configuration[0].name }),
+                    buttonForCommand({
+                            text: `Revert to ${push.before.sha.slice(0, 7)}`,
+                            confirm: {
+                                title: "Revert commit",
+                                text: `Do really want to revert to commit ${push.before.sha.slice(0, 7)}?`,
+                                ok_text: "Yes",
+                                dismiss_text: "No",
+                            },
+                            style: "danger",
+                        },
+                        "revert",
+                        {
+                            owner: repo.owner,
+                            repo: repo.name,
+                            apiUrl: repo.org.provider.apiUrl,
+                            branch: push.branch,
+                            sha: push.before.sha,
+                            msgId,
+                        }),
                 ],
             });
         msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(ctx.configuration[0].url, ctx.configuration[0].name)}`;
         msg.attachments[0].footer_icon = "https://raw.githubusercontent.com/primer/octicons/master/icons/shield-lock.svg";
 
         if (push.repo.channels.length > 0) {
-            await ctx.message.send(msg, { channels: push.repo.channels.map(c => c.name), users: [] });
+            await ctx.message.send(msg, { channels: push.repo.channels.map(c => c.name), users: [] }, { id: msgId});
         } else if (push.after.author?.person?.chatId?.screenName) {
-            await ctx.message.send(msg, { channels: [], users: [push.after.author.person.chatId.screenName] });
+            await ctx.message.send(msg, { channels: [], users: [push.after.author.person.chatId.screenName] }, { id: msgId});
         }
 
     } else {

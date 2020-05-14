@@ -13,8 +13,11 @@ It also supports adding patterns to detect other secrets not detected by default
 Connect and configure this integration:
 
 * **GitHub**
+* **Slack**
 
-The **GitHub** integration must be configured in order to use this skill. At least one repository must be selected. 
+The **GitHub** integration must be configured in order to use this skill. At least one repository must be selected.
+We recommend that you configure the **Slack** integration to get actionable notifications right in chat when this skill
+detects secrets in your repositories.  
 
 # How to configure
 
@@ -87,6 +90,12 @@ The **GitHub** integration must be configured in order to use this skill. At lea
 2. **Every time you push to a repository, Secret Scanner will scan and report detected secrets in a GitHub Check**
 
     ![GitHub Check](docs/images/github-check.png)
+    
+    If you have the **Slack** integration configured as well as a chat channel linked to your repository, you'll get
+    the following message informing you about detected secrets. Using the menus you can add a detected secret to the
+    whitelist or ignore an entire file. 
+    
+    ![Slack notification](docs/images/slack-notification.png)
 
 3. **Don't risk letting sensitive secrets and credential sit in your code base for the taking!**
 

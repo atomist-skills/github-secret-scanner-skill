@@ -1,5 +1,8 @@
 subscription scanOnPush {
     Push {
+        before {
+            sha
+        }
         after {
             url
             sha

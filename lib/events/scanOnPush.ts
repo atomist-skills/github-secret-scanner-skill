@@ -180,14 +180,11 @@ ${groupByFile.join("\n")}`,
                 ],
             });
         msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(ctx.configuration[0].url, ctx.configuration[0].name)}`;
-        msg.attachments[0].footer_icon = "https://raw.githubusercontent.com/primer/octicons/master/icons/shield-lock.svg";
 
-        if (push.repo.channels.length > 0) {
-            await ctx.message.send(msg, { channels: push.repo.channels.map(c => c.name), users: [] }, { id: msgId});
-        } else if (push.after.author?.person?.chatId?.screenName) {
-            await ctx.message.send(msg, { channels: [], users: [push.after.author.person.chatId.screenName] }, { id: msgId});
+        const users = _.uniq([push.after.author?.person?.chatId?.screenName, push.after.committer?.person?.chatId?.screenName].filter(u => !!u));
+        if (users.length > 0) {
+            await ctx.message.send(msg, { channels: [], users }, { id: msgId });
         }
-
     } else {
         await ctx.audit.log(`Scanning repository returned no secrets`);
         await api.checks.create({

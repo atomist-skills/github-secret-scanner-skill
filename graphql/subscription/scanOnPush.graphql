@@ -13,6 +13,13 @@ subscription scanOnPush {
                     }
                 }
             }
+            committer {
+                person {
+                    chatId {
+                        screenName
+                    }
+                }
+            }
         }
         branch
         repo {

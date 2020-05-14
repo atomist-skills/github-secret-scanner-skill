@@ -57,6 +57,11 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
                         name: "whitelist",
                         value: [...(cfg.parameters.whitelist || []), parameters.value],
                     },
+                }, {
+                    repoFilter: {
+                        name: "repos",
+                        value: (cfg.parameters as any).repos,
+                    },
                 }],
                 resourceProviders: _.map(cfg.resourceProviders, (v, k) => ({ name: k, selectedResourceProviders: v.selectedResourceProviders })),
             },

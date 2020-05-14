@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { scanFileContent } from "../events/scan";
+import { scanFileContent } from "../lib/scan";
 
 describe("scan", () => {
 

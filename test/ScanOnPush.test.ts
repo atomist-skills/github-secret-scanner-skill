@@ -1,7 +1,7 @@
 import { createContext } from "@atomist/skill/lib/context";
 import { EventIncoming } from "@atomist/skill/lib/payload";
-import { handler } from "../events/ScanOnPush";
-import { ScanOnPushSubscription } from "../events/types";
+import { handler } from "../lib/events/scanOnPush";
+import { ScanOnPushSubscription } from "../lib/typings/types";
 
 describe("ScanOnPush", () => {
 
@@ -28,7 +28,7 @@ describe("ScanOnPush", () => {
                     },
                 },
             }],
-        };
+        } as any;
 
         const event: EventIncoming = {
             data: push,

@@ -1,0 +1,11 @@
+mutation saveSkillConfiguration($config: AtomistSkillConfigurationInput!, $name: String!, $namespace: String!, $version: String!) {
+    saveSkillConfiguration(name: $name, namespace: $namespace, version: $version, configuration: $config) {
+        configured {
+            skills {
+                name
+                namespace
+                version
+            }
+        }
+    }
+}

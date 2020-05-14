@@ -1,8 +1,15 @@
-subscription ScanOnPush {
+subscription scanOnPush {
     Push {
         after {
             url
             sha
+            author {
+                person {
+                    chatId {
+                        screenName
+                    }
+                }
+            }
         }
         branch
         repo {
@@ -13,6 +20,9 @@ subscription ScanOnPush {
                 provider {
                     apiUrl
                 }
+            }
+            channels {
+                name
             }
         }
     }

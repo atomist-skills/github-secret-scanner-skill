@@ -20,14 +20,9 @@
   },
   "include": [
     "index.ts",
-    "config.ts",
     "bin/*.ts",
     "lib/**/*.ts",
-    "test/**/*.ts",
-    "goals/*.ts",
-    "commands/*.ts",
-    "events/*.ts",
-    "tests/*.ts"
+    "test/**/*.ts"
   ],
   "exclude": [
     ".#*"

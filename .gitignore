@@ -18,4 +18,4 @@ node_modules/
 /log/
 git-info.json
 /lib/typings/types.ts
-/events/types.ts
+/lib/typings/types.ts

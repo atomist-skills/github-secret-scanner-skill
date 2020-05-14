@@ -17,7 +17,7 @@
 skill:
   name: atomist/github-secret-scanner-skill
   title: Secret Scanner
-  version: 2.0.2
+  version: 2.1.0
   author: Atomist
   description: |-
     Automatically scan committed code for well-known credentials and secrets
@@ -31,22 +31,32 @@ skill:
   license: Apache-2.0
   homepage: https://github.com/atomist-skills/github-secret-scanner-skill
   repository: https://github.com/atomist-skills/github-secret-scanner-skill.git
-  icon: data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzkiIGhlaWdodD0iNDYiIHZpZXdCb3g9IjAgMCAzOSA0NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE5LjUgNDQuMzEzNkMzNy43NDk5IDM5Ljg4ODQgMzYuOTk1NiAyNC44ODM5IDM2Ljk5NTYgMjQuODgzOVY4LjI2MjUyQzM2Ljk5NTYgOC4yNjI1MiAyNS42NTQyIDYuNzUwMDggMTkuNSAyQzEzLjQzNDggNi42ODA0NSAyLjMyOTMyIDguMjE2MSAyLjAxMjEzIDguMjU4NjVDMi4wMDgyNyA4LjI1ODY1IDIuMDA0NCA4LjI2MjUyIDIuMDA0NCA4LjI3MDI2VjI0Ljg4MzlDMi4wMDQ0IDI0Ljg4MzkgMS4yNTAxMSAzOS44ODg0IDE5LjUgNDQuMzEzNloiIHN0cm9rZT0iIzFCMzQ0QiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTcuNDIyIDI0LjI2MTZMMTQuMjY5NSAzMi44MzM0SDI0LjY4MjVMMjEuNTMgMjQuMjYxNkMyMy4zODY3IDIzLjQ2NDggMjQuNjgyNSAyMS42MTk3IDI0LjY4MjUgMTkuNDcyOEMyNC42ODI1IDE2LjU5NDkgMjIuMzUgMTQuMjYyNSAxOS40NzIxIDE0LjI2MjVDMTYuNTk0MiAxNC4yNjI1IDE0LjI2MTcgMTYuNTk0OSAxNC4yNjE3IDE5LjQ3MjhDMTQuMjY1NiAyMS42MjM1IDE1LjU2NTMgMjMuNDY0OCAxNy40MjIgMjQuMjYxNloiIHN0cm9rZT0iIzFCMzQ0QiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=
+  icon: file://docs/images/icon.svg
   dispatch: single
 
   package:
     use: atomist/package-npm-skill
+    parameters:
+      bundle: true
+      sourceMaps: false
+      minify: true
 
   runtime:
     memory: 1024
     name: nodejs10
     entry_point: entryPoint
+    timeout: 60
 
 resource_providers:
   - name: github
     description: GitHub
     type_name: GitHubAppResourceProvider
     min_required: 1
+    max_allowed: 1
+  - name: slack
+    description: Slack
+    type_name: SlackResourceProvider
+    min_required: 0
     max_allowed: 1
 
 parameters:
@@ -106,4 +116,3 @@ parameters:
       display_name: Which repositories
       description: ''
       required: false
-

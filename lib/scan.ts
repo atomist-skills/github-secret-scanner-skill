@@ -40,6 +40,7 @@ export interface Secret {
     endLine: number;
     endOffset: number;
     description: string;
+    name: string
 }
 
 export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; secrets: Secret[] }> {
@@ -75,6 +76,7 @@ export async function scanFileContent(filePath: string, content: string, cfg: Sc
             match = regexp.exec(content);
             if (!!match && !(cfg.whitelist || []).includes(match[0])) {
                 exposedSecrets.push({
+                    name: sd.description || sd.pattern,
                     path: filePath,
                     value: match[0],
                     description: `${match[0]} detected as ${sd.description || "secret"}`,

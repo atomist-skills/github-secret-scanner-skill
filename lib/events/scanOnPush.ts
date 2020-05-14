@@ -181,7 +181,7 @@ ${groupByFile.join("\n")}`,
                         "value",
                         { config: ctx.configuration[0].name }),
                     buttonForCommand({
-                            text: `Revert to ${push.before.sha.slice(0, 7)}`,
+                            text: "Revert",
                             confirm: {
                                 title: "Revert commit",
                                 text: `Do really want to revert to commit ${push.before.sha.slice(0, 7)}?`,

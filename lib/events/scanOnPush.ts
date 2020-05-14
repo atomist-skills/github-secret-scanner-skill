@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { menuForCommand } from "@atomist/skill/lib/button";
 import { EventHandler } from "@atomist/skill/lib/handler";
 import {
     slackFooter,
@@ -147,26 +146,32 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                 });
             }
         }
-        const groupByType = _.map(_.groupBy(result.secrets, "name"), (v, k) => ({
+        /* const groupByType = _.map(_.groupBy(result.secrets, "name"), (v, k) => ({
             text: k,
             options: _.uniqBy(v, "value").map(s => ({ text: s.value, value: s.value })),
         }));
+        const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: r })); */
+
         const maxLine = _.maxBy(result.secrets, "startLine").startLine;
-        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
+        const groupByFile = _.map(
+            _.groupBy(result.secrets, "path"),
+            (v, k) => (`${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
 \`\`\`
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
 \`\`\``));
-        const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: r }));
+
         const msgId = `${ctx.skill.namespace}/${ctx.skill.name}/${repo.owner}/${repo.name}/${push.after.sha}`;
         const msg = slackWarningMessage(
             "Secret Scanner",
-            `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+            `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(
+                url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${url(check.html_url, result.secrets.length === 1 ? "secret" : "secrets")} in ${
+                result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 
 ${groupByFile.join("\n")}`,
             ctx,
             {
                 author_link: ctx.audit.url,
-                actions: [
+                /* actions: [
                     menuForCommand(
                         { text: "Add to whitelist", options: groupByType },
                         "addWhitelist",
@@ -177,7 +182,7 @@ ${groupByFile.join("\n")}`,
                         "addIgnore",
                         "value",
                         { config: ctx.configuration[0].name }),
-                ],
+                ], */
             });
         msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(ctx.configuration[0].url, ctx.configuration[0].name)}`;
 

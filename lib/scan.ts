@@ -40,7 +40,7 @@ export interface Secret {
     endLine: number;
     endOffset: number;
     description: string;
-    name: string
+    name: string;
 }
 
 export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; secrets: Secret[] }> {

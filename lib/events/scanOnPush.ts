@@ -184,7 +184,7 @@ ${groupByFile.join("\n")}`,
                             text: "Revert",
                             confirm: {
                                 title: "Revert commit",
-                                text: `Do really want to revert to commit ${push.before.sha.slice(0, 7)}?`,
+                                text: `Do really want to revert to commit ${push.before.sha.slice(0, 7)} and force push?`,
                                 ok_text: "Yes",
                                 dismiss_text: "No",
                             },

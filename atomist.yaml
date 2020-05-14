@@ -37,8 +37,8 @@ skill:
   package:
     use: atomist/package-npm-skill
     parameters:
-      bundle: false
-      sourceMaps: false
+      bundle: true
+      sourceMaps: true
       minify: true
 
   runtime:

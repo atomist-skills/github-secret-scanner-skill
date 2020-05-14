@@ -44,7 +44,7 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
     await ctx.audit.log(`Cloned repository ${parameters.owner}/${parameters.repo} at sha ${parameters.sha.slice(0, 7)}`);
 
     const project = await ctx.project.clone(id, { alwaysDeep: true, detachHead: false });
-    await project.exec("git", ["revert", parameters.sha, "--hard"]);
+    await project.exec("git", ["reset", parameters.sha, "--hard"]);
     await push(project, { force: true });
 
     await ctx.audit.log("");

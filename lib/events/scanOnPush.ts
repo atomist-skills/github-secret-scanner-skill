@@ -188,7 +188,6 @@ ${groupByFile.join("\n")}`,
                                 ok_text: "Yes",
                                 dismiss_text: "No",
                             },
-                            style: "danger",
                         },
                         "revert",
                         {

@@ -75,6 +75,6 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
 
     return {
         code: 0,
-        reason: `Updated whitelist for configuration \`${cfg.name}\``,
+        reason: `Added \`${parameters.value}\` to whitelist for configuration _${cfg.name}_`,
     };
 };

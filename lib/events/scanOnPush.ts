@@ -151,6 +151,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 \`\`\`
 ${v.map(s => s.value).join("\n")}
 \`\`\``));
+        const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: `!${r}` }));
 
         const msg = slackWarningMessage(
             "Secret Scanner",
@@ -160,11 +161,18 @@ ${groupByFile.join("\n")}`,
             ctx,
             {
                 author_link: ctx.audit.url,
-                actions: [menuForCommand(
-                    { text: "Add to whitelist", options: groupByType },
-                    "addToWhitelist",
-                    "value",
-                    { config: ctx.configuration[0].name })],
+                actions: [
+                    menuForCommand(
+                        { text: "Add to whitelist", options: groupByType },
+                        "addWhitelist",
+                        "value",
+                        { config: ctx.configuration[0].name }),
+                    menuForCommand(
+                        { text: "Ignore file", options: files },
+                        "addIgnore",
+                        "value",
+                        { config: ctx.configuration[0].name }),
+                ],
             });
 
         if (push.repo.channels.length > 0) {

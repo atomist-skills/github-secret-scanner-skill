@@ -151,7 +151,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             text: k,
             options: v.map(s => ({ text: s.value, value: s.value })),
         }));
-        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`*${k}*:
+        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`*${url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k)}*:
 \`\`\`
 ${v.map(s => s.value).join("\n")}
 \`\`\``));

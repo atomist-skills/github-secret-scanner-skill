@@ -159,7 +159,7 @@ ${v.map(s => s.value).join("\n")}
 
         const msg = slackWarningMessage(
             "Secret Scanner",
-            `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(url(push.after.url, push.after.sha.slice(0, 7)))}\` detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+            `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 
 ${groupByFile.join("\n")}`,
             ctx,

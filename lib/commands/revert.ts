@@ -45,6 +45,7 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
 
     const project = await ctx.project.clone(id, { alwaysDeep: true, detachHead: false });
     await project.exec("git", ["reset", parameters.sha, "--hard"]);
+    await project.exec("git",  ["gc", "--prune=now", "--aggressive"]);
     await push(project, { force: true });
 
     await ctx.audit.log("Successfully reverted repository");

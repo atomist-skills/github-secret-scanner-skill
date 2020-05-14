@@ -16,7 +16,11 @@
 
 import { menuForCommand } from "@atomist/skill/lib/button";
 import { EventHandler } from "@atomist/skill/lib/handler";
-import { slackWarningMessage } from "@atomist/skill/lib/messages";
+import {
+    slackFooter,
+    slackSeparator,
+    slackWarningMessage,
+} from "@atomist/skill/lib/messages";
 import { gitHubComRepository } from "@atomist/skill/lib/project";
 import { gitHub } from "@atomist/skill/lib/project/github";
 import { gitHubAppToken } from "@atomist/skill/lib/secrets";
@@ -174,6 +178,8 @@ ${groupByFile.join("\n")}`,
                         { config: ctx.configuration[0].name }),
                 ],
             });
+        msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(ctx.configuration[0].url, ctx.configuration[0].name)}`;
+        msg.attachments[0].footer_icon = "https://raw.githubusercontent.com/primer/octicons/master/icons/shield-lock.svg";
 
         if (push.repo.channels.length > 0) {
             await ctx.message.send(msg, { channels: push.repo.channels.map(c => c.name), users: [] });

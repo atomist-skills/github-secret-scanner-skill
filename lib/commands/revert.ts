@@ -47,7 +47,7 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
     await project.exec("git", ["reset", parameters.sha, "--hard"]);
     await push(project, { force: true });
 
-    await ctx.audit.log("");
+    await ctx.audit.log("Successfully reverted repository");
 
     const msg = slackSuccessMessage(
         "Secret Scanner",

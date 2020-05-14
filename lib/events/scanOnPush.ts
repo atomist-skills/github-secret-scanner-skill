@@ -74,7 +74,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     const api = gitHub(id);
     if (result.secrets.length > 0) {
-        await ctx.audit.log(`Scanning repository returned the following ${result.secrets.length !== 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+        await ctx.audit.log(`Scanning repository returned the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
 
         const chunks = _.chunk(result.secrets, 50);
@@ -142,17 +142,18 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
             text: k,
             options: v.map(s => ({ text: s.value, value: s.value })),
         }));
-        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`**${k}**:
+        const groupByFile = _.map(_.groupBy(result.secrets, "path"), (v, k) => (`*${k}*:
 \`\`\`
 ${v.map(s => s.value).join("\n")}
 \`\`\``));
 
         const msg = slackWarningMessage(
             "Secret Scanner",
-            `Scanning **${repo.owner}/${repo.name}** detected the following ${result.secrets.length !== 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+            `Scanning *${repo.owner}/${repo.name}/${push.branch}* at \`${push.after.sha.slice(0, 7)}\` detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${groupByFile}`,
             ctx,
             {
+                author_link: ctx.audit.url,
                 actions: [menuForCommand(
                     { text: "Add to whitelist", options: groupByType },
                     "addToWhitelist",

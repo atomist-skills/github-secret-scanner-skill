@@ -3,6 +3,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@atomist/skill": "0.1.0-master.20200514054551",
+    "@atomist/slack-messages": "^1.1.1",
     "@types/fs-extra": "^8.1.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^3.13.1",

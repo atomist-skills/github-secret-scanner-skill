@@ -20,6 +20,11 @@ import { slackWarningMessage } from "@atomist/skill/lib/messages";
 import { gitHubComRepository } from "@atomist/skill/lib/project";
 import { gitHub } from "@atomist/skill/lib/project/github";
 import { gitHubAppToken } from "@atomist/skill/lib/secrets";
+import {
+    bold,
+    codeLine,
+    url,
+} from "@atomist/slack-messages";
 import * as _ from "lodash";
 import { loadPattern } from "../load";
 import {
@@ -149,7 +154,7 @@ ${v.map(s => s.value).join("\n")}
 
         const msg = slackWarningMessage(
             "Secret Scanner",
-            `Scanning *${repo.owner}/${repo.name}/${push.branch}* at \`${push.after.sha.slice(0, 7)}\` detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+            `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(url(push.after.url, push.after.sha.slice(0, 7)))}\` detected the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 
 ${groupByFile}`,
             ctx,

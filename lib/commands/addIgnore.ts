@@ -45,7 +45,7 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
                 }, {
                     stringArray: {
                         name: "pattern",
-                        value: [...(cfg.parameters.pattern || []), parameters.value],
+                        value: [...(cfg.parameters.pattern || []), `!${parameters.value}`],
                     },
                 }, {
                     multiChoice: {

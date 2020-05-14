@@ -155,7 +155,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 \`\`\`
 ${v.map(s => s.value).join("\n")}
 \`\`\``));
-        const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: `!${r}` }));
+        const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: r }));
 
         const msg = slackWarningMessage(
             "Secret Scanner",

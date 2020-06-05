@@ -58,9 +58,9 @@ async function createSkill(): Promise<SkillInput> {
 
         subscriptions: [
             "file://graphql/subscription/*.graphql",
-        ]
+        ],
 
-    }
+    };
 }
 
 export const Skill = skill<ScanConfiguration>(createSkill());

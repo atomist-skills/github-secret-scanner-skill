@@ -27,7 +27,7 @@ export const DefaultGlobPatterns = [
 export interface ScanConfiguration {
     glob: string[];
     secretDefinitions: SecretDefinition[];
-    whitelist: string[];
+    exceptions: string[];
     pattern?: string[];
     disabled?: string[];
 }
@@ -74,7 +74,7 @@ export async function scanFileContent(filePath: string, content: string, cfg: Sc
         let match;
         do {
             match = regexp.exec(content);
-            if (!!match && !(cfg.whitelist || []).includes(match[0])) {
+            if (!!match && !(cfg.exceptions || []).includes(match[0])) {
                 exposedSecrets.push({
                     name: sd.description || sd.pattern,
                     path: filePath,

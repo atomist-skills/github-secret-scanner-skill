@@ -8,14 +8,14 @@ import {
     SaveSkillConfigurationMutationVariables,
 } from "../typings/types";
 
-interface AddToWhitelistParameters {
+interface AddIgnoreParameters {
     config: string;
     value: string;
     msgId: string;
 }
 
 export const handler: CommandHandler<ScanConfiguration> = async ctx => {
-    const parameters = await ctx.parameters.prompt<AddToWhitelistParameters>({
+    const parameters = await ctx.parameters.prompt<AddIgnoreParameters>({
         config: {},
         value: {},
         msgId: { required: false },
@@ -54,8 +54,8 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
                     },
                 }, {
                     stringArray: {
-                        name: "whitelist",
-                        value: cfg.parameters.whitelist,
+                        name: "exceptions",
+                        value: cfg.parameters.exceptions,
                     },
                 }, {
                     repoFilter: {

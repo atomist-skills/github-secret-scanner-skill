@@ -1,5 +1,11 @@
 # `atomist/github-secret-scanner-skill`
  
+<!---atomist-skill-description:start--->
+
+Automatically scan committed code for well-known credentials and secrets
+
+<!---atomist-skill-description:end--->
+ 
 <!---atomist-skill-readme:start--->
 
 # What it's useful for
@@ -68,11 +74,12 @@ detects secrets in your repositories.
      
     Selecting any number of secrets will disable scanning for those secrets. 
 
-4. **Add secret values to whitelist**
+4. **Add secret values to exceptions**
 
-    Frequently secret values are used in testing and don't represent leaked credentials. Use the whitelist to enter secret values to ignore during reporting. You may also use the whitelist to identify false positives to ignore.
+    Frequently secret values are used in testing and don't represent leaked credentials. Use exceptions to enter secret
+    values to ignore during reporting. You may also use the exceptions to identify false positives to ignore.
     
-    ![Whitelist](docs/images/whitelist.png) 
+    ![Exceptions](docs/images/exceptions.png) 
 
 5. **Determine repository scope**
 
@@ -85,7 +92,7 @@ detects secrets in your repositories.
 
 # How to use secret-scanning
 
-1. **Configure the skill, set file glob patterns, additional regular expressions and whitelist values** 
+1. **Configure the skill, set file glob patterns, additional regular expressions and exceptions** 
 
 2. **Every time you push to a repository, Secret Scanner will scan and report detected secrets in a GitHub Check**
 
@@ -93,7 +100,7 @@ detects secrets in your repositories.
     
     If you have the **Slack** integration configured as well as a chat channel linked to your repository, you'll get
     the following message informing you about detected secrets. Using the menus you can add a detected secret to the
-    whitelist or ignore an entire file. 
+    exceptions or ignore an entire file. 
     
     ![Slack notification](docs/images/slack-notification.png)
 

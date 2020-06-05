@@ -21,7 +21,7 @@ over the lake`;
                         { pattern: "over", description: "over", ignore: [] },
                         { pattern: "green", description: "green", ignore: [] },
                     ],
-                    whitelist: [],
+                    exceptions: [],
                 });
             assert.strictEqual(result.length, 3);
         });

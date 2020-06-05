@@ -8,14 +8,14 @@ import {
     SaveSkillConfigurationMutationVariables,
 } from "../typings/types";
 
-interface AddToWhitelistParameters {
+interface AddExceptionParameters {
     config: string;
     value: string;
     msgId: string;
 }
 
 export const handler: CommandHandler<ScanConfiguration> = async ctx => {
-    const parameters = await ctx.parameters.prompt<AddToWhitelistParameters>({
+    const parameters = await ctx.parameters.prompt<AddExceptionParameters>({
         config: {},
         value: {},
         msgId: { required: false },
@@ -54,8 +54,8 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
                     },
                 }, {
                     stringArray: {
-                        name: "whitelist",
-                        value: [...(cfg.parameters.whitelist || []), parameters.value],
+                        name: "exceptions",
+                        value: [...(cfg.parameters.exceptions || []), parameters.value],
                     },
                 }, {
                     repoFilter: {
@@ -69,12 +69,12 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
 
     await ctx.message.respond(slackSuccessMessage(
         "Secret Scanner",
-        `Successfully added \`${parameters.value}\` to whitelist for configuration _${cfg.name}_`,
+        `Successfully added \`${parameters.value}\` as exception for configuration _${cfg.name}_`,
         ctx),
         { id: parameters.msgId || guid() });
 
     return {
         code: 0,
-        reason: `Added \`${parameters.value}\` to whitelist for configuration _${cfg.name}_`,
+        reason: `Added \`${parameters.value}\` as exception for configuration _${cfg.name}_`,
     };
 };

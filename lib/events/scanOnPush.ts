@@ -38,7 +38,7 @@ import {
 import { ScanOnPushSubscription } from "../typings/types";
 
 export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = async ctx => {
-    const push = ctx.event.Push[0];
+    const push = ctx.data.Push[0];
     const repo = push.repo;
     const configurations = ctx.configuration || [];
     const start = new Date().toISOString();
@@ -65,12 +65,12 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     const secretDefinitions = [...patterns];
     const globs = [];
-    const whitelist = [];
+    const exceptions = [];
 
     configurations.forEach(c => {
         secretDefinitions.push(...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined, ignore: [] })) || []));
         globs.push(...(c.parameters?.glob || []));
-        whitelist.push(...(c.parameters?.whitelist || []));
+        exceptions.push(...(c.parameters?.exceptions || []));
     });
 
     if (globs.length === 0) {
@@ -78,7 +78,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     }
 
     const result = await scanProject(project,
-        { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), whitelist: _.uniq(whitelist), glob: _.uniq(globs) });
+        { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), exceptions: _.uniq(exceptions), glob: _.uniq(globs) });
 
     const api = gitHub(id);
     if (result.secrets.length > 0) {
@@ -103,7 +103,7 @@ ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}
         const check = (await api.checks.create({
             ...data,
             output: {
-                title: "Detected Secrets",
+                title: "Secret Scanner",
                 summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
@@ -127,7 +127,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                     ...data,
                     check_run_id: check.id, // eslint-disable-line @typescript-eslint/camelcase
                     output: {
-                        title: "Detected Secrets",
+                        title: "Secret Scanner",
                         summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
@@ -173,8 +173,8 @@ ${groupByFile.join("\n")}`,
                 author_link: ctx.audit.url,
                 /* actions: [
                     menuForCommand(
-                        { text: "Add to whitelist", options: groupByType },
-                        "addWhitelist",
+                        { text: "Add exception", options: groupByType },
+                        "addException",
                         "value",
                         { config: ctx.configuration[0].name }),
                     menuForCommand(
@@ -203,7 +203,7 @@ ${groupByFile.join("\n")}`,
             started_at: start, // eslint-disable-line @typescript-eslint/camelcase
             completed_at: new Date().toISOString(), // eslint-disable-line @typescript-eslint/camelcase
             output: {
-                title: "Detected Secrets",
+                title: "Secret Scanner",
                 summary: `No secrets detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:

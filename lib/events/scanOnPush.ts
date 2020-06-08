@@ -81,11 +81,11 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), exceptions: _.uniq(exceptions), glob: _.uniq(globs) });
 
     const api = gitHub(id);
-    if (result.secrets.length > 0) {
-        await ctx.audit.log(`Scanning repository returned the following ${result.secrets.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
-${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
+    if (result.detected.length > 0) {
+        await ctx.audit.log(`Scanning repository returned the following ${result.detected.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+${result.detected.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
 
-        const chunks = _.chunk(result.secrets, 50);
+        const chunks = _.chunk(result.detected, 50);
 
         const data: any = {
             owner: repo.owner,
@@ -104,7 +104,7 @@ ${result.secrets.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}
             ...data,
             output: {
                 title: "Secret Scanner",
-                summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+                summary: `${result.detected.length} secret ${result.detected.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 
@@ -128,7 +128,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                     check_run_id: check.id, // eslint-disable-line @typescript-eslint/camelcase
                     output: {
                         title: "Secret Scanner",
-                        summary: `${result.secrets.length} secret ${result.secrets.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+                        summary: `${result.detected.length} secret ${result.detected.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 
@@ -152,9 +152,9 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         }));
         const files = _.uniq(result.secrets.map(r => r.path)).sort().map(r => ({ text: r, value: r })); */
 
-        const maxLine = _.maxBy(result.secrets, "startLine").startLine;
+        const maxLine = _.maxBy(result.detected, "startLine").startLine;
         const groupByFile = _.map(
-            _.groupBy(result.secrets, "path"),
+            _.groupBy(result.detected, "path"),
             (v, k) => (`${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
 \`\`\`
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
@@ -164,7 +164,7 @@ ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join
         const msg = slackWarningMessage(
             "Secret Scanner",
             `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(
-                url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${url(check.html_url, result.secrets.length === 1 ? "secret" : "secrets")} in ${
+                url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${url(check.html_url, result.detected.length === 1 ? "secret" : "secrets")} in ${
                 result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 
 ${groupByFile.join("\n")}`,
@@ -213,9 +213,15 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         });
     }
 
+    if (result.excluded?.length > 0) {
+        await ctx.audit.log(`Scanning repository returned the following excluded ${result.excluded.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+${result.excluded.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
+
+    }
+
     return {
         code: 0,
-        reason: `Found ${result.secrets.length} ${result.secrets.length === 1 ? "secret" : "secrets"} in`
+        reason: `Found ${result.detected.length} ${result.detected.length === 1 ? "secret" : "secrets"} in`
             + ` [${repo.owner}/${repo.name}](${repo.url}) on commit [${push.after.sha.slice(0, 7)}](${push.after.url})`,
     };
 };

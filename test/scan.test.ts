@@ -23,7 +23,7 @@ over the lake`;
                     ],
                     exceptions: [],
                 });
-            assert.strictEqual(result.length, 3);
+            assert.strictEqual(result.detected.length, 3);
         });
     });
 

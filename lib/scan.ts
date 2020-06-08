@@ -43,24 +43,33 @@ export interface Secret {
     name: string;
 }
 
-export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; secrets: Secret[] }> {
-    const secrets = [];
+export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; detected: Secret[]; excluded: Secret[] }> {
+    const secrets = {
+        detected: [],
+        excluded: [],
+    };
     const files = await globFiles(project, cfg?.glob || "**", { braceExpansion: true });
     for (const file of files) {
         const content = (await fs.readFile(project.path(file))).toString();
-        const exposedSecrets = await scanFileContent(file, content, cfg);
-        if (exposedSecrets?.length > 0) {
-            secrets.push(...exposedSecrets);
+        const scannedSecrets = await scanFileContent(file, content, cfg);
+        if (scannedSecrets?.detected?.length > 0) {
+            secrets.detected.push(...scannedSecrets.detected);
+        }
+        if (scannedSecrets?.excluded?.length > 0) {
+            secrets.excluded.push(...scannedSecrets.excluded);
         }
     }
     return {
         fileCount: files.length,
-        secrets,
+        ...secrets,
     };
 }
 
-export async function scanFileContent(filePath: string, content: string, cfg: ScanConfiguration): Promise<Secret[]> {
-    const exposedSecrets: Secret[] = [];
+export async function scanFileContent(filePath: string, content: string, cfg: ScanConfiguration): Promise<{ detected: Secret[]; excluded: Secret[] }> {
+    const secrets = {
+        detected: [],
+        excluded: [],
+    };
     for (const sd of cfg.secretDefinitions) {
         if ((cfg.disabled || []).includes(sd.description)) {
             continue;
@@ -74,18 +83,23 @@ export async function scanFileContent(filePath: string, content: string, cfg: Sc
         let match;
         do {
             match = regexp.exec(content);
-            if (!!match && !(cfg.exceptions || []).includes(match[0])) {
-                exposedSecrets.push({
+            if (!!match) {
+                const secret = {
                     name: sd.description || sd.pattern,
                     path: filePath,
                     value: match[0],
                     description: `${match[0]} detected as ${sd.description || "secret"}`,
                     ...extractSourceLocation(match[0], match.index, content),
-                });
+                };
+                if ((cfg.exceptions || []).includes(match[0])) {
+                    secrets.excluded.push(secret);
+                } else {
+                    secrets.detected.push(secret);
+                }
             }
         } while (match);
     }
-    return exposedSecrets;
+    return secrets;
 }
 
 export function extractSourceLocation(match: string, index: number, content: string): {

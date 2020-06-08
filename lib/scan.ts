@@ -83,7 +83,7 @@ export async function scanFileContent(filePath: string, content: string, cfg: Sc
         let match;
         do {
             match = regexp.exec(content);
-            if (!!match) {
+            if (match) {
                 const secret = {
                     name: sd.description || sd.pattern,
                     path: filePath,

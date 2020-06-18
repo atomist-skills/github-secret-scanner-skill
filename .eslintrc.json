@@ -6,7 +6,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -22,22 +23,18 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "comma-spacing": "off",
-    "@typescript-eslint/comma-spacing": [
-      "error"
-    ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-floating-promises": [
       "error"
     ],
-    "semi": "off",
-    "@typescript-eslint/semi": [
-      "error"
-    ],
-    "@typescript-eslint/no-use-before-define": "off"
+    "prettier/prettier": [
+      "error",
+      {
+        "arrowParens": "avoid",
+        "trailingComma": "all",
+        "tabWidth": 4,
+        "printWidth": 120
+      }
+    ]
   }
 }

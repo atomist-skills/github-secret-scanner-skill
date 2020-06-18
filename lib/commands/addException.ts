@@ -3,10 +3,7 @@ import { slackSuccessMessage } from "@atomist/skill/lib/messages";
 import { guid } from "@atomist/skill/lib/util";
 import * as _ from "lodash";
 import { ScanConfiguration } from "../scan";
-import {
-    SaveSkillConfigurationMutation,
-    SaveSkillConfigurationMutationVariables,
-} from "../typings/types";
+import { SaveSkillConfigurationMutation, SaveSkillConfigurationMutationVariables } from "../typings/types";
 
 interface AddExceptionParameters {
     config: string;
@@ -37,41 +34,54 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
             config: {
                 enabled: true,
                 name: cfg.name,
-                parameters: [{
-                    stringArray: {
-                        name: "glob",
-                        value: cfg.parameters.glob,
+                parameters: [
+                    {
+                        stringArray: {
+                            name: "glob",
+                            value: cfg.parameters.glob,
+                        },
                     },
-                }, {
-                    stringArray: {
-                        name: "pattern",
-                        value: cfg.parameters.pattern,
+                    {
+                        stringArray: {
+                            name: "pattern",
+                            value: cfg.parameters.pattern,
+                        },
                     },
-                }, {
-                    multiChoice: {
-                        name: "disabled",
-                        value: cfg.parameters.disabled,
+                    {
+                        multiChoice: {
+                            name: "disabled",
+                            value: cfg.parameters.disabled,
+                        },
                     },
-                }, {
-                    stringArray: {
-                        name: "exceptions",
-                        value: [...(cfg.parameters.exceptions || []), parameters.value],
+                    {
+                        stringArray: {
+                            name: "exceptions",
+                            value: [...(cfg.parameters.exceptions || []), parameters.value],
+                        },
                     },
-                }, {
-                    repoFilter: {
-                        name: "repos",
-                        value: (cfg.parameters as any).repos,
+                    {
+                        repoFilter: {
+                            name: "repos",
+                            value: (cfg.parameters as any).repos,
+                        },
                     },
-                }],
-                resourceProviders: _.map(cfg.resourceProviders, (v, k) => ({ name: k, selectedResourceProviders: v.selectedResourceProviders })),
+                ],
+                resourceProviders: _.map(cfg.resourceProviders, (v, k) => ({
+                    name: k,
+                    selectedResourceProviders: v.selectedResourceProviders,
+                })),
             },
-        });
+        },
+    );
 
-    await ctx.message.respond(slackSuccessMessage(
-        "Secret Scanner",
-        `Successfully added \`${parameters.value}\` as exception for configuration _${cfg.name}_`,
-        ctx),
-        { id: parameters.msgId || guid() });
+    await ctx.message.respond(
+        slackSuccessMessage(
+            "Secret Scanner",
+            `Successfully added \`${parameters.value}\` as exception for configuration _${cfg.name}_`,
+            ctx,
+        ),
+        { id: parameters.msgId || guid() },
+    );
 
     return {
         code: 0,

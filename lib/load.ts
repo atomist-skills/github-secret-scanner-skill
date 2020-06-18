@@ -22,7 +22,6 @@ import * as path from "path";
  * Definition of a secret we can find in a project
  */
 export interface SecretDefinition {
-
     /**
      * Regexp for the secret
      */

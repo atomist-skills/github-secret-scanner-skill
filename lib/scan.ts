@@ -20,9 +20,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { SecretDefinition } from "./load";
 
-export const DefaultGlobPatterns = [
-    "**/*",
-];
+export const DefaultGlobPatterns = ["**/*"];
 
 export interface ScanConfiguration {
     glob: string[];
@@ -43,7 +41,10 @@ export interface Secret {
     name: string;
 }
 
-export async function scanProject(project: Project, cfg: ScanConfiguration): Promise<{ fileCount: number; detected: Secret[]; excluded: Secret[] }> {
+export async function scanProject(
+    project: Project,
+    cfg: ScanConfiguration,
+): Promise<{ fileCount: number; detected: Secret[]; excluded: Secret[] }> {
     const secrets = {
         detected: [],
         excluded: [],
@@ -65,7 +66,11 @@ export async function scanProject(project: Project, cfg: ScanConfiguration): Pro
     };
 }
 
-export async function scanFileContent(filePath: string, content: string, cfg: ScanConfiguration): Promise<{ detected: Secret[]; excluded: Secret[] }> {
+export async function scanFileContent(
+    filePath: string,
+    content: string,
+    cfg: ScanConfiguration,
+): Promise<{ detected: Secret[]; excluded: Secret[] }> {
     const secrets = {
         detected: [],
         excluded: [],
@@ -102,7 +107,11 @@ export async function scanFileContent(filePath: string, content: string, cfg: Sc
     return secrets;
 }
 
-export function extractSourceLocation(match: string, index: number, content: string): {
+export function extractSourceLocation(
+    match: string,
+    index: number,
+    content: string,
+): {
     startLine: number;
     startOffset: number;
     endLine: number;

@@ -15,26 +15,14 @@
  */
 
 import { EventHandler } from "@atomist/skill/lib/handler";
-import {
-    slackFooter,
-    slackSeparator,
-    slackWarningMessage,
-} from "@atomist/skill/lib/messages";
+import { slackFooter, slackSeparator, slackWarningMessage } from "@atomist/skill/lib/messages";
 import { gitHubComRepository } from "@atomist/skill/lib/project";
 import { gitHub } from "@atomist/skill/lib/project/github";
 import { gitHubAppToken } from "@atomist/skill/lib/secrets";
-import {
-    bold,
-    codeLine,
-    url,
-} from "@atomist/slack-messages";
+import { bold, codeLine, url } from "@atomist/slack-messages";
 import * as _ from "lodash";
 import { loadPattern } from "../load";
-import {
-    DefaultGlobPatterns,
-    ScanConfiguration,
-    scanProject,
-} from "../scan";
+import { DefaultGlobPatterns, ScanConfiguration, scanProject } from "../scan";
 import { ScanOnPushSubscription } from "../typings/types";
 
 export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = async ctx => {
@@ -45,11 +33,13 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
 
     await ctx.audit.log(`Starting secret scanning on ${repo.owner}/${repo.name}`);
 
-    const credential = await ctx.credential.resolve(gitHubAppToken({
-        owner: repo.owner,
-        repo: repo.name,
-        apiUrl: repo.org.provider.apiUrl,
-    }));
+    const credential = await ctx.credential.resolve(
+        gitHubAppToken({
+            owner: repo.owner,
+            repo: repo.name,
+            apiUrl: repo.org.provider.apiUrl,
+        }),
+    );
     const id = gitHubComRepository({
         owner: repo.owner,
         repo: repo.name,
@@ -68,7 +58,9 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     const exceptions = [];
 
     configurations.forEach(c => {
-        secretDefinitions.push(...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined, ignore: [] })) || []));
+        secretDefinitions.push(
+            ...(c.parameters?.pattern?.map(p => ({ pattern: p, description: undefined, ignore: [] })) || []),
+        );
         globs.push(...(c.parameters?.glob || []));
         exceptions.push(...(c.parameters?.exceptions || []));
     });
@@ -77,12 +69,17 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         globs.push(...DefaultGlobPatterns);
     }
 
-    const result = await scanProject(project,
-        { secretDefinitions: _.uniqBy(secretDefinitions, "pattern"), exceptions: _.uniq(exceptions), glob: _.uniq(globs) });
+    const result = await scanProject(project, {
+        secretDefinitions: _.uniqBy(secretDefinitions, "pattern"),
+        exceptions: _.uniq(exceptions),
+        glob: _.uniq(globs),
+    });
 
     const api = gitHub(id);
     if (result.detected.length > 0) {
-        await ctx.audit.log(`Scanning repository returned the following ${result.detected.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+        await ctx.audit.log(`Scanning repository returned the following ${
+            result.detected.length === 1 ? "secret" : "secrets"
+        } in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${result.detected.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
 
         const chunks = _.chunk(result.detected, 50);
@@ -90,56 +87,62 @@ ${result.detected.map(s => ` - ${s.value}: ${s.description} detected in ${s.path
         const data: any = {
             owner: repo.owner,
             repo: repo.name,
-            head_sha: push.after.sha, // eslint-disable-line @typescript-eslint/camelcase
+            head_sha: push.after.sha,
             conclusion: "action_required",
             status: "completed",
             name: "github-secret-scanner-skill",
-            external_id: ctx.correlationId, // eslint-disable-line @typescript-eslint/camelcase
-            started_at: start, // eslint-disable-line @typescript-eslint/camelcase
-            completed_at: new Date().toISOString(), // eslint-disable-line @typescript-eslint/camelcase
-            details_url: ctx.audit.url, // eslint-disable-line @typescript-eslint/camelcase
+            external_id: ctx.correlationId,
+            started_at: start,
+            completed_at: new Date().toISOString(),
+            details_url: ctx.audit.url,
         };
 
-        const check = (await api.checks.create({
-            ...data,
-            output: {
-                title: "Secret Scanner",
-                summary: `${result.detected.length} secret ${result.detected.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+        const check = (
+            await api.checks.create({
+                ...data,
+                output: {
+                    title: "Secret Scanner",
+                    summary: `${result.detected.length} secret ${
+                        result.detected.length === 1 ? "value was" : "values were"
+                    } detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
-                annotations: chunks[0].map(r => ({
-                    annotation_level: "failure", // eslint-disable-line @typescript-eslint/camelcase
-                    path: r.path,
-                    start_line: r.startLine, // eslint-disable-line @typescript-eslint/camelcase
-                    end_line: r.endLine, // eslint-disable-line @typescript-eslint/camelcase
-                    start_offset: r.startOffset, // eslint-disable-line @typescript-eslint/camelcase
-                    end_offset: r.endOffset, // eslint-disable-line @typescript-eslint/camelcase
-                    message: r.description,
-                })),
-            },
-        })).data;
+                    annotations: chunks[0].map(r => ({
+                        annotation_level: "failure",
+                        path: r.path,
+                        start_line: r.startLine,
+                        end_line: r.endLine,
+                        start_offset: r.startOffset,
+                        end_offset: r.endOffset,
+                        message: r.description,
+                    })),
+                },
+            })
+        ).data;
 
         if (chunks.length > 1) {
             for (const chunk of chunks.slice(1)) {
                 await api.checks.update({
                     ...data,
-                    check_run_id: check.id, // eslint-disable-line @typescript-eslint/camelcase
+                    check_run_id: check.id,
                     output: {
                         title: "Secret Scanner",
-                        summary: `${result.detected.length} secret ${result.detected.length === 1 ? "value was" : "values were"} detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+                        summary: `${result.detected.length} secret ${
+                            result.detected.length === 1 ? "value was" : "values were"
+                        } detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
                         annotations: chunk.map(r => ({
-                            annotation_level: "failure", // eslint-disable-line @typescript-eslint/camelcase
+                            annotation_level: "failure",
                             path: r.path,
-                            start_line: r.startLine, // eslint-disable-line @typescript-eslint/camelcase
-                            end_line: r.endLine, // eslint-disable-line @typescript-eslint/camelcase
-                            start_offset: r.startOffset, // eslint-disable-line @typescript-eslint/camelcase
-                            end_offset: r.endOffset, // eslint-disable-line @typescript-eslint/camelcase
+                            start_line: r.startLine,
+                            end_line: r.endLine,
+                            start_offset: r.startOffset,
+                            end_offset: r.endOffset,
                             message: r.description,
                         })),
                     },
@@ -155,17 +158,20 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         const maxLine = _.maxBy(result.detected, "startLine").startLine;
         const groupByFile = _.map(
             _.groupBy(result.detected, "path"),
-            (v, k) => (`${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
+            (v, k) => `${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
 \`\`\`
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
-\`\`\``));
+\`\`\``,
+        );
 
         const msgId = `${ctx.skill.namespace}/${ctx.skill.name}/${repo.owner}/${repo.name}/${push.after.sha}`;
         const msg = slackWarningMessage(
             "Secret Scanner",
             `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(
-                url(push.after.url, push.after.sha.slice(0, 7)))} detected the following ${url(check.html_url, result.detected.length === 1 ? "secret" : "secrets")} in ${
-                result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+                url(push.after.url, push.after.sha.slice(0, 7)),
+            )} detected the following ${url(check.html_url, result.detected.length === 1 ? "secret" : "secrets")} in ${
+                result.fileCount
+            } scanned ${result.fileCount === 1 ? "file" : "files"}:
 
 ${groupByFile.join("\n")}`,
             ctx,
@@ -183,10 +189,18 @@ ${groupByFile.join("\n")}`,
                         "value",
                         { config: ctx.configuration[0].name }),
                 ], */
-            });
-        msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(ctx.configuration[0].url, ctx.configuration[0].name)}`;
+            },
+        );
+        msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(
+            ctx.configuration[0].url,
+            ctx.configuration[0].name,
+        )}`;
 
-        const users = _.uniq([push.after.author?.person?.chatId?.screenName, push.after.committer?.person?.chatId?.screenName].filter(u => !!u));
+        const users = _.uniq(
+            [push.after.author?.person?.chatId?.screenName, push.after.committer?.person?.chatId?.screenName].filter(
+                u => !!u,
+            ),
+        );
         if (users.length > 0) {
             await ctx.message.send(msg, { channels: [], users }, { id: msgId });
         }
@@ -195,17 +209,19 @@ ${groupByFile.join("\n")}`,
         await api.checks.create({
             owner: repo.owner,
             repo: repo.name,
-            head_sha: push.after.sha, // eslint-disable-line @typescript-eslint/camelcase
+            head_sha: push.after.sha,
             conclusion: "success",
             status: "completed",
             name: "github-secret-scanner-skill",
-            external_id: ctx.correlationId, // eslint-disable-line @typescript-eslint/camelcase
-            started_at: start, // eslint-disable-line @typescript-eslint/camelcase
-            completed_at: new Date().toISOString(), // eslint-disable-line @typescript-eslint/camelcase
+            external_id: ctx.correlationId,
+            started_at: start,
+            completed_at: new Date().toISOString(),
             details_url: ctx.audit.url,
             output: {
                 title: "Secret Scanner",
-                summary: `No secrets detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+                summary: `No secrets detected in ${result.fileCount} scanned ${
+                    result.fileCount === 1 ? "file" : "files"
+                }.
 
 Scanned all files that matched the following pattern:
 
@@ -215,14 +231,16 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
     }
 
     if (result.excluded?.length > 0) {
-        await ctx.audit.log(`Scanning repository returned the following excluded ${result.excluded.length === 1 ? "secret" : "secrets"} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
+        await ctx.audit.log(`Scanning repository returned the following excluded ${
+            result.excluded.length === 1 ? "secret" : "secrets"
+        } in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${result.excluded.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
-
     }
 
     return {
         code: 0,
-        reason: `Found ${result.detected.length} ${result.detected.length === 1 ? "secret" : "secrets"} in`
-            + ` [${repo.owner}/${repo.name}](${repo.url}) on commit [${push.after.sha.slice(0, 7)}](${push.after.url})`,
+        reason:
+            `Found ${result.detected.length} ${result.detected.length === 1 ? "secret" : "secrets"} in` +
+            ` [${repo.owner}/${repo.name}](${repo.url}) on commit [${push.after.sha.slice(0, 7)}](${push.after.url})`,
     };
 };

@@ -1,20 +1,10 @@
-import {
-    gitHubResourceProvider,
-    slackResourceProvider,
-} from "@atomist/skill/lib/resource_providers";
-import {
-    DispatchStyle,
-    ParameterType,
-    repoFilter,
-    skill,
-    SkillInput,
-} from "@atomist/skill/lib/skill";
+import { gitHubResourceProvider, slackResourceProvider } from "@atomist/skill/lib/resource_providers";
+import { DispatchStyle, ParameterType, repoFilter, skill, SkillInput } from "@atomist/skill/lib/skill";
 import { loadPattern } from "./lib/load";
 import { ScanConfiguration } from "./lib/scan";
 
 async function createSkill(): Promise<SkillInput> {
     return {
-
         runtime: {
             memory: 1024,
             timeout: 60,
@@ -31,7 +21,8 @@ async function createSkill(): Promise<SkillInput> {
             glob: {
                 type: ParameterType.StringArray,
                 displayName: "Which files to scan",
-                description: "Add one or more glob patterns. If no glob pattern is entered, the skill will run on all the files in the selected repositories.",
+                description:
+                    "Add one or more glob patterns. If no glob pattern is entered, the skill will run on all the files in the selected repositories.",
                 required: false,
             },
             pattern: {
@@ -56,12 +47,8 @@ async function createSkill(): Promise<SkillInput> {
             repos: repoFilter(),
         },
 
-        subscriptions: [
-            "file://graphql/subscription/*.graphql",
-        ],
-
+        subscriptions: ["file://graphql/subscription/*.graphql"],
     };
 }
 
 export const Skill = skill<ScanConfiguration>(createSkill());
-

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 -   Print out execluded secrets. [7bb4f97](https://github.com/atomist-skills/github-secret-scanner-skill/commit/7bb4f977e51386e626adf2b94c9e89de24d008bb)
+-   Add logs link to check-run. [#17](https://github.com/atomist-skills/github-secret-scanner-skill/issues/17)
 
 ## [2.1.0](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.0.1...2.1.0) - 2020-06-05
 

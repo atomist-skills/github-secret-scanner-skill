@@ -202,6 +202,7 @@ ${groupByFile.join("\n")}`,
             external_id: ctx.correlationId, // eslint-disable-line @typescript-eslint/camelcase
             started_at: start, // eslint-disable-line @typescript-eslint/camelcase
             completed_at: new Date().toISOString(), // eslint-disable-line @typescript-eslint/camelcase
+            details_url: ctx.audit.url,
             output: {
                 title: "Secret Scanner",
                 summary: `No secrets detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.

@@ -1,5 +1,21 @@
-import { gitHubResourceProvider, slackResourceProvider } from "@atomist/skill/lib/resource_providers";
-import { DispatchStyle, ParameterType, repoFilter, skill, SkillInput } from "@atomist/skill/lib/skill";
+/*
+ * Copyright © 2020 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { DispatchStyle, parameter, ParameterType, resourceProvider, skill } from "@atomist/skill";
+import { SkillInput } from "@atomist/skill/lib/definition/skill";
 import { loadPattern } from "./lib/load";
 import { ScanConfiguration } from "./lib/scan";
 
@@ -13,8 +29,8 @@ async function createSkill(): Promise<SkillInput> {
         dispatchStyle: DispatchStyle.Single,
 
         resourceProviders: {
-            github: gitHubResourceProvider({ minRequired: 1 }),
-            slack: slackResourceProvider({ minRequired: 0 }),
+            github: resourceProvider.gitHub({ minRequired: 1 }),
+            slack: resourceProvider.chat({ minRequired: 0 }),
         },
 
         parameters: {
@@ -44,7 +60,7 @@ async function createSkill(): Promise<SkillInput> {
                 description: "Allow certain matches to be excluded from reporting, e.g. fake secrets in test files.",
                 required: false,
             },
-            repos: repoFilter(),
+            repos: parameter.repoFilter(),
         },
 
         subscriptions: ["file://graphql/subscription/*.graphql"],

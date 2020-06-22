@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-import { EventHandler } from "@atomist/skill/lib/handler";
-import { slackFooter, slackSeparator, slackWarningMessage } from "@atomist/skill/lib/messages";
-import { gitHubComRepository } from "@atomist/skill/lib/project";
-import { gitHub } from "@atomist/skill/lib/project/github";
-import { gitHubAppToken } from "@atomist/skill/lib/secrets";
+import { EventHandler, github, repository, secret, slack } from "@atomist/skill";
 import { bold, codeLine, url } from "@atomist/slack-messages";
 import * as _ from "lodash";
 import { loadPattern } from "../load";
@@ -34,13 +30,13 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     await ctx.audit.log(`Starting secret scanning on ${repo.owner}/${repo.name}`);
 
     const credential = await ctx.credential.resolve(
-        gitHubAppToken({
+        secret.gitHubAppToken({
             owner: repo.owner,
             repo: repo.name,
             apiUrl: repo.org.provider.apiUrl,
         }),
     );
-    const id = gitHubComRepository({
+    const id = repository.gitHub({
         owner: repo.owner,
         repo: repo.name,
         credential,
@@ -75,7 +71,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         glob: _.uniq(globs),
     });
 
-    const api = gitHub(id);
+    const api = github.api(id);
     if (result.detected.length > 0) {
         await ctx.audit.log(`Scanning repository returned the following ${
             result.detected.length === 1 ? "secret" : "secrets"
@@ -165,7 +161,7 @@ ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join
         );
 
         const msgId = `${ctx.skill.namespace}/${ctx.skill.name}/${repo.owner}/${repo.name}/${push.after.sha}`;
-        const msg = slackWarningMessage(
+        const msg = slack.warningMessage(
             "Secret Scanner",
             `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(
                 url(push.after.url, push.after.sha.slice(0, 7)),
@@ -191,7 +187,7 @@ ${groupByFile.join("\n")}`,
                 ], */
             },
         );
-        msg.attachments[0].footer = `${slackFooter(ctx)} ${slackSeparator()} ${url(
+        msg.attachments[0].footer = `${slack.footer(ctx)} ${slack.separator()} ${url(
             ctx.configuration[0].url,
             ctx.configuration[0].name,
         )}`;

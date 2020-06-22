@@ -1,6 +1,20 @@
-import { CommandHandler } from "@atomist/skill/lib/handler";
-import { slackSuccessMessage } from "@atomist/skill/lib/messages";
-import { guid } from "@atomist/skill/lib/util";
+/*
+ * Copyright © 2020 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { CommandHandler, guid, slack } from "@atomist/skill";
 import * as _ from "lodash";
 import { ScanConfiguration } from "../scan";
 import { SaveSkillConfigurationMutation, SaveSkillConfigurationMutationVariables } from "../typings/types";
@@ -75,7 +89,7 @@ export const handler: CommandHandler<ScanConfiguration> = async ctx => {
     );
 
     await ctx.message.respond(
-        slackSuccessMessage(
+        slack.successMessage(
             "Secret Scanner",
             `Successfully added \`${parameters.value}\` as exception for configuration _${cfg.name}_`,
             ctx,

@@ -17,7 +17,7 @@
   },
   "main": "node_modules/@atomist/skill/lib/function.js",
   "dependencies": {
-    "@atomist/skill": "0.1.0-master.20200618080716",
+    "@atomist/skill": "0.1.0-master.20200621094736",
     "@atomist/slack-messages": "^1.1.1",
     "@types/fs-extra": "^8.1.0",
     "fs-extra": "^9.0.0",

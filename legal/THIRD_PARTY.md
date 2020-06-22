@@ -1,7 +1,5 @@
 # `@atomist/github-secret-scanner-skill`
 
-`@atomist/github-secret-scanner-skill` is licensed under Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
-
 This page details all runtime OSS dependencies of `@atomist/github-secret-scanner-skill`.
 
 ## Licenses

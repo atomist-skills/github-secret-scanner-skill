@@ -1,20 +1,4 @@
 {
-  "name": "@atomist/github-secret-scanner-skill",
-  "description": "Secret Scanner",
-  "author": {
-    "name": "Atomist",
-    "email": "oss@atomist.com"
-  },
-  "categories": [
-    "DEVEX",
-    "SECURITY"
-  ],
-  "license": "Apache-2.0",
-  "homepage": "https://github.com/atomist-skills/github-secret-scanner-skill",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/atomist-skills/github-secret-scanner-skill.git"
-  },
   "main": "node_modules/@atomist/skill/lib/function.js",
   "dependencies": {
     "@atomist/skill": "0.1.0-master.20200622085132",

@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-import { DispatchStyle, parameter, ParameterType, resourceProvider, skill } from "@atomist/skill";
-import { SkillInput } from "@atomist/skill/lib/definition/skill";
+import { Category, DispatchStyle, parameter, ParameterType, resourceProvider, skill, SkillInput } from "@atomist/skill";
 import { loadPattern } from "./lib/load";
 import { ScanConfiguration } from "./lib/scan";
 
 async function createSkill(): Promise<SkillInput> {
     return {
+        name: "github-secret-scanner-skill",
+        namespace: "atomist",
+        displayName: "Secret Scanner",
+        author: "Atomist",
+        categories: [Category.DevEx, Category.Security],
+        license: "Apache-2.0",
+        homepageUrl: "https://github.com/atomist-skills/github-secret-scanner-skill",
+        repositoryUrl: "https://github.com/atomist-skills/github-secret-scanner-skill.git",
+        iconUrl: "file://docs/images/icon.svg",
+
         runtime: {
             memory: 1024,
             timeout: 60,

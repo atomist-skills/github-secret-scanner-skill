@@ -25,7 +25,6 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
     const push = ctx.data.Push[0];
     const repo = push.repo;
     const configurations = ctx.configuration || [];
-    const start = new Date().toISOString();
 
     await ctx.audit.log(`Starting secret scanning on ${repo.owner}/${repo.name}`);
 
@@ -65,86 +64,48 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         globs.push(...DefaultGlobPatterns);
     }
 
+    const check = await github.openCheck(ctx, id, {
+        sha: push.after.sha,
+        name: "github-secret-scanner-skill",
+        title: "Secret Scanner",
+        body: `Scanning all files matching the following pattern:
+
+${globs.map(g => ` * \`${g}\``).join("\n")}`,
+    });
+
     const result = await scanProject(project, {
         secretDefinitions: _.uniqBy(secretDefinitions, "pattern"),
         exceptions: _.uniq(exceptions),
         glob: _.uniq(globs),
     });
 
-    const api = github.api(id);
     if (result.detected.length > 0) {
         await ctx.audit.log(`Scanning repository returned the following ${
             result.detected.length === 1 ? "secret" : "secrets"
         } in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 ${result.detected.map(s => ` - ${s.value}: ${s.description} detected in ${s.path}`).join("\n")}`);
 
-        const chunks = _.chunk(result.detected, 50);
-
-        const data: any = {
-            owner: repo.owner,
-            repo: repo.name,
-            head_sha: push.after.sha,
+        await check.update({
             conclusion: "action_required",
-            status: "completed",
-            name: "github-secret-scanner-skill",
-            external_id: ctx.correlationId,
-            started_at: start,
-            completed_at: new Date().toISOString(),
-            details_url: ctx.audit.url,
-        };
-
-        const check = (
-            await api.checks.create({
-                ...data,
-                output: {
-                    title: "Secret Scanner",
-                    summary: `${result.detected.length} secret ${
-                        result.detected.length === 1 ? "value was" : "values were"
-                    } detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
+            body: `${result.detected.length} secret ${
+                result.detected.length === 1 ? "value was" : "values were"
+            } detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
-                    annotations: chunks[0].map(r => ({
-                        annotation_level: "failure",
-                        path: r.path,
-                        start_line: r.startLine,
-                        end_line: r.endLine,
-                        start_offset: r.startOffset,
-                        end_offset: r.endOffset,
-                        message: r.description,
-                    })),
-                },
-            })
-        ).data;
+            annotations: result.detected.map(r => ({
+                annotationLevel: "failure",
+                path: r.path,
+                startLine: r.startLine,
+                endLine: r.endLine,
+                startoffset: r.startOffset,
+                endoffset: r.endOffset,
+                title: r.name,
+                message: r.description,
+            })),
+        });
 
-        if (chunks.length > 1) {
-            for (const chunk of chunks.slice(1)) {
-                await api.checks.update({
-                    ...data,
-                    check_run_id: check.id,
-                    output: {
-                        title: "Secret Scanner",
-                        summary: `${result.detected.length} secret ${
-                            result.detected.length === 1 ? "value was" : "values were"
-                        } detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
-
-Scanned all files that matched the following pattern:
-
-${globs.map(g => ` * \`${g}\``).join("\n")}`,
-                        annotations: chunk.map(r => ({
-                            annotation_level: "failure",
-                            path: r.path,
-                            start_line: r.startLine,
-                            end_line: r.endLine,
-                            start_offset: r.startOffset,
-                            end_offset: r.endOffset,
-                            message: r.description,
-                        })),
-                    },
-                });
-            }
-        }
         /* const groupByType = _.map(_.groupBy(result.secrets, "name"), (v, k) => ({
             text: k,
             options: _.uniqBy(v, "value").map(s => ({ text: s.value, value: s.value })),
@@ -165,9 +126,10 @@ ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join
             "Secret Scanner",
             `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(
                 url(push.after.url, push.after.sha.slice(0, 7)),
-            )} detected the following ${url(check.html_url, result.detected.length === 1 ? "secret" : "secrets")} in ${
-                result.fileCount
-            } scanned ${result.fileCount === 1 ? "file" : "files"}:
+            )} detected the following ${url(
+                check.data.html_url,
+                result.detected.length === 1 ? "secret" : "secrets",
+            )} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
 
 ${groupByFile.join("\n")}`,
             ctx,
@@ -202,27 +164,14 @@ ${groupByFile.join("\n")}`,
         }
     } else {
         await ctx.audit.log(`Scanning repository returned no secrets`);
-        await api.checks.create({
-            owner: repo.owner,
-            repo: repo.name,
-            head_sha: push.after.sha,
+
+        await check.update({
             conclusion: "success",
-            status: "completed",
-            name: "github-secret-scanner-skill",
-            external_id: ctx.correlationId,
-            started_at: start,
-            completed_at: new Date().toISOString(),
-            details_url: ctx.audit.url,
-            output: {
-                title: "Secret Scanner",
-                summary: `No secrets detected in ${result.fileCount} scanned ${
-                    result.fileCount === 1 ? "file" : "files"
-                }.
+            body: `No secrets detected in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}.
 
 Scanned all files that matched the following pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
-            },
         });
     }
 

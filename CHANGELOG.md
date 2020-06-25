@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 -   Add different chat providers. [a6f7500](https://github.com/atomist-skills/github-secret-scanner-skill/commit/a6f7500f8dd9fa395dbe6d6ae73480fd65de1324)
+-   Ignore SHA integrity hashes from pnpm lock file. [#18](https://github.com/atomist-skills/github-secret-scanner-skill/issues/18)
 
 ## [2.1.3](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.1.2...2.1.3) - 2020-06-23
 

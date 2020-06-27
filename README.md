@@ -2,7 +2,7 @@
  
 <!---atomist-skill-description:start--->
 
-Automatically scan committed code for well-known credentials and secrets
+Scan committed code for well-known credentials and secrets
 
 <!---atomist-skill-description:end--->
  

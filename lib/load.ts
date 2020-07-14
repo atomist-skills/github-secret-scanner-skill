@@ -44,7 +44,7 @@ export interface SecretDefinition {
 export async function loadPattern(): Promise<SecretDefinition[]> {
     const secretsYmlPath = path.join(__dirname, "..", "secrets.yaml");
     const yamlString = await fs.readFile(secretsYmlPath);
-    const native = await yaml.safeLoad(yamlString.toString());
+    const native: any = await yaml.safeLoad(yamlString.toString());
 
     const secretDefinitions: SecretDefinition[] = native.secrets
         .map((s: any) => s.secret)

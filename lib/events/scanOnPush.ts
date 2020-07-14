@@ -64,7 +64,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         globs.push(...DefaultGlobPatterns);
     }
 
-    const check = await github.openCheck(ctx, id, {
+    const check = await github.createCheck(ctx, id, {
         sha: push.after.sha,
         name: "github-secret-scanner-skill",
         title: "Secret Scanner",

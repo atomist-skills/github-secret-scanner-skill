@@ -19,14 +19,10 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-floating-promises": [
-      "error"
-    ],
+    "@typescript-eslint/no-floating-promises": ["error"],
     "prettier/prettier": [
       "error",
       {

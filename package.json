@@ -6,13 +6,13 @@
     "@types/fs-extra": "^8.1.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^1.5.1",
-    "@graphql-codegen/cli": "1.11.2",
-    "@graphql-codegen/typescript": "1.11.2",
-    "@graphql-codegen/typescript-operations": "1.11.2",
+    "@graphql-codegen/cli": "^1.17.6",
+    "@graphql-codegen/typescript": "^1.17.6",
+    "@graphql-codegen/typescript-operations": "^1.17.6",
     "@types/lodash": "^4.14.150",
     "@types/mocha": "^7.0.2",
     "@types/power-assert": "^1.5.3",

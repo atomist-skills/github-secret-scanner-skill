@@ -114,7 +114,9 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         const maxLine = _.maxBy(result.detected, "startLine").startLine;
         const groupByFile = _.map(
             _.groupBy(result.detected, "path"),
-            (v, k) => `${slack.bold(slack.url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
+            (v, k) => `${slack.bold(
+                slack.url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k),
+            )}:
 \`\`\`
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
 \`\`\``,
@@ -123,7 +125,9 @@ ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join
         const msgId = `${ctx.skill.namespace}/${ctx.skill.name}/${repo.owner}/${repo.name}/${push.after.sha}`;
         const msg = slack.warningMessage(
             "Secret Scanner",
-            `Scanning ${slack.bold(slack.url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${slack.codeLine(
+            `Scanning ${slack.bold(
+                slack.url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`),
+            )} at ${slack.codeLine(
                 slack.url(push.after.url, push.after.sha.slice(0, 7)),
             )} detected the following ${slack.url(
                 check.data.html_url,

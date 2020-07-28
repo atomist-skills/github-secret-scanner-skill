@@ -22,37 +22,37 @@ import * as path from "path";
  * Definition of a secret we can find in a project
  */
 export interface SecretDefinition {
-    /**
-     * Regexp for the secret
-     */
-    pattern: string;
+	/**
+	 * Regexp for the secret
+	 */
+	pattern: string;
 
-    /**
-     * Description of the problem. For example, what kind of secret this is.
-     */
-    description: string;
+	/**
+	 * Description of the problem. For example, what kind of secret this is.
+	 */
+	description: string;
 
-    /**
-     * File names to ignore when scanning
-     */
-    ignore: string[];
+	/**
+	 * File names to ignore when scanning
+	 */
+	ignore: string[];
 }
 
 /**
  * Based on regular expressions in https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04B-3_Meli_paper.pdf
  */
 export async function loadPattern(): Promise<SecretDefinition[]> {
-    const secretsYmlPath = path.join(__dirname, "..", "secrets.yaml");
-    const yamlString = await fs.readFile(secretsYmlPath);
-    const native: any = await yaml.safeLoad(yamlString.toString());
+	const secretsYmlPath = path.join(__dirname, "..", "secrets.yaml");
+	const yamlString = await fs.readFile(secretsYmlPath);
+	const native: any = await yaml.safeLoad(yamlString.toString());
 
-    const secretDefinitions: SecretDefinition[] = native.secrets
-        .map((s: any) => s.secret)
-        .map((s: any) => ({
-            pattern: s.pattern,
-            description: s.description,
-            ignore: s.ignore,
-        }));
+	const secretDefinitions: SecretDefinition[] = native.secrets
+		.map((s: any) => s.secret)
+		.map((s: any) => ({
+			pattern: s.pattern,
+			description: s.description,
+			ignore: s.ignore,
+		}));
 
-    return secretDefinitions;
+	return secretDefinitions;
 }

@@ -24,7 +24,7 @@ async function createSkill(): Promise<SkillInput> {
         namespace: "atomist",
         displayName: "Secret Scanner",
         author: "Atomist",
-        categories: [Category.DevEx, Category.Security],
+        categories: [Category.CodeQuality, Category.Security],
         license: "Apache-2.0",
         homepageUrl: "https://github.com/atomist-skills/github-secret-scanner-skill",
         repositoryUrl: "https://github.com/atomist-skills/github-secret-scanner-skill.git",

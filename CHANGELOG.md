@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.1.5...HEAD)
 
+### Changed
+
+-   Update category. [0341be1](https://github.com/atomist-skills/github-secret-scanner-skill/commit/0341be1d9938cb6608b0b97c01735edff77b365d)
+
 ## [2.1.5](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.1.4...2.1.5) - 2020-06-29
 
 ### Changed

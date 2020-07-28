@@ -15,7 +15,6 @@
  */
 
 import { EventHandler, github, repository, secret, slack } from "@atomist/skill";
-import { bold, codeLine, url } from "@atomist/slack-messages";
 import * as _ from "lodash";
 import { loadPattern } from "../load";
 import { DefaultGlobPatterns, ScanConfiguration, scanProject } from "../scan";
@@ -64,7 +63,7 @@ export const handler: EventHandler<ScanOnPushSubscription, ScanConfiguration> = 
         globs.push(...DefaultGlobPatterns);
     }
 
-    const check = await github.openCheck(ctx, id, {
+    const check = await github.createCheck(ctx, id, {
         sha: push.after.sha,
         name: "github-secret-scanner-skill",
         title: "Secret Scanner",
@@ -115,7 +114,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
         const maxLine = _.maxBy(result.detected, "startLine").startLine;
         const groupByFile = _.map(
             _.groupBy(result.detected, "path"),
-            (v, k) => `${bold(url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
+            (v, k) => `${slack.bold(slack.url(`https://github.com/${repo.owner}/${repo.name}/blob/${push.branch}/${k}`, k))}:
 \`\`\`
 ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join("\n")}
 \`\`\``,
@@ -124,9 +123,9 @@ ${v.map(s => `${s.startLine.toString().padStart(maxLine, "")}: ${s.value}`).join
         const msgId = `${ctx.skill.namespace}/${ctx.skill.name}/${repo.owner}/${repo.name}/${push.after.sha}`;
         const msg = slack.warningMessage(
             "Secret Scanner",
-            `Scanning ${bold(url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${codeLine(
-                url(push.after.url, push.after.sha.slice(0, 7)),
-            )} detected the following ${url(
+            `Scanning ${slack.bold(slack.url(repo.url, `${repo.owner}/${repo.name}/${push.branch}`))} at ${slack.codeLine(
+                slack.url(push.after.url, push.after.sha.slice(0, 7)),
+            )} detected the following ${slack.url(
                 check.data.html_url,
                 result.detected.length === 1 ? "secret" : "secrets",
             )} in ${result.fileCount} scanned ${result.fileCount === 1 ? "file" : "files"}:
@@ -149,7 +148,7 @@ ${groupByFile.join("\n")}`,
                 ], */
             },
         );
-        msg.attachments[0].footer = `${slack.footer(ctx)} ${slack.separator()} ${url(
+        msg.attachments[0].footer = `${slack.footer(ctx)} ${slack.separator()} ${slack.url(
             ctx.configuration[0].url,
             ctx.configuration[0].name,
         )}`;

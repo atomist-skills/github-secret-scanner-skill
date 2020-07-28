@@ -15,9 +15,9 @@
     "@types/lodash": "^4.14.150",
     "@types/mocha": "^7.0.2",
     "@types/power-assert": "^1.5.3",
-    "@typescript-eslint/eslint-plugin": "^3.3.0",
-    "@typescript-eslint/parser": "^3.3.0",
-    "eslint": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "espower-typescript": "^9.0.2",
@@ -32,7 +32,7 @@
     "supervisor": "^0.12.0",
     "ts-node": "^8.10.1",
     "typedoc": "^0.17.6",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.7"
   },
   "directories": {
     "test": "test"
@@ -63,7 +63,8 @@
     "skill:bundle": "atm-skill bundle --minify --source-map",
     "skill:package": "atm-skill package",
     "skill:register": "atm-skill register",
-    "atm:lint:prettier": "prettier --write"
+    "atm:lint:prettier": "prettier --write",
+    "atm:lint:eslint": "eslint --fix"
   },
   "engines": {
     "node": ">=8.2.0",
@@ -75,6 +76,7 @@
     }
   },
   "lint-staged": {
-    "**/*.@(graphql|json|markdown|yaml|yml|md)": "npm run atm:lint:prettier"
+    "**/*.@(graphql|json|markdown|yaml|yml|md)": "npm run atm:lint:prettier",
+    "**/*.ts": "npm run atm:lint:eslint"
   }
 }

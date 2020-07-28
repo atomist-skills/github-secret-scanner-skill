@@ -15,25 +15,22 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-floating-promises": [
-      "error"
-    ],
+    "@typescript-eslint/no-floating-promises": ["error"],
     "prettier/prettier": [
       "error",
       {
         "arrowParens": "avoid",
-        "trailingComma": "all",
+        "quoteProps": "consistent",
         "tabWidth": 4,
-        "printWidth": 120
+        "trailingComma": "all",
+        "useTabs": true
       }
     ]
   }

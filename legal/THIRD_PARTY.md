@@ -19,7 +19,7 @@ This page details all runtime dependencies of `@atomist/github-secret-scanner-sk
 | [GPL-3.0](#gpl-30)              | 1     |
 | [ISC](#isc)                     | 45    |
 | [MIT AND Zlib](#mit-and-zlib)   | 1     |
-| [MIT](#mit)                     | 537   |
+| [MIT](#mit)                     | 535   |
 | [Public Domain](#public-domain) | 1     |
 | [Unlicense](#unlicense)         | 1     |
 
@@ -439,7 +439,6 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `core-util-is`                                       | `1.0.2`        | Isaac Z. Schlueter  | [https://github.com/isaacs/core-util-is](https://github.com/isaacs/core-util-is)                                                                                                                     |
 | `cosmiconfig`                                        | `6.0.0`        | David Clark         | [https://github.com/davidtheclark/cosmiconfig](https://github.com/davidtheclark/cosmiconfig)                                                                                                         |
 | `cosmiconfig`                                        | `7.0.0`        | David Clark         | [https://github.com/davidtheclark/cosmiconfig](https://github.com/davidtheclark/cosmiconfig)                                                                                                         |
-| `cross-fetch`                                        | `3.0.5`        | Leonardo Quixada    | [https://github.com/lquixada/cross-fetch](https://github.com/lquixada/cross-fetch)                                                                                                                   |
 | `cross-fetch`                                        | `3.0.6`        | Leonardo Quixada    | [https://github.com/lquixada/cross-fetch](https://github.com/lquixada/cross-fetch)                                                                                                                   |
 | `cross-spawn`                                        | `7.0.3`        | André Cruz          | [https://github.com/moxystudio/node-cross-spawn](https://github.com/moxystudio/node-cross-spawn)                                                                                                     |
 | `crypto-random-string`                               | `2.0.0`        | Sindre Sorhus       | [https://github.com/sindresorhus/crypto-random-string](https://github.com/sindresorhus/crypto-random-string)                                                                                         |
@@ -630,7 +629,6 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `next-tick`                                          | `1.0.0`        | Mariusz Nowak       | [https://github.com/medikoo/next-tick](https://github.com/medikoo/next-tick)                                                                                                                         |
 | `no-case`                                            | `3.0.3`        | Blake Embrey        | [https://github.com/blakeembrey/change-case](https://github.com/blakeembrey/change-case)                                                                                                             |
 | `node-fetch`                                         | `1.7.3`        | David Frank         | [https://github.com/bitinn/node-fetch](https://github.com/bitinn/node-fetch)                                                                                                                         |
-| `node-fetch`                                         | `2.6.0`        | David Frank         | [https://github.com/bitinn/node-fetch](https://github.com/bitinn/node-fetch)                                                                                                                         |
 | `node-fetch`                                         | `2.6.1`        | David Frank         | [https://github.com/bitinn/node-fetch](https://github.com/bitinn/node-fetch)                                                                                                                         |
 | `node-gyp-build`                                     | `3.7.0`        | Mathias Buus        | [https://github.com/mafintosh/node-gyp-build](https://github.com/mafintosh/node-gyp-build)                                                                                                           |
 | `node-int64`                                         | `0.4.0`        | Robert Kieffer      | [https://github.com/broofa/node-int64](https://github.com/broofa/node-int64)                                                                                                                         |

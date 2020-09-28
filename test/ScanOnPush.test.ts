@@ -22,7 +22,7 @@ import { ScanOnPushSubscription } from "../lib/typings/types";
 describe("ScanOnPush", () => {
 	before(() => {
 		if (!process.env.API_KEY) {
-			this.skip();
+			(this as any).skip();
 		}
 	});
 

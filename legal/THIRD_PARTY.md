@@ -8,7 +8,7 @@ This page details all runtime dependencies of `@atomist/github-secret-scanner-sk
 
 | License                         | Count |
 | ------------------------------- | ----- |
-| [0BSD](#0bsd)                   | 1     |
+| [0BSD](#0bsd)                   | 2     |
 | [AFLv2.1](#aflv21)              | 1     |
 | [Apache-2.0](#apache-20)        | 52    |
 | [BSD-2-Clause](#bsd-2-clause)   | 10    |
@@ -30,6 +30,7 @@ BSD Zero Clause License - [http://landley.net/toybox/license.html](http://landle
 | Name    | Version | Publisher       | Repository                                                               |
 | ------- | ------- | --------------- | ------------------------------------------------------------------------ |
 | `tslib` | `2.0.1` | Microsoft Corp. | [https://github.com/Microsoft/tslib](https://github.com/Microsoft/tslib) |
+| `tslib` | `2.0.2` | Microsoft Corp. | [https://github.com/Microsoft/tslib](https://github.com/Microsoft/tslib) |
 
 #### AFLv2.1
 
@@ -301,9 +302,9 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `@graphql-codegen/plugin-helpers`                    | `1.17.8`       |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
 | `@graphql-codegen/plugin-helpers`                    | `1.17.9`       |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
 | `@graphql-codegen/typescript-operations`             | `1.17.8`       |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
-| `@graphql-codegen/typescript`                        | `1.17.9`       |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
+| `@graphql-codegen/typescript`                        | `1.17.10`      |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
 | `@graphql-codegen/visitor-plugin-common`             | `1.17.13`      |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
-| `@graphql-codegen/visitor-plugin-common`             | `1.17.14`      |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
+| `@graphql-codegen/visitor-plugin-common`             | `1.17.15`      |                      | [https://github.com/dotansimha/graphql-code-generator](https://github.com/dotansimha/graphql-code-generator)                                                                                         |
 | `@graphql-tools/apollo-engine-loader`                | `6.2.4`        | Dotan Simha          | [https://github.com/ardatan/graphql-tools](https://github.com/ardatan/graphql-tools)                                                                                                                 |
 | `@graphql-tools/code-file-loader`                    | `6.2.4`        | Dotan Simha          | [https://github.com/ardatan/graphql-tools](https://github.com/ardatan/graphql-tools)                                                                                                                 |
 | `@graphql-tools/delegate`                            | `6.2.4`        |                      | [https://github.com/ardatan/graphql-tools](https://github.com/ardatan/graphql-tools)                                                                                                                 |

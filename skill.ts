@@ -16,7 +16,6 @@
 
 import {
 	Category,
-	DispatchStyle,
 	parameter,
 	ParameterType,
 	resourceProvider,
@@ -34,18 +33,11 @@ async function createSkill(): Promise<SkillInput> {
 		author: "Atomist",
 		categories: [Category.CodeQuality, Category.Security],
 		license: "Apache-2.0",
-		homepageUrl:
-			"https://github.com/atomist-skills/github-secret-scanner-skill",
-		repositoryUrl:
-			"https://github.com/atomist-skills/github-secret-scanner-skill.git",
-		iconUrl: "file://docs/images/icon.svg",
 
 		runtime: {
 			memory: 1024,
 			timeout: 60,
 		},
-
-		dispatchStyle: DispatchStyle.Single,
 
 		resourceProviders: {
 			github: resourceProvider.gitHub({ minRequired: 1 }),
@@ -87,8 +79,6 @@ async function createSkill(): Promise<SkillInput> {
 			},
 			repos: parameter.repoFilter(),
 		},
-
-		subscriptions: ["file://graphql/subscription/*.graphql"],
 	};
 }
 

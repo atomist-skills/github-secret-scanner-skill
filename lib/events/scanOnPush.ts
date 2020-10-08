@@ -20,6 +20,7 @@ import {
 	repository,
 	secret,
 	slack,
+	status,
 } from "@atomist/skill";
 import * as _ from "lodash";
 import { loadPattern } from "../load";
@@ -32,7 +33,7 @@ export const handler: EventHandler<
 > = async ctx => {
 	const push = ctx.data.Push[0];
 	const repo = push.repo;
-	const configurations = ctx.configuration || [];
+	const cfg = ctx.configuration;
 
 	await ctx.audit.log(
 		`Starting secret scanning on ${repo.owner}/${repo.name}`,
@@ -65,21 +66,16 @@ export const handler: EventHandler<
 
 	const patterns = await loadPattern();
 
-	const secretDefinitions = [...patterns];
-	const globs = [];
-	const exceptions = [];
-
-	configurations.forEach(c => {
-		secretDefinitions.push(
-			...(c.parameters?.pattern?.map(p => ({
-				pattern: p,
-				description: undefined,
-				ignore: [],
-			})) || []),
-		);
-		globs.push(...(c.parameters?.glob || []));
-		exceptions.push(...(c.parameters?.exceptions || []));
-	});
+	const secretDefinitions = [
+		...patterns,
+		...(cfg.parameters?.pattern?.map(p => ({
+			pattern: p,
+			description: undefined,
+			ignore: [],
+		})) || []),
+	];
+	const globs = cfg.parameters?.glob || [];
+	const exceptions = cfg.parameters?.exceptions || [];
 
 	if (globs.length === 0) {
 		globs.push(...DefaultGlobPatterns);
@@ -233,14 +229,12 @@ ${result.excluded
 	.join("\n")}`);
 	}
 
-	return {
-		code: 0,
-		reason:
-			`Found ${result.detected.length} ${
-				result.detected.length === 1 ? "secret" : "secrets"
-			} in` +
+	return status.success(
+		`Found ${result.detected.length} ${
+			result.detected.length === 1 ? "secret" : "secrets"
+		} in` +
 			` [${repo.owner}/${repo.name}](${
 				repo.url
 			}) on commit [${push.after.sha.slice(0, 7)}](${push.after.url})`,
-	};
+	);
 };

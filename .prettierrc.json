@@ -3,6 +3,7 @@
     {
       "files": ["*.md", "*.markdown"],
       "options": {
+        "proseWrap": "always",
         "tabWidth": 4
       }
     }

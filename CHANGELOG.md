@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.1.6...HEAD)
 
+### Changed
+
+-   Move to multiple-dispatch style. [#51](https://github.com/atomist-skills/github-secret-scanner-skill/issues/51)
+
 ## [2.1.6](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.1.5...2.1.6) - 2020-07-28
 
 ### Changed

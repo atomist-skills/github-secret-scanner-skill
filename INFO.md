@@ -1,19 +1,12 @@
-# What it's useful for
-
-This skill detects common secrets and creates GitHub Checks to indicate whether
-a push contained undesired secrets.
+Prevent leaking API keys, access tokens, passwords and other sensitive data by
+keeping them out of your codebase. Secret Scanner detects and alerts you when
+secrets are committed in your code and configuration in a GitHub repository. It
+helps prevent secrets from being exposed by adding a failed GitHub Check when a
+secret is detected.
 
 It also supports adding patterns to detect other secrets not detected by default
 by this skill.
 
-# Before you get started
-
-Connect and configure this integration:
-
--   **GitHub**
--   **Slack or Microsoft Teams**
-
-The **GitHub** integration must be configured in order to use this skill. At
-least one repository must be selected. We recommend that you configure the
-**Slack** or **Microsoft Teams** integration to get actionable notifications
-right in chat when this skill detects secrets in your repositories.
+-   Scan for any type of secret — just add your own secret patterns
+-   Support for exceptions — ignore secrets like sample keys
+-   Control exactly which secrets to detect and which files to scan

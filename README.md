@@ -76,16 +76,18 @@ $ npm run build
 
 ### Release
 
-Releases are handled via the [Atomist SDM][atomist-sdm]. Just press the
-'Approve' button in the Atomist dashboard or Slack.
+Releases of this skill are handled via the
+[@atomist/skill-package-skill][package-skill]. To trigger a release create a
+release semver tag and push it to GitHub. Alternatively you can use the
+`Release` button in Slack.
 
-[atomist-sdm]:
-    https://github.com/atomist/atomist-sdm
-    "Atomist Software Delivery Machine"
+[package-skill]:
+    https://go.atomist.com/catalog/skills/atomist/skill-package-skill?stability=unstable
+    "Package Skill"
 
 ---
 
 Created by [Atomist][atomist]. Need Help? [Join our Slack workspace][slack].
 
-[atomist]: https://atomist.com/ "Atomist - Automate All the Software Things"
+[atomist]: https://atomist.com/ "Atomist"
 [slack]: https://join.atomist.com/ "Atomist Community Slack"

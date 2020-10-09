@@ -51,7 +51,7 @@ General support questions should be discussed in the `#support` channel in the
 
 If you find a problem, please create an [issue][].
 
-[issue]: ../../issues "GitHub Issues"
+[issue]: ../../issues/new "GitHub Issues"
 
 ## Development
 

@@ -6,132 +6,86 @@ Scan committed code for well-known credentials and secrets
 
 <!---atomist-skill-description:end--->
 
-<!---atomist-skill-readme:start--->
+More information about this skill can be found in the [info][info] document.
+Detailed instructions on how to configure the skill on [go.atomist.com][catalog]
+are available from the [settings][settings] document.
 
-# What it's useful for
+[info]: INFO.md "Information about this skill"
+[settings]: SETTINGS.md "How to configure this skill"
+[catalog]: https://go.atomist.com "Atomist Catalog"
 
-This skill detects common secrets and creates GitHub Checks to indicate whether
-a push contained undesired secrets.
+## Contributing
 
-It also supports adding patterns to detect other secrets not detected by default
-by this skill.
+Contributions to this project from community members are encouraged and
+appreciated. Please review the [Contributing Guidelines](CONTRIBUTING.md) for
+more information. Also see the [Development](#development) section in this
+document.
 
-# Before you get started
+## Code of conduct
 
-Connect and configure this integration:
+This project is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). You are
+expected to act in accordance with this code by participating. Please report any
+unacceptable behavior to code-of-conduct@atomist.com.
 
--   **GitHub**
--   **Slack or Microsoft Teams**
+## Documentation
 
-The **GitHub** integration must be configured in order to use this skill. At
-least one repository must be selected. We recommend that you configure the
-**Slack** or **Microsoft Teams** integration to get actionable notifications
-right in chat when this skill detects secrets in your repositories.
+Please see [docs.atomist.com][atomist-doc] for developer documentation.
 
-# How to configure
+-   List of third-party OSS licenses used in this project: [OSS
+    licenses][licenses]
 
-1. **Select the files to scan**
+[atomist-doc]: https://docs.atomist.com "Atomist Documentation"
+[licenses]: legal/THIRD_PARTY.md "Third-Party Licenses"
 
-    To restrict the files that this skill will run on, provide one or more
-    [glob patterns](<https://en.wikipedia.org/wiki/Glob_(programming)>). For
-    example, to only run on YAML files with `.yaml` or `.yml` extensions at any
-    depth in the repository, you would provide this glob pattern:
+## Connect
 
-    `*.{yaml,yml}`
+Follow [@atomist][atomist-twitter] and [blog][atomist-blog] for related updates.
 
-    ![File glob](docs/images/file-pattern.png)
+[atomist-twitter]: https://twitter.com/atomist "Atomist on Twitter"
+[atomist-blog]: https://blog.atomist.com/ "The Official Atomist Blog"
 
-2. **Add additional secret patterns**
+## Support
 
-    To scan for other secrets, add regular expressions that match your secret
-    format. For example, to match a secret format like
-    `KEY-x8w876yu5w2k9f4h3x6a`, which is the string `KEY-` followed by exactly
-    twenty alphanumeric characters, this regular expression will do the job:
+General support questions should be discussed in the `#support` channel in the
+[Atomist community Slack workspace][slack].
 
-    `KEY-[A-Za-z0-9]{20}`
+If you find a problem, please create an [issue][].
 
-    ![Secret pattern](docs/images/secret-pattern.png)
+[issue]: issues "GitHub Issues"
 
-    For help crafting and testing your regular expressions, try
-    [this online tool](https://regex101.com/) and see
-    [this guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet).
+## Development
 
-3. **Disable secret patterns**
+You will need to install [Node.js][node] to build and test this project.
 
-    You can disable specific secret patterns. We recommend scanning for as many
-    known secrets as possible. Scanning via regular expression can sometimes
-    yield false positives, however. Disable a secret pattern to avoid false
-    positives for secret types not present in your code base.
+[node]: https://nodejs.org/ "Node.js"
 
-    This skill automatically scans for these secrets:
+### Build and test
 
-    - Twitter access token
-    - Facebook access token
-    - Google API key
-    - Google Oauth ID
-    - Picatic API Key
-    - Stripe regular API key
-    - Stripe restricted API key
-    - Square access token
-    - Square Oauth Secret
-    - PayPal Braintree access token
-    - Amazon MWS auth token
-    - Twilio API key
-    - MailGun API key
-    - MailChimp API key
-    - AWS access key ID
+Install dependencies.
 
-    Selecting any number of secrets will disable scanning for those secrets.
+```
+$ npm install
+```
 
-4. **Add secret values to exceptions**
+Use the `build` package script to compile, test, lint, and build the
+documentation.
 
-    Frequently secret values are used in testing and don't represent leaked
-    credentials. Use exceptions to enter secret values to ignore during
-    reporting. You may also use the exceptions to identify false positives to
-    ignore.
+```
+$ npm run build
+```
 
-    ![Exceptions](docs/images/exceptions.png)
+### Release
 
-5. **Determine repository scope**
+Releases are handled via the [Atomist SDM][atomist-sdm]. Just press the
+'Approve' button in the Atomist dashboard or Slack.
 
-    ![Repository filter](docs/images/repo-filter.png)
-
-    By default, this skill will be enabled for all repositories in all
-    organizations you have connected.
-
-    To restrict the organizations or specific repositories on which the skill
-    will run, you can explicitly choose organization(s) and repositories.
-
-# How to use secret-scanning
-
-1. **Configure the skill, set file glob patterns, additional regular expressions
-   and exceptions**
-
-2. **Every time you push to a repository, Secret Scanner will scan and report
-   detected secrets in a GitHub Check**
-
-    ![GitHub Check](docs/images/github-check.png)
-
-    If you have the **Slack** integration configured as well as a chat channel
-    linked to your repository, you'll get the following message informing you
-    about detected secrets. Using the menus you can add a detected secret to the
-    exceptions or ignore an entire file.
-
-    ![Slack notification](docs/images/slack-notification.png)
-
-3. **Don't risk letting sensitive secrets and credential sit in your code base
-   for the taking!**
-
-To create feature requests or bug reports, create an
-[issue in the repository for this skill](https://github.com/atomist-skills/github-secret-scanner-skill/issues).
-See the [code](https://github.com/atomist-skills/github-secret-scanner-skill)
-for the skill.
-
-<!---atomist-skill-readme:end--->
+[atomist-sdm]:
+    https://github.com/atomist/atomist-sdm
+    "Atomist Software Delivery Machine"
 
 ---
 
 Created by [Atomist][atomist]. Need Help? [Join our Slack workspace][slack].
 
-[atomist]: https://atomist.com/ "Atomist - How Teams Deliver Software"
+[atomist]: https://atomist.com/ "Atomist - Automate All the Software Things"
 [slack]: https://join.atomist.com/ "Atomist Community Slack"

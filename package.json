@@ -1,8 +1,8 @@
 {
   "main": "node_modules/@atomist/skill/lib/function.js",
   "dependencies": {
-    "@atomist/skill": "^0.3.0-main.15",
-    "@types/fs-extra": "^9.0.1",
+    "@atomist/skill": "^0.3.0-main.17",
+    "@types/fs-extra": "^9.0.2",
     "fs-extra": "^9.0.1",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20"
@@ -12,7 +12,7 @@
     "@graphql-codegen/cli": "^1.17.10",
     "@graphql-codegen/typescript": "^1.17.10",
     "@graphql-codegen/typescript-operations": "^1.17.8",
-    "@types/lodash": "^4.14.161",
+    "@types/lodash": "^4.14.162",
     "@types/mocha": "^8.0.3",
     "@types/power-assert": "^1.5.3",
     "@typescript-eslint/eslint-plugin": "^4.4.0",

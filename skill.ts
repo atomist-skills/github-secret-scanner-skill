@@ -29,6 +29,8 @@ async function createSkill(): Promise<SkillInput> {
 	return {
 		name: "github-secret-scanner-skill",
 		namespace: "atomist",
+		description:
+			"Scan committed code for well-known credentials and secrets",
 		displayName: "Secret Scanner",
 		author: "Atomist",
 		categories: [Category.CodeQuality, Category.Security],

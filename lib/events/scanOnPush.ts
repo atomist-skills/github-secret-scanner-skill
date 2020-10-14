@@ -177,20 +177,20 @@ ${groupByFile.join("\n")}`,
                         { text: "Add exception", options: groupByType },
                         "addException",
                         "value",
-                        { config: ctx.configuration[0].name }),
+                        { config: ctx.configuration?.name }),
                     menuForCommand(
                         { text: "Ignore file", options: files },
                         "addIgnore",
                         "value",
-                        { config: ctx.configuration[0].name }),
+                        { config: ctx.configuration?.name }),
                 ], */
 			},
 		);
 		msg.attachments[0].footer = `${slack.footer(
 			ctx,
 		)} ${slack.separator()} ${slack.url(
-			ctx.configuration[0].url,
-			ctx.configuration[0].name,
+			ctx.configuration?.url,
+			ctx.configuration?.name,
 		)}`;
 
 		const users = _.uniq(

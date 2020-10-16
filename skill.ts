@@ -33,7 +33,7 @@ async function createSkill(): Promise<SkillInput> {
 			"Scan committed code for well-known credentials and secrets",
 		displayName: "Secret Scanner",
 		author: "Atomist",
-		categories: [Category.CodeQuality, Category.Security],
+		categories: [Category.CodeMaintenance, Category.Security],
 		license: "Apache-2.0",
 
 		runtime: {

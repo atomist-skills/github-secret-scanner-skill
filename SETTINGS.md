@@ -20,7 +20,7 @@ Connect and configure these integrations:
     example, to only run on YAML files with `.yaml` or `.yml` extensions at any
     depth in the repository, you would provide this glob pattern:
 
-    `*.{yaml,yml}`
+        *.{yaml,yml}
 
     ![File glob](docs/images/file-pattern.png)
 
@@ -31,7 +31,7 @@ Connect and configure these integrations:
     `KEY-x8w876yu5w2k9f4h3x6a`, which is the string `KEY-` followed by exactly
     twenty alphanumeric characters, this regular expression will do the job:
 
-    `KEY-[A-Za-z0-9]{20}`
+        KEY-[A-Za-z0-9]{20}
 
     ![Secret pattern](docs/images/secret-pattern.png)
 

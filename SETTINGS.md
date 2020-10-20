@@ -15,6 +15,8 @@ Connect and configure these integrations:
 
 1.  **Select the files to scan**
 
+    ![File glob](docs/images/file-pattern.png)
+
     To restrict the files that this skill will run on, provide one or more
     [glob patterns](<https://en.wikipedia.org/wiki/Glob_(programming)>). For
     example, to only run on YAML files with `.yaml` or `.yml` extensions at any
@@ -22,9 +24,9 @@ Connect and configure these integrations:
 
         *.{yaml,yml}
 
-    ![File glob](docs/images/file-pattern.png)
-
 2.  **Add additional secret patterns**
+
+    ![Secret pattern](docs/images/secret-pattern.png)
 
     To scan for other secrets, add regular expressions that match your secret
     format. For example, to match a secret format like
@@ -32,8 +34,6 @@ Connect and configure these integrations:
     twenty alphanumeric characters, this regular expression will do the job:
 
         KEY-[A-Za-z0-9]{20}
-
-    ![Secret pattern](docs/images/secret-pattern.png)
 
     For help crafting and testing your regular expressions, try
     [this online tool](https://regex101.com/) and see
@@ -68,22 +68,22 @@ Connect and configure these integrations:
 
 4.  **Add secret values to exceptions**
 
+    ![Exceptions](docs/images/exceptions.png)
+
     Frequently secret values are used in testing and don't represent leaked
     credentials. Use exceptions to enter secret values to ignore during
     reporting. You may also use the exceptions to identify false positives to
     ignore.
 
-    ![Exceptions](docs/images/exceptions.png)
-
 5.  **Determine repository scope**
+
+    ![Repository filter](docs/images/repo-filter.png)
 
     By default, this skill will be enabled for all repositories in all
     organizations you have connected.
 
     To restrict the organizations or specific repositories on which the skill
-    will run, you can explicitly choose organization(s) and repositories.
-
-    ![Repository filter](docs/images/repo-filter.png)
+    will run, you can explicitly choose organizations and repositories.
 
 6.  **Activate the skill**
 

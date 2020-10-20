@@ -1,5 +1,3 @@
-## What it's useful for
-
 Prevent leaking API keys, access tokens, passwords and other sensitive data by
 keeping them out of your codebase. Secret Scanner detects and alerts you when
 secrets are committed in your code and configuration in a GitHub repository. It

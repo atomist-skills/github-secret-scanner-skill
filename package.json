@@ -1,5 +1,49 @@
 {
+  "name": "@atomist/github-secret-scanner-skill",
+  "homepage": "https://github.com/atomist-skills/github-secret-scanner-skill",
+  "license": "Apache-2.0",
+  "author": {
+    "email": "oss@atomist.com",
+    "name": "Atomist, Inc.",
+    "url": "https://atomist.com"
+  },
   "main": "node_modules/@atomist/skill/lib/function.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atomist-skills/github-secret-scanner-skill.git"
+  },
+  "scripts": {
+    "atm:lint:eslint": "eslint --fix",
+    "atm:lint:prettier": "prettier --write",
+    "autotest": "supervisor --watch index.ts,lib,test --extensions ts --no-restart-on exit --quiet --exec npm -- test",
+    "build": "run-s clean compile test lint doc",
+    "clean": "run-p clean:compile clean:test clean:doc clean:run",
+    "clean:compile": "rimraf git-info.json \"*.{d.ts,js}{,.map}\" \"{lib,test}/**/*.{d.ts,js}{,.map}\" lib/typings/types.ts",
+    "clean:dist": "run-s clean clean:npm",
+    "clean:doc": "rimraf doc",
+    "clean:npm": "rimraf node_modules",
+    "clean:run": "rimraf *-v8.log profile.txt log",
+    "clean:test": "rimraf .nyc_output coverage",
+    "compile": "run-s gql:gen compile:ts",
+    "compile:ts": "tsc --project .",
+    "doc": "typedoc --mode modules --excludeExternals --ignoreCompilerErrors --exclude \"**/*.d.ts\" --out doc index.ts lib",
+    "git:info": "atm-git-info",
+    "gql:gen": "atm-skill gql-generate",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "npm run lint -- --fix",
+    "skill": "run-s compile test skill:generate skill:bundle skill:package",
+    "skill:bundle": "atm-skill bundle --no-minify --no-source-map",
+    "skill:generate": "atm-skill generate",
+    "skill:package": "atm-skill package",
+    "skill:register": "atm-skill register",
+    "start": "functions-framework --target=entryPoint --signature-type=event",
+    "test": "echo no tests",
+    "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\"",
+    "typedoc": "npm run doc"
+  },
   "dependencies": {
     "@atomist/skill": "^0.5.1",
     "fs-extra": "^9.0.1",
@@ -33,38 +77,6 @@
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.2",
     "typescript": "^4.0.5"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "autotest": "supervisor --watch index.ts,lib,test --extensions ts --no-restart-on exit --quiet --exec npm -- test",
-    "build": "run-s clean compile test lint doc",
-    "clean": "run-p clean:compile clean:test clean:doc clean:run",
-    "clean:compile": "rimraf git-info.json \"*.{d.ts,js}{,.map}\" \"{lib,test}/**/*.{d.ts,js}{,.map}\" lib/typings/types.ts",
-    "clean:dist": "run-s clean clean:npm",
-    "clean:doc": "rimraf doc",
-    "clean:npm": "rimraf node_modules",
-    "clean:run": "rimraf *-v8.log profile.txt log",
-    "clean:test": "rimraf .nyc_output coverage",
-    "compile": "run-s gql:gen compile:ts",
-    "compile:ts": "tsc --project .",
-    "doc": "typedoc --mode modules --excludeExternals --ignoreCompilerErrors --exclude \"**/*.d.ts\" --out doc index.ts lib",
-    "git:info": "atm-git-info",
-    "gql:gen": "graphql-codegen",
-    "lint": "eslint --ext .ts .",
-    "lint:fix": "npm run lint -- --fix",
-    "start": "functions-framework --target=entryPoint --signature-type=event",
-    "test": "echo no tests",
-    "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\"",
-    "typedoc": "npm run doc",
-    "skill": "run-s compile test skill:generate skill:bundle skill:package",
-    "skill:generate": "atm-skill generate",
-    "skill:bundle": "atm-skill bundle --no-minify --no-source-map",
-    "skill:package": "atm-skill package",
-    "skill:register": "atm-skill register",
-    "atm:lint:prettier": "prettier --write",
-    "atm:lint:eslint": "eslint --fix"
   },
   "engines": {
     "node": ">=8.2.0",

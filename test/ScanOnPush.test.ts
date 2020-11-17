@@ -20,9 +20,9 @@ import { handler } from "../lib/events/scanOnPush";
 import { ScanOnPushSubscription } from "../lib/typings/types";
 
 describe("ScanOnPush", () => {
-	before(() => {
+	before(function b(this: Mocha.Context): void {
 		if (!process.env.API_KEY) {
-			(this as any).skip();
+			this.skip();
 		}
 	});
 

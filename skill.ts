@@ -32,11 +32,9 @@ async function createSkill(): Promise<SkillInput> {
 		description:
 			"Scan committed code for well-known credentials and secrets",
 		displayName: "Secret Scanner",
-		author: "Atomist",
 		categories: [Category.CodeMaintenance, Category.Security],
 		iconUrl:
 			"https://raw.githubusercontent.com/atomist-skills/github-secret-scanner-skill/main/docs/images/icon.svg",
-		license: "Apache-2.0",
 
 		runtime: {
 			memory: 1024,

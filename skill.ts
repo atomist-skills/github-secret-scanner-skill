@@ -25,6 +25,7 @@ import {
 
 import { loadPattern } from "./lib/load";
 import { ScanConfiguration } from "./lib/scan";
+import * as _ from "lodash";
 
 async function createSkill(): Promise<SkillInput> {
 	return {
@@ -68,10 +69,13 @@ async function createSkill(): Promise<SkillInput> {
 				description:
 					"Select patterns that you want to disable for your repositories",
 				required: false,
-				options: (await loadPattern()).map(s => ({
-					text: s.description,
-					value: s.description,
-				})),
+				options: _.sortBy(
+					(await loadPattern()).map(s => ({
+						text: s.description,
+						value: s.description,
+					})),
+					"text",
+				),
 			},
 			exceptions: {
 				type: ParameterType.StringArray,

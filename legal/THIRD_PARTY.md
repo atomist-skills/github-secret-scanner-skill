@@ -201,7 +201,7 @@ ISC License - [https://www.isc.org/downloads/software-support-policy/isc-license
 | `har-schema`                | `2.0.0`   | Ahmad Nassri       | [https://github.com/ahmadnassri/har-schema](https://github.com/ahmadnassri/har-schema)                       |
 | `inflight`                  | `1.0.6`   | Isaac Z. Schlueter | [https://github.com/npm/inflight](https://github.com/npm/inflight)                                           |
 | `inherits`                  | `2.0.4`   |                    | [https://github.com/isaacs/inherits](https://github.com/isaacs/inherits)                                     |
-| `ini`                       | `1.3.5`   | Isaac Z. Schlueter | [https://github.com/isaacs/ini](https://github.com/isaacs/ini)                                               |
+| `ini`                       | `1.3.7`   | Isaac Z. Schlueter | [https://github.com/isaacs/ini](https://github.com/isaacs/ini)                                               |
 | `isexe`                     | `2.0.0`   | Isaac Z. Schlueter | [https://github.com/isaacs/isexe](https://github.com/isaacs/isexe)                                           |
 | `json-stringify-safe`       | `5.0.1`   | Isaac Z. Schlueter | [https://github.com/isaacs/json-stringify-safe](https://github.com/isaacs/json-stringify-safe)               |
 | `log-driver`                | `1.2.7`   | Gregg Caines       | [https://github.com/cainus/logdriver](https://github.com/cainus/logdriver)                                   |

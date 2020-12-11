@@ -22,6 +22,7 @@ import {
 	skill,
 	SkillInput,
 } from "@atomist/skill";
+
 import { loadPattern } from "./lib/load";
 import { ScanConfiguration } from "./lib/scan";
 

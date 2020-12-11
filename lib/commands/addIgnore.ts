@@ -16,6 +16,7 @@
 
 import { CommandHandler, guid, slack } from "@atomist/skill";
 import * as _ from "lodash";
+
 import { ScanConfiguration } from "../scan";
 import {
 	SaveSkillConfigurationMutation,

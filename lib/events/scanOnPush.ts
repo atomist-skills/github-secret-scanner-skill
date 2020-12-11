@@ -23,6 +23,7 @@ import {
 	status,
 } from "@atomist/skill";
 import * as _ from "lodash";
+
 import { loadPattern } from "../load";
 import { DefaultGlobPatterns, ScanConfiguration, scanProject } from "../scan";
 import { ScanOnPushSubscription } from "../typings/types";

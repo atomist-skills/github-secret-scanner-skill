@@ -15,6 +15,7 @@
  */
 
 import * as assert from "power-assert";
+
 import { scanFileContent } from "../lib/scan";
 
 describe("scan", () => {

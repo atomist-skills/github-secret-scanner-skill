@@ -17,6 +17,7 @@
 import { project } from "@atomist/skill";
 import * as fs from "fs-extra";
 import * as path from "path";
+
 import { SecretDefinition } from "./load";
 
 export const DefaultGlobPatterns = ["**/*"];

@@ -48,7 +48,7 @@
     "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\""
   },
   "dependencies": {
-    "@atomist/skill": "^0.6.3-main.56",
+    "@atomist/skill": "^0.6.3-main.57",
     "fs-extra": "^9.0.1",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.20"
@@ -61,7 +61,7 @@
     "@types/power-assert": "^1.5.3",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
-    "eslint": "^7.16.0",
+    "eslint": "^7.17.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",

@@ -38,7 +38,7 @@ Blog][atomist-blog].
 
 ## Support
 
-General support questions should be discussed in the `#support` channel in the
+General support questions should be discussed in the `#help` channel in the
 [Atomist community Slack workspace][slack].
 
 If you find a problem, please create an [issue](../../issues).

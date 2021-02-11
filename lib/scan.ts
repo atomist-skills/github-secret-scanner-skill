@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Atomist, Inc.
+ * Copyright © 2021 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,11 @@ export interface Secret {
 	name: string;
 }
 
+/**
+ * Scan all files in project matching glob patterns for secrets,
+ * returning information about found secrets suitable to annotate a
+ * GitHub check.
+ */
 export async function scanProject(
 	p: project.Project,
 	cfg: ScanConfiguration,
@@ -54,7 +59,7 @@ export async function scanProject(
 	});
 	for (const file of files) {
 		const content = (await fs.readFile(p.path(file))).toString();
-		const scannedSecrets = await scanFileContent(file, content, cfg);
+		const scannedSecrets = scanFileContent(file, content, cfg);
 		if (scannedSecrets?.detected?.length > 0) {
 			secrets.detected.push(...scannedSecrets.detected);
 		}
@@ -68,11 +73,17 @@ export async function scanProject(
 	};
 }
 
-export async function scanFileContent(
+/**
+ * Return locations of secrets found in `content` for file `filePath`.
+ */
+export function scanFileContent(
 	filePath: string,
 	content: string,
-	cfg: ScanConfiguration,
-): Promise<{ detected: Secret[]; excluded: Secret[] }> {
+	cfg: Pick<
+		ScanConfiguration,
+		"secretDefinitions" | "exceptions" | "disabled"
+	>,
+): { detected: Secret[]; excluded: Secret[] } {
 	const secrets = {
 		detected: [],
 		excluded: [],
@@ -87,7 +98,7 @@ export async function scanFileContent(
 		}
 		const regexp = new RegExp(sd.pattern, "g");
 
-		let match;
+		let match: RegExpExecArray;
 		do {
 			match = regexp.exec(content);
 			if (match) {
@@ -111,6 +122,10 @@ export async function scanFileContent(
 	return secrets;
 }
 
+/**
+ * Return 1-based location of match suitable for use in a GitHub
+ * check.
+ */
 export function extractSourceLocation(
 	match: string,
 	index: number,
@@ -126,8 +141,8 @@ export function extractSourceLocation(
 		startLine +
 		(content.slice(index, index + match.length).match(/\n/gm) || []).length;
 
-	let startOffset;
-	let endOffset;
+	let startOffset: number;
+	let endOffset: number;
 
 	if (startLine === endLine) {
 		startOffset = index - content.slice(0, index).lastIndexOf("\n");

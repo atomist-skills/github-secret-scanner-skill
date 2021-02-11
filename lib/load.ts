@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Atomist, Inc.
+ * Copyright © 2021 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,19 +39,19 @@ export interface SecretDefinition {
 }
 
 /**
- * Based on regular expressions in https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04B-3_Meli_paper.pdf
+ * Load the default patterns.
  */
 export async function loadPattern(): Promise<SecretDefinition[]> {
 	const secretsYmlPath = path.join(__dirname, "..", "secrets.yaml");
-	const yamlString = await fs.readFile(secretsYmlPath);
-	const native: any = await yaml.safeLoad(yamlString.toString());
+	const yamlString = await fs.readFile(secretsYmlPath, "utf8");
+	const native: any = yaml.safeLoad(yamlString);
 
 	const secretDefinitions: SecretDefinition[] = native.secrets
 		.map((s: any) => s.secret)
 		.map((s: any) => ({
 			pattern: s.pattern,
 			description: s.description,
-			ignore: s.ignore,
+			ignore: s.ignore || [],
 		}));
 
 	return secretDefinitions;

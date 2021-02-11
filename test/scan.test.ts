@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Atomist, Inc.
+ * Copyright © 2021 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,19 @@
 
 import * as assert from "power-assert";
 
+import { loadPattern } from "../lib/load";
 import { scanFileContent } from "../lib/scan";
 
 describe("scan", () => {
 	describe("scanFileContent", () => {
-		it("should extract correct source location", async () => {
+		it("should extract correct source location", () => {
 			const text = `The big
 brown fox
 jumps over the
 green fence and
 over the lake`;
 
-			const result = await scanFileContent("test.md", text, {
-				glob: undefined,
+			const result = scanFileContent("test.md", text, {
 				secretDefinitions: [
 					{ pattern: "over", description: "over", ignore: [] },
 					{ pattern: "green", description: "green", ignore: [] },
@@ -36,6 +36,316 @@ over the lake`;
 				exceptions: [],
 			});
 			assert.strictEqual(result.detected.length, 3);
+			assert.strictEqual(result.excluded.length, 0);
+			const e = [
+				{
+					name: "over",
+					path: "test.md",
+					value: "over",
+					description: "over detected as over",
+					startLine: 3,
+					startOffset: 7,
+					endLine: 3,
+					endOffset: 11,
+				},
+				{
+					name: "over",
+					path: "test.md",
+					value: "over",
+					description: "over detected as over",
+					startLine: 5,
+					startOffset: 1,
+					endLine: 5,
+					endOffset: 5,
+				},
+				{
+					name: "green",
+					path: "test.md",
+					value: "green",
+					description: "green detected as green",
+					startLine: 4,
+					startOffset: 1,
+					endLine: 4,
+					endOffset: 6,
+				},
+			];
+			assert.deepStrictEqual(result.detected, e);
+		});
+
+		it("should detect default secrets", async () => {
+			const secretDefinitions = await loadPattern();
+			const t = `A file with lots of secrets.
+https://user:pass@word.com/f?token=0123456789abcdef0123456789abcdef01234567&timeout=90
+Some fake AWS key ID is AKIA0123456789ABCDEF.
+This 123456789-0123456789abcdefghijklmn0123456789abcdef is not a Twitter token.
+You might this this URL 'https://v1.12093847103847561098457012abfcdefab456ef@blah.com/v1/org' contains a GitHub App access token, but you would be wrong.
+A Google OAuth token looks like 0123-012345678901234567890123456789_z.apps.googleusercontent.com, but that is not real
+and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvwx.
+Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef01234567899876543210fedcba) keys are similar.
+`;
+			const s = scanFileContent("some.txt", t, {
+				secretDefinitions,
+				exceptions: [],
+			});
+			const e = {
+				detected: [
+					{
+						name: "Twitter access token",
+						path: "some.txt",
+						value:
+							"123456789-0123456789abcdefghijklmn0123456789abcdef",
+						description:
+							"123456789-0123456789abcdefghijklmn0123456789abcdef detected as Twitter access token",
+						startLine: 4,
+						startOffset: 6,
+						endLine: 4,
+						endOffset: 56,
+					},
+					{
+						name: "Google API key",
+						path: "some.txt",
+						value: "AIza0123456789-abcdefghijklmn_pqrstuvwx",
+						description:
+							"AIza0123456789-abcdefghijklmn_pqrstuvwx detected as Google API key",
+						startLine: 7,
+						startOffset: 37,
+						endLine: 7,
+						endOffset: 76,
+					},
+					{
+						name: "Google OAuth ID",
+						path: "some.txt",
+						value:
+							"0123-012345678901234567890123456789_z.apps.googleusercontent.com",
+						description:
+							"0123-012345678901234567890123456789_z.apps.googleusercontent.com detected as Google OAuth ID",
+						startLine: 6,
+						startOffset: 33,
+						endLine: 6,
+						endOffset: 97,
+					},
+					{
+						name: "Picatic API Key",
+						path: "some.txt",
+						value: "sk_live_abcdef01234567899876543210fedcba",
+						description:
+							"sk_live_abcdef01234567899876543210fedcba detected as Picatic API Key",
+						startLine: 8,
+						startOffset: 57,
+						endLine: 8,
+						endOffset: 97,
+					},
+					{
+						name: "Stripe standard API key",
+						path: "some.txt",
+						value: "sk_live_abcdef012345678998765432",
+						description:
+							"sk_live_abcdef012345678998765432 detected as Stripe standard API key",
+						startLine: 8,
+						startOffset: 9,
+						endLine: 8,
+						endOffset: 41,
+					},
+					{
+						name: "AWS access key ID",
+						path: "some.txt",
+						value: "AKIA0123456789ABCDEF",
+						description:
+							"AKIA0123456789ABCDEF detected as AWS access key ID",
+						startLine: 3,
+						startOffset: 25,
+						endLine: 3,
+						endOffset: 45,
+					},
+					{
+						name: "GitHub personal access or OAuth2 token",
+						path: "some.txt",
+						value: "0123456789abcdef0123456789abcdef01234567",
+						description:
+							"0123456789abcdef0123456789abcdef01234567 detected as GitHub personal access or OAuth2 token",
+						startLine: 2,
+						startOffset: 36,
+						endLine: 2,
+						endOffset: 76,
+					},
+					{
+						name: "GitHub App access token",
+						path: "some.txt",
+						value: "v1.12093847103847561098457012abfcdefab456ef",
+						description:
+							"v1.12093847103847561098457012abfcdefab456ef detected as GitHub App access token",
+						startLine: 5,
+						startOffset: 34,
+						endLine: 5,
+						endOffset: 77,
+					},
+					{
+						name: "URL with password",
+						path: "some.txt",
+						value: "https://user:pass@",
+						description:
+							"https://user:pass@ detected as URL with password",
+						startLine: 2,
+						startOffset: 1,
+						endLine: 2,
+						endOffset: 19,
+					},
+				],
+				excluded: [],
+			};
+			assert.deepStrictEqual(s, e);
+		});
+
+		it("should exclude excludes", async () => {
+			const secretDefinitions = await loadPattern();
+			const t = `A file with lots of secrets.
+https://user:pass@word.com/f?token=0123456789abcdef0123456789abcdef01234567&timeout=90
+Some fake AWS key ID is AKIA0123456789ABCDEF.
+This 123456789-0123456789abcdefghijklmn0123456789abcdef is not a Twitter token.
+You might this this URL 'https://v1.12093847103847561098457012abfcdefab456ef@blah.com/v1/org' contains a GitHub App access token, but you would be wrong.
+A Google OAuth token looks like 0123-012345678901234567890123456789_z.apps.googleusercontent.com, but that is not real
+and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvwx.
+Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef01234567899876543210fedcba) keys are similar.
+`;
+			const s = scanFileContent("some.txt", t, {
+				secretDefinitions,
+				exceptions: [
+					"https://user:pass@",
+					"AKIA0123456789ABCDEF",
+					"0123456789abcdef0123456789abcdef01234567",
+					"sk_live_abcdef012345678998765432",
+				],
+			});
+			const e = {
+				detected: [
+					{
+						name: "Twitter access token",
+						path: "some.txt",
+						value:
+							"123456789-0123456789abcdefghijklmn0123456789abcdef",
+						description:
+							"123456789-0123456789abcdefghijklmn0123456789abcdef detected as Twitter access token",
+						startLine: 4,
+						startOffset: 6,
+						endLine: 4,
+						endOffset: 56,
+					},
+					{
+						name: "Google API key",
+						path: "some.txt",
+						value: "AIza0123456789-abcdefghijklmn_pqrstuvwx",
+						description:
+							"AIza0123456789-abcdefghijklmn_pqrstuvwx detected as Google API key",
+						startLine: 7,
+						startOffset: 37,
+						endLine: 7,
+						endOffset: 76,
+					},
+					{
+						name: "Google OAuth ID",
+						path: "some.txt",
+						value:
+							"0123-012345678901234567890123456789_z.apps.googleusercontent.com",
+						description:
+							"0123-012345678901234567890123456789_z.apps.googleusercontent.com detected as Google OAuth ID",
+						startLine: 6,
+						startOffset: 33,
+						endLine: 6,
+						endOffset: 97,
+					},
+					{
+						name: "Picatic API Key",
+						path: "some.txt",
+						value: "sk_live_abcdef01234567899876543210fedcba",
+						description:
+							"sk_live_abcdef01234567899876543210fedcba detected as Picatic API Key",
+						startLine: 8,
+						startOffset: 57,
+						endLine: 8,
+						endOffset: 97,
+					},
+					{
+						name: "GitHub App access token",
+						path: "some.txt",
+						value: "v1.12093847103847561098457012abfcdefab456ef",
+						description:
+							"v1.12093847103847561098457012abfcdefab456ef detected as GitHub App access token",
+						startLine: 5,
+						startOffset: 34,
+						endLine: 5,
+						endOffset: 77,
+					},
+				],
+				excluded: [
+					{
+						name: "Stripe standard API key",
+						path: "some.txt",
+						value: "sk_live_abcdef012345678998765432",
+						description:
+							"sk_live_abcdef012345678998765432 detected as Stripe standard API key",
+						startLine: 8,
+						startOffset: 9,
+						endLine: 8,
+						endOffset: 41,
+					},
+					{
+						name: "AWS access key ID",
+						path: "some.txt",
+						value: "AKIA0123456789ABCDEF",
+						description:
+							"AKIA0123456789ABCDEF detected as AWS access key ID",
+						startLine: 3,
+						startOffset: 25,
+						endLine: 3,
+						endOffset: 45,
+					},
+					{
+						name: "GitHub personal access or OAuth2 token",
+						path: "some.txt",
+						value: "0123456789abcdef0123456789abcdef01234567",
+						description:
+							"0123456789abcdef0123456789abcdef01234567 detected as GitHub personal access or OAuth2 token",
+						startLine: 2,
+						startOffset: 36,
+						endLine: 2,
+						endOffset: 76,
+					},
+					{
+						name: "URL with password",
+						path: "some.txt",
+						value: "https://user:pass@",
+						description:
+							"https://user:pass@ detected as URL with password",
+						startLine: 2,
+						startOffset: 1,
+						endLine: 2,
+						endOffset: 19,
+					},
+				],
+			};
+			assert.deepStrictEqual(s, e);
+		});
+
+		it("should not detect near-default-secrets", async () => {
+			const secretDefinitions = await loadPattern();
+			const t = `A file with lots of secrets.
+https://user:pa##ss@word.com/f?token=a0123456789abcdef0123456789abcdef01234567&timeout=90
+Some fake AWS key ID is AKIA0123456789ABCDEFG.
+This 123456789-0123456789abcdefghijklmn0123456789abcdefz is not a Twitter token.
+You might this this URL 'https://v1.12093847103847561098457012zbfcdefab456ef@blah.com/v1/org' contains a GitHub App access token, but you would be wrong.
+A Google OAuth token looks like 0123-012345678901234567890123456789_z.app.googleusercontent.com, but that is not real
+and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvw.
+Stripe (sk_live_abcdef01234567899876543) and Picactic (ask_live_abcdef01234567899876543210fedcba) keys are similar.
+`;
+			const s = scanFileContent("some.txt", t, {
+				secretDefinitions,
+				exceptions: [],
+			});
+			const e = {
+				detected: [],
+				excluded: [],
+			};
+			assert.deepStrictEqual(s, e);
 		});
 	});
 });

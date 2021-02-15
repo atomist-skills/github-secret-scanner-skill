@@ -22,10 +22,10 @@ import {
 	skill,
 	SkillInput,
 } from "@atomist/skill";
+import * as _ from "lodash";
 
 import { loadPattern } from "./lib/load";
 import { ScanConfiguration } from "./lib/scan";
-import * as _ from "lodash";
 
 async function createSkill(): Promise<SkillInput> {
 	return {

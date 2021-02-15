@@ -36,6 +36,11 @@ export interface SecretDefinition {
 	 * File names to ignore when scanning
 	 */
 	ignore: string[];
+
+	/**
+	 * Optional verify function name
+	 */
+	verify?: string;
 }
 
 /**
@@ -52,6 +57,7 @@ export async function loadPattern(): Promise<SecretDefinition[]> {
 			pattern: s.pattern,
 			description: s.description,
 			ignore: s.ignore || [],
+			verify: s.verify,
 		}));
 
 	return secretDefinitions;

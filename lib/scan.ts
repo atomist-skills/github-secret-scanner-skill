@@ -59,7 +59,7 @@ export async function scanProject(
 	});
 	for (const file of files) {
 		const content = (await fs.readFile(p.path(file))).toString();
-		const scannedSecrets = scanFileContent(file, content, cfg);
+		const scannedSecrets = await scanFileContent(file, content, cfg);
 		if (scannedSecrets?.detected?.length > 0) {
 			secrets.detected.push(...scannedSecrets.detected);
 		}
@@ -76,14 +76,14 @@ export async function scanProject(
 /**
  * Return locations of secrets found in `content` for file `filePath`.
  */
-export function scanFileContent(
+export async function scanFileContent(
 	filePath: string,
 	content: string,
 	cfg: Pick<
 		ScanConfiguration,
 		"secretDefinitions" | "exceptions" | "disabled"
 	>,
-): { detected: Secret[]; excluded: Secret[] } {
+): Promise<{ detected: Secret[]; excluded: Secret[] }> {
 	const secrets = {
 		detected: [],
 		excluded: [],
@@ -113,6 +113,13 @@ export function scanFileContent(
 				};
 				if ((cfg.exceptions || []).includes(match[0])) {
 					secrets.excluded.push(secret);
+				} else if (sd.verify) {
+					const result = await (
+						await import(`./verify/${sd.verify}`)
+					).verify(secret.value);
+					if (result) {
+						secrets.detected.push(secret);
+					}
 				} else {
 					secrets.detected.push(secret);
 				}

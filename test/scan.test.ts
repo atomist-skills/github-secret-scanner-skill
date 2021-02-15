@@ -21,14 +21,14 @@ import { scanFileContent } from "../lib/scan";
 
 describe("scan", () => {
 	describe("scanFileContent", () => {
-		it("should extract correct source location", () => {
+		it("should extract correct source location", async () => {
 			const text = `The big
 brown fox
 jumps over the
 green fence and
 over the lake`;
 
-			const result = scanFileContent("test.md", text, {
+			const result = await scanFileContent("test.md", text, {
 				secretDefinitions: [
 					{ pattern: "over", description: "over", ignore: [] },
 					{ pattern: "green", description: "green", ignore: [] },
@@ -83,7 +83,7 @@ A Google OAuth token looks like 0123-012345678901234567890123456789_z.apps.googl
 and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvwx.
 Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef01234567899876543210fedcba) keys are similar.
 `;
-			const s = scanFileContent("some.txt", t, {
+			const s = await scanFileContent("some.txt", t, {
 				secretDefinitions,
 				exceptions: [],
 			});
@@ -158,28 +158,6 @@ Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef0123456789
 						endOffset: 45,
 					},
 					{
-						name: "GitHub personal access or OAuth2 token",
-						path: "some.txt",
-						value: "0123456789abcdef0123456789abcdef01234567",
-						description:
-							"0123456789abcdef0123456789abcdef01234567 detected as GitHub personal access or OAuth2 token",
-						startLine: 2,
-						startOffset: 36,
-						endLine: 2,
-						endOffset: 76,
-					},
-					{
-						name: "GitHub App access token",
-						path: "some.txt",
-						value: "v1.12093847103847561098457012abfcdefab456ef",
-						description:
-							"v1.12093847103847561098457012abfcdefab456ef detected as GitHub App access token",
-						startLine: 5,
-						startOffset: 34,
-						endLine: 5,
-						endOffset: 77,
-					},
-					{
 						name: "URL with password",
 						path: "some.txt",
 						value: "https://user:pass@",
@@ -207,7 +185,7 @@ A Google OAuth token looks like 0123-012345678901234567890123456789_z.apps.googl
 and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvwx.
 Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef01234567899876543210fedcba) keys are similar.
 `;
-			const s = scanFileContent("some.txt", t, {
+			const s = await scanFileContent("some.txt", t, {
 				secretDefinitions,
 				exceptions: [
 					"https://user:pass@",
@@ -263,17 +241,6 @@ Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef0123456789
 						startOffset: 57,
 						endLine: 8,
 						endOffset: 97,
-					},
-					{
-						name: "GitHub App access token",
-						path: "some.txt",
-						value: "v1.12093847103847561098457012abfcdefab456ef",
-						description:
-							"v1.12093847103847561098457012abfcdefab456ef detected as GitHub App access token",
-						startLine: 5,
-						startOffset: 34,
-						endLine: 5,
-						endOffset: 77,
 					},
 				],
 				excluded: [
@@ -337,7 +304,7 @@ A Google OAuth token looks like 0123-012345678901234567890123456789_z.app.google
 and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvw.
 Stripe (sk_live_abcdef01234567899876543) and Picactic (ask_live_abcdef01234567899876543210fedcba) keys are similar.
 `;
-			const s = scanFileContent("some.txt", t, {
+			const s = await scanFileContent("some.txt", t, {
 				secretDefinitions,
 				exceptions: [],
 			});

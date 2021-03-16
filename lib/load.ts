@@ -41,6 +41,11 @@ export interface SecretDefinition {
 	 * Optional verify function name
 	 */
 	verify?: string;
+
+	/**
+	 * Optional regexp flags
+	 */
+	flags?: string;
 }
 
 /**
@@ -58,6 +63,7 @@ export async function loadPattern(): Promise<SecretDefinition[]> {
 			description: s.description,
 			ignore: s.ignore || [],
 			verify: s.verify,
+			flags: s.flags || "g",
 		}));
 
 	return secretDefinitions;

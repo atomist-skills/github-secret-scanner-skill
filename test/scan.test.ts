@@ -314,5 +314,40 @@ Stripe (sk_live_abcdef01234567899876543) and Picactic (ask_live_abcdef0123456789
 			};
 			assert.deepStrictEqual(s, e);
 		});
+
+		it("should detect pem private key in text", async () => {
+			const secretDefinitions = await loadPattern();
+			const t = `-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,FA24A3F52675C4B1
+
+M6tKcQsR2FIt7aSpeTo2tGH91h42wmZ3JfH4cHoNKL1JU5A5HBx49A5i7VmAcwDk
+4tnLVKmfTjJIZMTlPpMmR6XQUQeW8N1oYDaS8vEwGkbcDFuwBzvpa2xQuyUfTrZK
+HKVPyrfBjp56yiI9ZNjIDLibXwAo6EhV8uHBufx5g0jae3xXZn1FtRQCUepcZ+F6
+-----END RSA PRIVATE KEY-----
+`;
+			const s = await scanFileContent("some.txt", t, {
+				secretDefinitions,
+				exceptions: [],
+			});
+			const e = {
+				detected: [
+					{
+						description:
+							"-----BEGIN RSA PRIVATE KEY----- detected as PEM Private Key",
+						endLine: 8,
+						endOffset: undefined,
+						name: "PEM Private Key",
+						path: "some.txt",
+						startLine: 1,
+						startOffset: undefined,
+						value:
+							"-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: DES-EDE3-CBC,FA24A3F52675C4B1\n\nM6tKcQsR2FIt7aSpeTo2tGH91h42wmZ3JfH4cHoNKL1JU5A5HBx49A5i7VmAcwDk\n4tnLVKmfTjJIZMTlPpMmR6XQUQeW8N1oYDaS8vEwGkbcDFuwBzvpa2xQuyUfTrZK\nHKVPyrfBjp56yiI9ZNjIDLibXwAo6EhV8uHBufx5g0jae3xXZn1FtRQCUepcZ+F6\n-----END RSA PRIVATE KEY-----",
+					},
+				],
+				excluded: [],
+			};
+			assert.deepStrictEqual(s, e);
+		});
 	});
 });

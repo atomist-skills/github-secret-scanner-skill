@@ -96,7 +96,7 @@ export async function scanFileContent(
 		if ((sd.ignore || []).includes(fileName)) {
 			continue;
 		}
-		const regexp = new RegExp(sd.pattern, "g");
+		const regexp = new RegExp(sd.pattern, sd.flags || "g");
 
 		let match: RegExpExecArray;
 		do {
@@ -106,7 +106,7 @@ export async function scanFileContent(
 					name: sd.description || sd.pattern,
 					path: filePath,
 					value: match[0],
-					description: `${match[0]} detected as ${
+					description: `${match[0].split("\n")[0]} detected as ${
 						sd.description || "secret"
 					}`,
 					...extractSourceLocation(match[0], match.index, content),

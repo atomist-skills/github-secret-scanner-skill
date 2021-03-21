@@ -166,7 +166,7 @@ ${groupByFile.join("\n")}`,
 			const users = await ctx.graphql.query<
 				ChatUsersQuery,
 				ChatUsersQueryVariables
-			>("chatUsers", { logins: [commit.author.login] });
+			>("chatUsers.graphql", { logins: [commit.author.login] });
 
 			if (users.GitHubId?.length > 0) {
 				await ctx.message.send(

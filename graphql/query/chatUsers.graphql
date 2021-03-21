@@ -1,0 +1,10 @@
+query chatUsers($logins: [String!]!) {
+  GitHubId(logins: $logins) {
+    login
+    person @required {
+      chatId @required {
+        screenName
+      }
+    }
+  }
+}

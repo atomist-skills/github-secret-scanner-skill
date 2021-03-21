@@ -17,8 +17,7 @@
 import { createContext } from "@atomist/skill/lib/context";
 import { EventIncoming } from "@atomist/skill/lib/payload";
 
-import { handler } from "../lib/events/scanOnPush";
-import { ScanOnPushSubscription } from "../lib/typings/types";
+import { handler } from "../lib/events/scan_on_push";
 
 describe("ScanOnPush", () => {
 	before(function b(this: Mocha.Context): void {

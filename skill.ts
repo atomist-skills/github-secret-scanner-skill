@@ -84,8 +84,23 @@ async function createSkill(): Promise<SkillInput> {
 					"Allow certain matches to be excluded from reporting, e.g. fake secrets in test files.",
 				required: false,
 			},
+			channels: {
+				type: ParameterType.ChatChannels,
+				displayName: "Chat channels to notify",
+				description:
+					"Select chat channels that should receive notifications on detected secrets",
+				minRequired: 0,
+				required: false,
+			},
 			repos: parameter.repoFilter(),
 		},
+
+		datalogSubscriptions: [
+			{
+				query: "@atomist/skill/on_push",
+				name: "scan_on_push",
+			},
+		],
 	};
 }
 

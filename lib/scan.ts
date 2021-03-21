@@ -28,6 +28,7 @@ export interface ScanConfiguration {
 	exceptions: string[];
 	pattern?: string[];
 	disabled?: string[];
+	channels?: string[];
 }
 
 export interface Secret {

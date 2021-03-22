@@ -128,7 +128,7 @@ ${v
 					),
 				)} at ${slack.codeLine(
 					slack.url(
-						`https://github.com/${repo.org.name}/${repo.name}/blob/${commit.sha}`,
+						`https://github.com/${repo.org.name}/${repo.name}/commit/${commit.sha}`,
 						commit.sha.slice(0, 7),
 					),
 				)} detected the following ${slack.url(
@@ -222,7 +222,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 							7,
 						)}](https://github.com/${repo.org.name}/${
 							repo.name
-						}/blob/${commit.sha})`,
+						}/commit/${commit.sha})`,
 				),
 			};
 		} else {
@@ -244,9 +244,9 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 					}) on commit [${commit.sha.slice(
 						0,
 						7,
-					)}](https://github.com/${repo.org.name}/${repo.name}/blob/${
-						commit.sha
-					})`,
+					)}](https://github.com/${repo.org.name}/${
+						repo.name
+					}/commit/${commit.sha})`,
 				),
 			};
 		}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { project } from "@atomist/skill";
+import { ChatChannelParameterValue, project } from "@atomist/skill";
 import * as fs from "fs-extra";
 import * as path from "path";
 
@@ -28,7 +28,7 @@ export interface ScanConfiguration {
 	exceptions: string[];
 	pattern?: string[];
 	disabled?: string[];
-	channels?: string[];
+	channels?: ChatChannelParameterValue[];
 }
 
 export interface Secret {

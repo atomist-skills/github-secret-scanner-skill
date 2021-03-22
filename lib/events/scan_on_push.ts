@@ -183,7 +183,9 @@ ${groupByFile.join("\n")}`,
 				await ctx.message.send(
 					msg,
 					{
-						channels: cfg.parameters.channels,
+						channels: cfg.parameters.channels.map(
+							c => c.channelName,
+						),
 					},
 					{ id: msgId },
 				);

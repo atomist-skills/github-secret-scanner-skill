@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ChatChannelParameterValue, project } from "@atomist/skill";
+import { ChatChannelParameterValue, log, project } from "@atomist/skill";
 import * as fs from "fs-extra";
 import * as path from "path";
 
@@ -51,6 +51,7 @@ export async function scanProject(
 	p: project.Project,
 	cfg: ScanConfiguration,
 ): Promise<{ fileCount: number; detected: Secret[]; excluded: Secret[] }> {
+	const checked = new Map<string, boolean>();
 	const secrets = {
 		detected: [],
 		excluded: [],
@@ -60,7 +61,12 @@ export async function scanProject(
 	});
 	for (const file of files) {
 		const content = (await fs.readFile(p.path(file))).toString();
-		const scannedSecrets = await scanFileContent(file, content, cfg);
+		const scannedSecrets = await scanFileContent(
+			file,
+			content,
+			cfg,
+			checked,
+		);
 		if (scannedSecrets?.detected?.length > 0) {
 			secrets.detected.push(...scannedSecrets.detected);
 		}
@@ -84,7 +90,9 @@ export async function scanFileContent(
 		ScanConfiguration,
 		"secretDefinitions" | "exceptions" | "disabled"
 	>,
+	checked: Map<string, boolean> = new Map(),
 ): Promise<{ detected: Secret[]; excluded: Secret[] }> {
+	log.debug(`Scanning file '${filePath}'`);
 	const secrets = {
 		detected: [],
 		excluded: [],
@@ -114,10 +122,15 @@ export async function scanFileContent(
 				};
 				if ((cfg.exceptions || []).includes(match[0])) {
 					secrets.excluded.push(secret);
+				} else if (checked.has(secret.value)) {
+					if (checked.get(secret.value)) {
+						secrets.detected.push(secret);
+					}
 				} else if (sd.verify) {
 					const result = await (
 						await import(`./verify/${sd.verify}`)
 					).verify(secret.value);
+					checked.set(secret.value, !!result);
 					if (result) {
 						secrets.detected.push(secret);
 					}

@@ -41,7 +41,7 @@ Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apa
 | Name                                  | Version         | Publisher             | Repository                                                                                                                       |
 | ------------------------------------- | --------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | `@atomist/skill-logging`              | `0.2.6`         | Atomist               | [https://github.com/atomist-skills/skill-logging](https://github.com/atomist-skills/skill-logging)                               |
-| `@atomist/skill`                      | `0.9.1-main.98` | Atomist, Inc.         | [https://github.com/atomist-skills/skill](https://github.com/atomist-skills/skill)                                               |
+| `@atomist/skill`                      | `0.9.1-main.99` | Atomist, Inc.         | [https://github.com/atomist-skills/skill](https://github.com/atomist-skills/skill)                                               |
 | `@atomist/slack-messages`             | `1.2.2`         | Atomist               | [https://github.com/atomist/slack-messages](https://github.com/atomist/slack-messages)                                           |
 | `@google-cloud/common`                | `3.6.0`         | Google Inc.           | [https://github.com/googleapis/nodejs-common](https://github.com/googleapis/nodejs-common)                                       |
 | `@google-cloud/logging`               | `8.2.0`         | Google Inc.           | [https://github.com/googleapis/nodejs-logging](https://github.com/googleapis/nodejs-logging)                                     |
@@ -121,7 +121,7 @@ BSD 3-Clause "New" or "Revised" License - [https://opensource.org/licenses/BSD-3
 | `immutable`                  | `3.7.6`  | Lee Byron                                | [https://github.com/facebook/immutable-js](https://github.com/facebook/immutable-js)                               |
 | `node-forge`                 | `0.10.0` | Digital Bazaar, Inc.                     | [https://github.com/digitalbazaar/forge](https://github.com/digitalbazaar/forge)                                   |
 | `protobufjs`                 | `6.10.2` | Daniel Wirtz                             | [https://github.com/protobufjs/protobuf.js](https://github.com/protobufjs/protobuf.js)                             |
-| `qs`                         | `6.10.0` |                                          | [https://github.com/ljharb/qs](https://github.com/ljharb/qs)                                                       |
+| `qs`                         | `6.10.1` |                                          | [https://github.com/ljharb/qs](https://github.com/ljharb/qs)                                                       |
 | `signedsource`               | `1.0.0`  |                                          |                                                                                                                    |
 | `source-map`                 | `0.5.7`  | Nick Fitzgerald                          | [https://github.com/mozilla/source-map](https://github.com/mozilla/source-map)                                     |
 | `source-map`                 | `0.6.1`  | Nick Fitzgerald                          | [https://github.com/mozilla/source-map](https://github.com/mozilla/source-map)                                     |
@@ -133,7 +133,7 @@ Creative Commons Attribution 4.0 International - [https://creativecommons.org/li
 
 | Name           | Version        | Publisher  | Repository                                                                       |
 | -------------- | -------------- | ---------- | -------------------------------------------------------------------------------- |
-| `caniuse-lite` | `1.0.30001203` | Ben Briggs | [https://github.com/ben-eb/caniuse-lite](https://github.com/ben-eb/caniuse-lite) |
+| `caniuse-lite` | `1.0.30001204` | Ben Briggs | [https://github.com/ben-eb/caniuse-lite](https://github.com/ben-eb/caniuse-lite) |
 
 #### CC0-1.0
 

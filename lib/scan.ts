@@ -50,8 +50,8 @@ export interface Secret {
 export async function scanProject(
 	p: project.Project,
 	cfg: ScanConfiguration,
+	verified: Record<string, boolean> = {},
 ): Promise<{ fileCount: number; detected: Secret[]; excluded: Secret[] }> {
-	const checked = new Map<string, boolean>();
 	const secrets = {
 		detected: [],
 		excluded: [],
@@ -65,7 +65,7 @@ export async function scanProject(
 			file,
 			content,
 			cfg,
-			checked,
+			verified,
 		);
 		if (scannedSecrets?.detected?.length > 0) {
 			secrets.detected.push(...scannedSecrets.detected);
@@ -90,7 +90,7 @@ export async function scanFileContent(
 		ScanConfiguration,
 		"secretDefinitions" | "exceptions" | "disabled"
 	>,
-	checked: Map<string, boolean> = new Map(),
+	verified: Record<string, boolean> = {},
 ): Promise<{ detected: Secret[]; excluded: Secret[] }> {
 	log.debug(`Scanning file '${filePath}'`);
 	const secrets = {
@@ -122,15 +122,15 @@ export async function scanFileContent(
 				};
 				if ((cfg.exceptions || []).includes(match[0])) {
 					secrets.excluded.push(secret);
-				} else if (checked.has(secret.value)) {
-					if (checked.get(secret.value)) {
+				} else if (verified[secret.value] !== undefined) {
+					if (verified[secret.value]) {
 						secrets.detected.push(secret);
 					}
 				} else if (sd.verify) {
 					const result = await (
 						await import(`./verify/${sd.verify}`)
 					).verify(secret.value);
-					checked.set(secret.value, !!result);
+					verified[secret.value] = !!result;
 					if (result) {
 						secrets.detected.push(secret);
 					}

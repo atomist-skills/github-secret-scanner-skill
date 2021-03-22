@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { policy, slack, status, subscription } from "@atomist/skill";
+import { policy, slack, state, status, subscription } from "@atomist/skill";
 import * as _ from "lodash";
 
 import { loadPattern } from "../load";
@@ -80,11 +80,21 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 			globs.push(...DefaultGlobPatterns);
 		}
 
-		const result = await scanProject(ctx.chain.project, {
-			secretDefinitions: _.uniqBy(secretDefinitions, "pattern"),
-			exceptions: _.uniq(exceptions),
-			glob: _.uniq(globs),
-		});
+		const { verified } = await state.hydrate<{
+			verified: Record<string, boolean>;
+		}>(cfg.name, ctx, { verified: {} });
+
+		const result = await scanProject(
+			ctx.chain.project,
+			{
+				secretDefinitions: _.uniqBy(secretDefinitions, "pattern"),
+				exceptions: _.uniq(exceptions),
+				glob: _.uniq(globs),
+			},
+			verified,
+		);
+
+		await state.save({ verified }, cfg.name, ctx);
 
 		if (result.detected.length > 0) {
 			await ctx.audit.log(`Scanning repository returned the following ${

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.0...HEAD)
 
+### Added
+
+-   Add support for sending notifications into default channel. [#177](https://github.com/atomist-skills/github-secret-scanner-skill/issues/177)
+
 ## [2.4.0](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.3.0...2.4.0) - 2021-03-16
 
 ### Added

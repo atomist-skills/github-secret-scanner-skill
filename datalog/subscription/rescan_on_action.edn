@@ -1,0 +1,29 @@
+[:find
+ (pull
+   ?commit
+   [:schema/entity-type
+    {:git.commit/repo [:git.repo/name
+                       {:git.repo/org [:github.org/installation-token
+                                       :git.org/name
+                                       (:git.org/provider-base-url
+                                         :as
+                                         :base-url)
+                                       :git.provider/url]}]}
+    {:git.commit/author [:git.user/name
+                         :git.user/login
+                         {:git.user/emails [:email.email/address]}]}
+    :git.commit/sha
+    :git.commit/message])
+ :in $ $before %
+ :where
+ (tx-entity-attr-value :github.checkrun/action ?check-run _)
+ [?check-run :github.checkrun/name "github-secret-scanner-skill"]
+ [?check-run :github.checkrun/action :github.checkrun.action/rerequested]
+ [?check-run :github.checkrun/checksuite ?check-suite]
+ [?check-suite :github.checksuite/commit ?commit]
+ [?commit :git.commit/sha ?sha]
+
+ ;; check repo filter
+ [?commit :git.commit/repo ?repo]
+ (repo-selected? ?repo)
+ ]

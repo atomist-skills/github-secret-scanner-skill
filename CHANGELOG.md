@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.0...HEAD)
+## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.1...HEAD)
+
+## [2.4.1](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.0...2.4.1) - 2021-03-24
 
 ### Added
 

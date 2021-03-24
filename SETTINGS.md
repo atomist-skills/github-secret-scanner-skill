@@ -24,7 +24,7 @@ Connect and configure these integrations:
 
         *.{yaml,yml}
 
-2.  **Add additional secret patterns**
+1.  **Add additional secret patterns**
 
     ![Secret pattern](docs/images/secret-pattern.png)
 
@@ -39,7 +39,7 @@ Connect and configure these integrations:
     [this online tool](https://regex101.com/) and see
     [this guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet).
 
-3.  **Disable secret patterns**
+1.  **Disable secret patterns**
 
     You can disable specific secret patterns. We recommend scanning for as many
     known secrets as possible. Scanning via regular expression can sometimes
@@ -66,7 +66,7 @@ Connect and configure these integrations:
 
     Selecting any number of secrets will disable scanning for those secrets.
 
-4.  **Add secret values to exceptions**
+1.  **Add secret values to exceptions**
 
     ![Exceptions](docs/images/exceptions.png)
 
@@ -75,7 +75,15 @@ Connect and configure these integrations:
     reporting. You may also use the exceptions to identify false positives to
     ignore.
 
-5.  **Determine repository scope**
+1.  **Select chat channel for notifications**
+
+    Specify one or more chat channels that should receive notifications when
+    secrets are detected in repositories.
+
+    _Note: The chat message will contain the detected secret value, so you might
+    want to post those notifications into a private chat channel._
+
+1.  **Determine repository scope**
 
     ![Repository filter](docs/images/repo-filter.png)
 
@@ -85,7 +93,7 @@ Connect and configure these integrations:
     To restrict the organizations or specific repositories on which the skill
     will run, you can explicitly choose organizations and repositories.
 
-6.  **Activate the skill**
+1.  **Activate the skill**
 
     Save your configuration and activate the skill by clicking the "Enable
     skill" button.

@@ -48,20 +48,20 @@
     "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\""
   },
   "dependencies": {
-    "@atomist/skill": "^0.9.1-main.123",
+    "@atomist/skill": "^0.9.1-main.150",
     "fs-extra": "^9.1.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
-    "@types/fs-extra": "^9.0.8",
+    "@types/fs-extra": "^9.0.9",
     "@types/lodash": "^4.14.168",
     "@types/mocha": "^8.2.2",
     "@types/power-assert": "^1.5.3",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "eslint": "^7.22.0",
+    "eslint": "^7.23.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
@@ -74,7 +74,7 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "supervisor": "^0.12.0",
-    "typedoc": "^0.20.33",
+    "typedoc": "^0.20.34",
     "typescript": "^4.2.3"
   },
   "engines": {

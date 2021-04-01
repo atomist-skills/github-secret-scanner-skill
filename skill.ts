@@ -34,7 +34,7 @@ async function createSkill(): Promise<SkillInput> {
 		description:
 			"Scan committed code for well-known credentials and secrets",
 		displayName: "Secret Scanner",
-		categories: [Category.CodeMaintenance, Category.Security],
+		categories: [Category.CodeMaintenance, Category.DevSecOps],
 		iconUrl:
 			"https://raw.githubusercontent.com/atomist-skills/github-secret-scanner-skill/main/docs/images/icon.svg",
 

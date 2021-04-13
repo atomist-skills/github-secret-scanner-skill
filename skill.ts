@@ -53,21 +53,23 @@ async function createSkill(): Promise<SkillInput> {
 				type: ParameterType.StringArray,
 				displayName: "Which files to scan",
 				description:
-					"Add one or more glob patterns. If no glob pattern is entered, the skill will run on all the files in the selected repositories.",
+					"Enter the files you want to scan as a glob pattern.",
 				required: false,
+				defaultValue: ["**/*"],
 			},
 			pattern: {
 				type: ParameterType.StringArray,
-				displayName: "Secret patterns",
+				displayName: "Custom secret patterns",
 				description:
-					"Enter additional secret patterns to scan for as regular expressions.",
+					"Enter your own patterns to scan for as [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet). Learn more about how to match your [secret format](https://regex101.com/).",
 				required: false,
+				defaultValue: ["[a-fA-F0-9]"],
 			},
 			disabled: {
 				type: ParameterType.MultiChoice,
-				displayName: "Disable secret patterns",
+				displayName: "Disable default secret patterns",
 				description:
-					"Select patterns that you want to disable for your repositories",
+					"Select the patterns you do not want to scan for from our list of known secrets.",
 				required: false,
 				options: _.sortBy(
 					(await loadPattern()).map(s => ({
@@ -79,9 +81,9 @@ async function createSkill(): Promise<SkillInput> {
 			},
 			exceptions: {
 				type: ParameterType.StringArray,
-				displayName: "Exceptions",
+				displayName: "Secret values to exclude",
 				description:
-					"Allow certain matches to be excluded from reporting, e.g. fake secrets in test files.",
+					"Enter the secret values you want to exclude from reporting.",
 				required: false,
 			},
 			channels: {

@@ -63,7 +63,6 @@ async function createSkill(): Promise<SkillInput> {
 				description:
 					"Enter your own patterns to scan for as [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet). Learn more about how to match your [secret format](https://regex101.com/).",
 				required: false,
-				defaultValue: ["[a-fA-F0-9]"],
 			},
 			disabled: {
 				type: ParameterType.MultiChoice,

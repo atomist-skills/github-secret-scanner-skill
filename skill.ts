@@ -40,7 +40,7 @@ async function createSkill(): Promise<SkillInput> {
 
 		runtime: {
 			memory: 1024,
-			timeout: 60,
+			timeout: 540,
 		},
 
 		resourceProviders: {

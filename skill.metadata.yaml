@@ -28,7 +28,6 @@ parameters:
     group: patterns
   - name: channels
     group: patterns
-
   - name: repos
     group: what
   - name: glob

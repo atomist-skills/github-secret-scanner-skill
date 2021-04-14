@@ -20,7 +20,7 @@ This page details all runtime dependencies of `@atomist/github-secret-scanner-sk
 | [GPL-3.0](#gpl-30)              | 1     |
 | [ISC](#isc)                     | 44    |
 | [MIT AND Zlib](#mit-and-zlib)   | 1     |
-| [MIT](#mit)                     | 586   |
+| [MIT](#mit)                     | 587   |
 | [Public Domain](#public-domain) | 1     |
 | [Python-2.0](#python-20)        | 1     |
 
@@ -42,7 +42,7 @@ Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apa
 | Name                                  | Version         | Publisher             | Repository                                                                                                                       |
 | ------------------------------------- | --------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | `@atomist/skill-logging`              | `0.2.6`         | Atomist               | [https://github.com/atomist-skills/skill-logging](https://github.com/atomist-skills/skill-logging)                               |
-| `@atomist/skill`                      | `0.9.2-main.29` | Atomist, Inc.         | [https://github.com/atomist-skills/skill](https://github.com/atomist-skills/skill)                                               |
+| `@atomist/skill`                      | `0.9.2-main.33` | Atomist, Inc.         | [https://github.com/atomist-skills/skill](https://github.com/atomist-skills/skill)                                               |
 | `@atomist/slack-messages`             | `1.2.2`         | Atomist               | [https://github.com/atomist/slack-messages](https://github.com/atomist/slack-messages)                                           |
 | `@google-cloud/common`                | `3.6.0`         | Google Inc.           | [https://github.com/googleapis/nodejs-common](https://github.com/googleapis/nodejs-common)                                       |
 | `@google-cloud/logging`               | `8.2.0`         | Google Inc.           | [https://github.com/googleapis/nodejs-logging](https://github.com/googleapis/nodejs-logging)                                     |
@@ -175,7 +175,7 @@ ISC License - [https://www.isc.org/downloads/software-support-policy/isc-license
 | `cliui`                     | `6.0.0`   | Ben Coe            | [https://github.com/yargs/cliui](https://github.com/yargs/cliui)                                             |
 | `cliui`                     | `7.0.4`   | Ben Coe            | [https://github.com/yargs/cliui](https://github.com/yargs/cliui)                                             |
 | `deprecation`               | `2.3.1`   |                    | [https://github.com/gr2m/deprecation](https://github.com/gr2m/deprecation)                                   |
-| `electron-to-chromium`      | `1.3.715` | Kilian Valkhof     | [https://github.com/kilian/electron-to-chromium](https://github.com/kilian/electron-to-chromium)             |
+| `electron-to-chromium`      | `1.3.717` | Kilian Valkhof     | [https://github.com/kilian/electron-to-chromium](https://github.com/kilian/electron-to-chromium)             |
 | `fastq`                     | `1.11.0`  | Matteo Collina     | [https://github.com/mcollina/fastq](https://github.com/mcollina/fastq)                                       |
 | `fs.realpath`               | `1.0.0`   | Isaac Z. Schlueter | [https://github.com/isaacs/fs.realpath](https://github.com/isaacs/fs.realpath)                               |
 | `get-caller-file`           | `2.0.5`   | Stefan Penner      | [https://github.com/stefanpenner/get-caller-file](https://github.com/stefanpenner/get-caller-file)           |
@@ -470,6 +470,7 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `external-editor`                                    | `3.1.0`        | Kevin Gravier                  | [https://github.com/mrkmg/node-external-editor](https://github.com/mrkmg/node-external-editor)                                                                                                       |
 | `extract-files`                                      | `9.0.0`        | Jayden Seric                   | [https://github.com/jaydenseric/extract-files](https://github.com/jaydenseric/extract-files)                                                                                                         |
 | `fast-glob`                                          | `3.2.5`        | Denis Malinochkin              | [https://github.com/mrmlnc/fast-glob](https://github.com/mrmlnc/fast-glob)                                                                                                                           |
+| `fastest-levenshtein`                                | `1.0.12`       | Kasper U. Weihe                | [https://github.com/ka-weihe/fastest-levenshtein](https://github.com/ka-weihe/fastest-levenshtein)                                                                                                   |
 | `fbjs-css-vars`                                      | `1.0.2`        |                                | [https://github.com/facebook/fbjs](https://github.com/facebook/fbjs)                                                                                                                                 |
 | `fbjs`                                               | `3.0.0`        |                                | [https://github.com/facebook/fbjs](https://github.com/facebook/fbjs)                                                                                                                                 |
 | `figures`                                            | `1.7.0`        | Sindre Sorhus                  | [https://github.com/sindresorhus/figures](https://github.com/sindresorhus/figures)                                                                                                                   |

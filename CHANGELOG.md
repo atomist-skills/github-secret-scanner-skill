@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.2...HEAD)
 
+### Changed
+
+-   Increase timeout to 9mins. [76c54f2](https://github.com/atomist-skills/github-secret-scanner-skill/commit/76c54f2679d8ed44255fd85e137b429176681986)
+
 ## [2.4.2](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.1...2.4.2) - 2021-04-01
 
 ## [2.4.1](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.0...2.4.1) - 2021-03-24

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.3...HEAD)
 
+### Changed
+
+-   Switch to new logging. [dcdfaab](https://github.com/atomist-skills/github-secret-scanner-skill/commit/dcdfaaba10f6b8703b38926a689db6c679b15814)
+
 ### Fixed
 
 -   Add branch to cloning. [d18dc45](https://github.com/atomist-skills/github-secret-scanner-skill/commit/d18dc45c4811152335797c3e2b21079af78620ff)

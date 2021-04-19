@@ -37,7 +37,7 @@
     "lint:fix": "run-p lint:eslint:fix lint:prettier:fix",
     "lint:prettier": "prettier --list-different \"**/*.{graphql,json,markdown,md,yaml,yml}\"",
     "lint:prettier:fix": "prettier --write \"**/*.{graphql,json,markdown,md,yaml,yml}\"",
-    "skill": "run-s compile test skill:generate skill:bundle skill:package",
+    "skill": "run-s compile test skill:generate skill:package",
     "skill:bundle": "atm-skill bundle",
     "skill:clean": "atm-skill clean",
     "skill:generate": "atm-skill generate",

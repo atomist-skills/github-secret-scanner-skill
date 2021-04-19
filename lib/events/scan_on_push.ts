@@ -29,6 +29,7 @@ export const handler = policy.handler<
 		owner: ctx.data.commit.repo.org.name,
 		repo: ctx.data.commit.repo.name,
 		sha: ctx.data.commit.sha,
+		branch: ctx.data.commit.refs?.[0]?.name,
 		credential: {
 			token: ctx.data.commit.repo.org.installationToken,
 			scopes: [],

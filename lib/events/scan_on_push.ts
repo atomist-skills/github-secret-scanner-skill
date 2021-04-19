@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-import { policy, slack, state, status, subscription } from "@atomist/skill";
+import {
+	log,
+	policy,
+	slack,
+	state,
+	status,
+	subscription,
+} from "@atomist/skill";
 import * as _ from "lodash";
 
 import { loadPattern } from "../load";
@@ -58,7 +65,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 		const repo = commit.repo;
 		const cfg = ctx.configuration;
 
-		await ctx.audit.log(
+		log.info(
 			`Starting secret scanning on ${repo.org.name}/${
 				repo.name
 			}@${commit.sha.slice(0, 7)}`,
@@ -98,7 +105,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 		await state.save({ verified }, cfg.name, ctx);
 
 		if (result.detected.length > 0) {
-			await ctx.audit.log(`Scanning repository returned the following ${
+			log.info(`Scanning repository returned the following ${
 				result.detected.length === 1 ? "secret" : "secrets"
 			} in ${result.fileCount} scanned ${
 				result.fileCount === 1 ? "file" : "files"
@@ -152,7 +159,7 @@ ${v
 ${groupByFile.join("\n")}`,
 				ctx,
 				{
-					author_link: ctx.audit.url,
+					author_link: log.url(ctx),
 					/* actions: [
                             menuForCommand(
                                 { text: "Add exception", options: groupByType },
@@ -239,7 +246,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 				),
 			};
 		} else {
-			await ctx.audit.log(`Scanning repository returned no secrets`);
+			log.info(`Scanning repository returned no secrets`);
 			return {
 				state: policy.result.ResultEntityState.Success,
 				body: `No secrets detected in ${result.fileCount} scanned ${

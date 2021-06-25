@@ -28,7 +28,7 @@ import { loadPattern } from "../load";
 import { DefaultGlobPatterns, ScanConfiguration, scanProject } from "../scan";
 import { ChatUsersQuery, ChatUsersQueryVariables } from "../typings/types";
 
-export const handler = policy.handler<
+export const handler = policy.checkHandler<
 	subscription.datalog.OnPush,
 	ScanConfiguration
 >({
@@ -90,7 +90,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 
 		const { verified } = await state.hydrate<{
 			verified: Record<string, boolean>;
-		}>(cfg.name, ctx, { verified: {} });
+		}>(cfg.name, ctx, { verified: {} } as any);
 
 		const result = await scanProject(
 			ctx.chain.project,
@@ -210,8 +210,8 @@ ${groupByFile.join("\n")}`,
 			}
 
 			return {
-				state: policy.result.ResultEntityState.Failure,
-				severity: policy.result.ResultEntitySeverity.High,
+				conclusion: policy.Conclusion.Failure,
+				severity: policy.Severity.High,
 				body: `${result.detected.length} secret ${
 					result.detected.length === 1 ? "value was" : "values were"
 				} detected in ${result.fileCount} scanned ${
@@ -248,7 +248,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 		} else {
 			log.info(`Scanning repository returned no secrets`);
 			return {
-				state: policy.result.ResultEntityState.Success,
+				conclusion: policy.Conclusion.Success,
 				body: `No secrets detected in ${result.fileCount} scanned ${
 					result.fileCount === 1 ? "file" : "files"
 				}.

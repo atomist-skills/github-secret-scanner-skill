@@ -92,8 +92,7 @@ Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef0123456789
 					{
 						name: "Twitter access token",
 						path: "some.txt",
-						value:
-							"123456789-0123456789abcdefghijklmn0123456789abcdef",
+						value: "123456789-0123456789abcdefghijklmn0123456789abcdef",
 						description:
 							"123456789-0123456789abcdefghijklmn0123456789abcdef detected as Twitter access token",
 						startLine: 4,
@@ -115,8 +114,7 @@ Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef0123456789
 					{
 						name: "Google OAuth ID",
 						path: "some.txt",
-						value:
-							"0123-012345678901234567890123456789_z.apps.googleusercontent.com",
+						value: "0123-012345678901234567890123456789_z.apps.googleusercontent.com",
 						description:
 							"0123-012345678901234567890123456789_z.apps.googleusercontent.com detected as Google OAuth ID",
 						startLine: 6,
@@ -199,8 +197,7 @@ Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef0123456789
 					{
 						name: "Twitter access token",
 						path: "some.txt",
-						value:
-							"123456789-0123456789abcdefghijklmn0123456789abcdef",
+						value: "123456789-0123456789abcdefghijklmn0123456789abcdef",
 						description:
 							"123456789-0123456789abcdefghijklmn0123456789abcdef detected as Twitter access token",
 						startLine: 4,
@@ -222,8 +219,7 @@ Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef0123456789
 					{
 						name: "Google OAuth ID",
 						path: "some.txt",
-						value:
-							"0123-012345678901234567890123456789_z.apps.googleusercontent.com",
+						value: "0123-012345678901234567890123456789_z.apps.googleusercontent.com",
 						description:
 							"0123-012345678901234567890123456789_z.apps.googleusercontent.com detected as Google OAuth ID",
 						startLine: 6,
@@ -341,8 +337,7 @@ HKVPyrfBjp56yiI9ZNjIDLibXwAo6EhV8uHBufx5g0jae3xXZn1FtRQCUepcZ+F6
 						path: "some.txt",
 						startLine: 1,
 						startOffset: undefined,
-						value:
-							"-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: DES-EDE3-CBC,FA24A3F52675C4B1\n\nM6tKcQsR2FIt7aSpeTo2tGH91h42wmZ3JfH4cHoNKL1JU5A5HBx49A5i7VmAcwDk\n4tnLVKmfTjJIZMTlPpMmR6XQUQeW8N1oYDaS8vEwGkbcDFuwBzvpa2xQuyUfTrZK\nHKVPyrfBjp56yiI9ZNjIDLibXwAo6EhV8uHBufx5g0jae3xXZn1FtRQCUepcZ+F6\n-----END RSA PRIVATE KEY-----",
+						value: "-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: DES-EDE3-CBC,FA24A3F52675C4B1\n\nM6tKcQsR2FIt7aSpeTo2tGH91h42wmZ3JfH4cHoNKL1JU5A5HBx49A5i7VmAcwDk\n4tnLVKmfTjJIZMTlPpMmR6XQUQeW8N1oYDaS8vEwGkbcDFuwBzvpa2xQuyUfTrZK\nHKVPyrfBjp56yiI9ZNjIDLibXwAo6EhV8uHBufx5g0jae3xXZn1FtRQCUepcZ+F6\n-----END RSA PRIVATE KEY-----",
 					},
 				],
 				excluded: [],

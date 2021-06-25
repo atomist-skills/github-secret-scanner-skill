@@ -16,9 +16,9 @@
                          {:git.user/emails [:email.email/address]}]}
     :git.commit/sha
     :git.commit/message])
- :in $ $before %
+ :in $ $before % ?ctx
  :where
- (tx-entity-attr-value :github.checkrun/action ?check-run _)
+ (attributes-tx ?ctx :github.checkrun/action ?check-run _)
  [?check-run :github.checkrun/name "github-secret-scanner-skill"]
  [?check-run :github.checkrun/action :github.checkrun.action/rerequested]
  [?check-run :github.checkrun/checksuite ?check-suite]
@@ -27,5 +27,5 @@
 
  ;; check repo filter
  [?commit :git.commit/repo ?repo]
- (repo-selected? ?repo)
+ (skill-repo-selected? ?ctx ?repo)
  ]

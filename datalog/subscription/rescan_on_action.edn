@@ -18,7 +18,7 @@
     :git.commit/message])
  :in $ $before % ?ctx
  :where
- (attributes-tx ?ctx :github.checkrun/action ?check-run _)
+ (attributes-tx ?ctx ?check-run :github.checkrun/action _)
  [?check-run :github.checkrun/name "github-secret-scanner-skill"]
  [?check-run :github.checkrun/action :github.checkrun.action/rerequested]
  [?check-run :github.checkrun/checksuite ?check-suite]

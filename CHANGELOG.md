@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.6...HEAD)
 
+### Fixed
+
+*   Fix argument order for attributes-tx. [1fc8089](https://github.com/atomist-skills/github-secret-scanner-skill/commit/1fc80893d02ad1f7b7985cb03788296eee40f904)
+
 ## [2.4.6](https://github.com/atomist-skills/github-secret-scanner-skill/compare/2.4.5...2.4.6) - 2021-06-25
 
 ### Changed

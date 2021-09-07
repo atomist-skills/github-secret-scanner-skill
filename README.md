@@ -15,6 +15,25 @@ started using Atomist Skills.
     "Atomist Skills Catalog - Automate All Your Software Tasks"
 [atomist-doc]: https://docs.atomist.com/ "Atomist Documentation"
 
+## Running Locally
+
+`github-secret-scanner-skill` can be executed against a locally cloned
+repository or directory using the following command:
+
+```shell
+$ docker run -it -v $(pwd):/atm/home atomist/github-secret-scanner-skill scan
+```
+
+This will scan the local directory and write a `secrets.json` file with detected
+secrets and their location. If secrets are found, the command exits with `1`;
+otherwise with `0`.
+
+Use the following command to obtain help for the scan command:
+
+```shell
+$ docker run -it atomist/github-secret-scanner-skill scan --help
+```
+
 ## Contributing
 
 Contributions to this project from community members are encouraged and

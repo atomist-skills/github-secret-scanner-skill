@@ -20,3 +20,4 @@ git-info.json
 /lib/typings/types.ts
 /lib/typings/types.ts
 /.atomist/
+/secrets.json

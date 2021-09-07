@@ -53,11 +53,13 @@ export const handler = policy.checkHandler<
 		}
 
 		return {
-			title: "Secret scanner",
-			name: ctx.skill.name,
-			body: `Scanning all files matching the following glob pattern:
+			check: {
+				title: "Secret scanner",
+				name: ctx.skill.name,
+				body: `Scanning all files matching the following glob pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,
+			},
 		};
 	},
 	execute: async ctx => {
@@ -230,6 +232,7 @@ ${globs.map(g => ` * \`${g}\``).join("\n")}`,
 					endColumn: r.endOffset,
 					title: r.name,
 					message: r.description,
+					sha: undefined,
 				})),
 				status: status.success(
 					`Found ${result.detected.length} ${

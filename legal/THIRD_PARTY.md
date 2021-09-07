@@ -11,7 +11,7 @@ This page details all runtime dependencies of `@atomist/github-secret-scanner-sk
 | License                              | Count |
 | ------------------------------------ | ----- |
 | [0BSD](#0bsd)                        | 4     |
-| [Apache-2.0](#apache-20)             | 41    |
+| [Apache-2.0](#apache-20)             | 40    |
 | [BSD-2-Clause](#bsd-2-clause)        | 11    |
 | [BSD-3-Clause](#bsd-3-clause)        | 24    |
 | [CC-BY-3.0](#cc-by-30)               | 1     |
@@ -80,7 +80,6 @@ Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apa
 | `rxjs`                                | `6.6.6`           | Ben Lesh              | [https://github.com/reactivex/rxjs](https://github.com/reactivex/rxjs)                                                                 |
 | `spdx-correct`                        | `3.1.1`           | Kyle E. Mitchell      | [https://github.com/jslicense/spdx-correct.js](https://github.com/jslicense/spdx-correct.js)                                           |
 | `teeny-request`                       | `7.1.1`           | fhinkel               | [https://github.com/googleapis/teeny-request](https://github.com/googleapis/teeny-request)                                             |
-| `typescript`                          | `4.2.4`           | Microsoft Corp.       | [https://github.com/Microsoft/TypeScript](https://github.com/Microsoft/TypeScript)                                                     |
 | `validate-npm-package-license`        | `3.0.4`           | Kyle E. Mitchell      | [https://github.com/kemitchell/validate-npm-package-license.js](https://github.com/kemitchell/validate-npm-package-license.js)         |
 | `yaml-ast-parser`                     | `0.0.43`          |                       | [https://github.com/mulesoft-labs/yaml-ast-parser](https://github.com/mulesoft-labs/yaml-ast-parser)                                   |
 
@@ -425,7 +424,7 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `brace-expansion`                                    | `1.1.11`       | Julian Gruber                  | [https://github.com/juliangruber/brace-expansion](https://github.com/juliangruber/brace-expansion)                                                                                                   |
 | `braces`                                             | `3.0.2`        | Jon Schlinkert                 | [https://github.com/micromatch/braces](https://github.com/micromatch/braces)                                                                                                                         |
 | `browserslist`                                       | `4.17.0`       | Andrey Sitnik                  | [https://github.com/browserslist/browserslist](https://github.com/browserslist/browserslist)                                                                                                         |
-| `buffer-from`                                        | `1.1.1`        |                                | [https://github.com/LinusU/buffer-from](https://github.com/LinusU/buffer-from)                                                                                                                       |
+| `buffer-from`                                        | `1.1.2`        |                                | [https://github.com/LinusU/buffer-from](https://github.com/LinusU/buffer-from)                                                                                                                       |
 | `buffer`                                             | `5.7.1`        | Feross Aboukhadijeh            | [https://github.com/feross/buffer](https://github.com/feross/buffer)                                                                                                                                 |
 | `bytes`                                              | `3.1.0`        | TJ Holowaychuk                 | [https://github.com/visionmedia/bytes.js](https://github.com/visionmedia/bytes.js)                                                                                                                   |
 | `cacheable-request`                                  | `6.1.0`        | Luke Childs                    | [https://github.com/lukechilds/cacheable-request](https://github.com/lukechilds/cacheable-request)                                                                                                   |

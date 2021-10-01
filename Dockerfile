@@ -10,7 +10,7 @@ RUN npm ci --no-optional --also=dev \
  && rm -rf node_modules .git
 
 # Set up runtime container
-FROM atomist/skill:node14@sha256:c58582642c85f2767523a3b65cbddd41f50814c98fe1c805b44c8caf5f0ad89e
+FROM atomist/skill:node14@sha256:db10ee511fd4230a006b620ab4cf471e4e58884c5ff4cf1fc47909b1c576a1f5
 
 WORKDIR "/skill"
 

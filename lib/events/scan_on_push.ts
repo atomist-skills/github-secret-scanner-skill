@@ -212,7 +212,9 @@ ${groupByFile.join("\n")}`,
 			}
 
 			return {
-				conclusion: policy.Conclusion.Failure,
+				conclusion: cfg.parameters.failCheck
+					? policy.Conclusion.Failure
+					: policy.Conclusion.Neutral,
 				severity: policy.Severity.High,
 				body: `${result.detected.length} secret ${
 					result.detected.length === 1 ? "value was" : "values were"

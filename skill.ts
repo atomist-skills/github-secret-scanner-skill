@@ -49,6 +49,14 @@ async function createSkill(): Promise<SkillInput> {
 		},
 
 		parameters: {
+			failCheck: {
+				type: ParameterType.Boolean,
+				displayName: "Fail GitHub check",
+				description:
+					"Set a failed GitHub check when secrets are found or changed; otherwise a neutral check will be set",
+				defaultValue: false,
+				required: false,
+			},
 			glob: {
 				type: ParameterType.StringArray,
 				displayName: "Which files to scan",

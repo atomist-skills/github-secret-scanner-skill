@@ -29,6 +29,7 @@ export interface ScanConfiguration {
 	pattern?: string[];
 	disabled?: string[];
 	channels?: ChatChannelParameterValue[];
+	failCheck?: boolean;
 }
 
 export interface Secret {

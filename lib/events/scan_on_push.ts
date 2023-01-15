@@ -54,6 +54,8 @@ export const handler = handle.transform(
 				check: {
 					title: "Secret scanner",
 					name: ctx.skill.name,
+					includeAnnotations: true,
+					includeBadge: true,
 					body: `Scanning all files matching the following glob pattern:
 
 ${globs.map(g => ` * \`${g}\``).join("\n")}`,

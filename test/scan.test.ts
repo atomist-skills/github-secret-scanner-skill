@@ -82,6 +82,7 @@ You might this this URL 'https://v1.12093847103847561098457012abfcdefab456ef@bla
 A Google OAuth token looks like 0123-012345678901234567890123456789_z.apps.googleusercontent.com, but that is not real
 and a Google API key has the format AIza0123456789-abcdefghijklmn_pqrstuvwx.
 Stripe (sk_live_abcdef012345678998765432) and Picactic (sk_live_abcdef01234567899876543210fedcba) keys are similar.
+This is a GitHub token ghp_L8kaXvAiXsdcc8j7LuRWXuAnAO5I1Y11ZWZe
 `;
 			const s = await scanFileContent("some.txt", t, {
 				secretDefinitions,

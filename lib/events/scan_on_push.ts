@@ -26,7 +26,6 @@ import * as _ from "lodash";
 
 import { loadPattern } from "../load";
 import { DefaultGlobPatterns, ScanConfiguration, scanProject } from "../scan";
-import { ChatUsersQuery, ChatUsersQueryVariables } from "../typings/types";
 
 export const handler = policy.checkHandler<
 	subscription.datalog.OnPush,
@@ -183,22 +182,6 @@ ${groupByFile.join("\n")}`,
 				ctx.configuration?.name,
 			)}`;
 
-			const users = await ctx.graphql.query<
-				ChatUsersQuery,
-				ChatUsersQueryVariables
-			>("chatUsers.graphql", { logins: [commit.author.login] });
-
-			if (users.GitHubId?.length > 0) {
-				await ctx.message.send(
-					msg,
-					{
-						users: users.GitHubId.map(
-							g => g.person?.chatId?.screenName,
-						),
-					},
-					{ id: msgId },
-				);
-			}
 			if (cfg.parameters.channels?.length > 0) {
 				await ctx.message.send(
 					msg,

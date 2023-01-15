@@ -15,7 +15,7 @@
  */
 
 import { SubscriptionIncoming } from "@atomist/skill/lib/payload";
-import { assertSkill } from "@atomist/skill/lib/test/test";
+import { assertSkill } from "@atomist/skill/lib/test/assert";
 
 describe("ScanOnPush", () => {
 	before(function b(this: Mocha.Context): void {

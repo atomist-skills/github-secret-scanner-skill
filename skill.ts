@@ -25,9 +25,8 @@ import {
 import * as _ from "lodash";
 
 import { loadPattern } from "./lib/load";
-import { ScanConfiguration } from "./lib/scan";
 
-async function createSkill(): Promise<SkillInput> {
+async function createSkill(): Promise<SkillInput<any>> {
 	return {
 		name: "github-secret-scanner-skill",
 		namespace: "atomist",
@@ -38,9 +37,16 @@ async function createSkill(): Promise<SkillInput> {
 		iconUrl:
 			"https://raw.githubusercontent.com/atomist-skills/github-secret-scanner-skill/main/docs/images/icon.svg",
 
-		runtime: {
-			memory: 1024,
-			timeout: 540,
+		containers: {
+			scan: {
+				image: "gcr.io/atomist-container-skills/github-secret-scanner-skill",
+				resources: {
+					limit: {
+						cpu: 2,
+						memory: 4000,
+					},
+				},
+			},
 		},
 
 		resourceProviders: {
@@ -113,4 +119,4 @@ async function createSkill(): Promise<SkillInput> {
 	};
 }
 
-export const Skill = skill<ScanConfiguration>(createSkill());
+export const Skill = skill<any>(createSkill());

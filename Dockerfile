@@ -1,5 +1,5 @@
 # Set up build
-FROM node:lts@sha256:0d8bf0e743a752d8d01e9ff8aba21ac15a0ad1a3d2a2b8df90764d427618c791 AS build
+FROM node:lts@sha256:d764525456dfe2f96a436ba00f864ee8ae3690bfb457c9f12a3a2a35b2d8be41 AS build
 
 WORKDIR /skill
 

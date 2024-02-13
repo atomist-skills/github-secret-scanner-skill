@@ -21,7 +21,7 @@ COPY package.json package-lock.json ./
 
 RUN apk add --no-cache \
  npm=8.10.0-r0 \
- python3=3.10.9-r0 \
+ python3=3.10.13-r0 \
  make=4.3-r0 \
  g++=11.2.1_git20220219-r2 \
  && npm ci --no-optional \

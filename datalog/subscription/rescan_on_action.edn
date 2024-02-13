@@ -27,5 +27,5 @@
 
  ;; check repo filter
  [?commit :git.commit/repo ?repo]
- (skill-repo-selected? ?ctx ?repo)
+ (repo-selected-by-any-filter? ?ctx ?repo)
  ]
